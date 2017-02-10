@@ -10,6 +10,7 @@ namespace stringtoken {
  */
 CharSet::CharSet() {
     data = new char[BYTES];
+    clear();
 }
 
 
@@ -18,6 +19,7 @@ CharSet::CharSet() {
  */
 CharSet::CharSet(const unsigned char *in) {
 	data = new char[BYTES];
+    clear();
 	add(in);
 }
 
@@ -27,6 +29,7 @@ CharSet::CharSet(const unsigned char *in) {
  */
 CharSet::CharSet(const string &in) {
 	data = new char[BYTES];
+    clear();
 	add(in);
 }
 

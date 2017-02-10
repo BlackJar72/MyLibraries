@@ -38,17 +38,17 @@ class StringTokenizer {
     private:
         StringTokenizer() {};
         CharSet delim;
-        vector<string> tokens;
-        char *scrachpad;
+        vector<string*> tokens;
+        char *scratchpad;
         unsigned int position, size;
         unsigned char next;
         bool onTokens;
         bool keepQuotes;
         void readTokens(const string &in);
-        void nextChar();
-        void addToken();
-        void readQuote();
-        void readEscape();
+        void nextChar(const string &in);
+        void addToken(const string &in);
+        void readQuote(const string &in, char &qmark);
+        void readEscape(const string &in);
     public:
         StringTokenizer(const string &in, string  delim, bool keepQuotes = false);
         StringTokenizer(const string &in, char   *delim, bool keepQuotes = false);
