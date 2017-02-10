@@ -9,7 +9,8 @@ namespace stringtoken  {
 
 class CharSet {
     private:
-        static const int BYTES = 256 / 8;
+        static const int BITS  = 8;
+        static const int BYTES = 256 / BITS;
         char *data;
         int bit, loc;
     public:

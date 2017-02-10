@@ -55,8 +55,8 @@ void CharSet::clear() {
  */
  void CharSet::add(const unsigned char &in) {
  if(in > 255) return;
-		bit = ((int) in) % 32;
-		loc = ((int) in) / 32;
+		bit = ((int) in) % BITS;
+		loc = ((int) in) / BITS;
 		if((data[loc] &  (1 << bit)) == 0) {
 			data[loc] |= (1 << bit);
     }
@@ -68,8 +68,8 @@ void CharSet::clear() {
  */
 void CharSet::remove(const unsigned char &in) {
 	if(in > 255) return;
-	bit = ((int) in) % 32;
-	loc = ((int) in) / 32;
+	bit = ((int) in) % BITS;
+	loc = ((int) in) / BITS;
 	if((data[loc] & (1 << bit)) != 0) {
 		data[loc] &= ~(1 << bit);
 	}
@@ -179,8 +179,8 @@ CharSet* CharSet::complement() {
  */
 bool CharSet::contains(const unsigned char &in) {
 	if(in > 255) return false;
-	bit = ((int) in) % 32;
-	loc = ((int) in) / 32;
+	bit = ((int) in) % BITS;
+	loc = ((int) in) / BITS;
 	return (data[loc] & (1 << bit)) != 0;
 }
 
