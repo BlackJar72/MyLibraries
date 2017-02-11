@@ -1,4 +1,7 @@
 obj
+build
 Debug
 *~
 .directory
+/StringTokenizer/dist/Debug/
+/StringTokenizer/build/
