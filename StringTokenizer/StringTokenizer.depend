@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1486835394 source:/home/jared/Libraries/cpp/src/Mine/StringTokenizer/src/CharSet.cpp
+	"StringTokenizer.h"
+	<string>
+
+1486835394 /home/jared/Libraries/cpp/src/Mine/StringTokenizer/include/StringTokenizer.h
+	<string>
+	<vector>
+
+1486835394 source:/home/jared/Libraries/cpp/src/Mine/StringTokenizer/src/StringTokenizer.cpp
+	"StringTokenizer.h"
+
+1486752615 source:/home/jared/Libraries/cpp/src/Mine/fuck/src/CharSet.cpp
+	"StringTokenizer.h"
+	<string>
+
+1486752527 /home/jared/Libraries/cpp/src/Mine/fuck/include/StringTokenizer.h
+	<string>
+	<vector>
+
+1486749487 source:/home/jared/Libraries/cpp/src/Mine/fuck/src/StringTokenizer.cpp
+	"StringTokenizer.h"
+
