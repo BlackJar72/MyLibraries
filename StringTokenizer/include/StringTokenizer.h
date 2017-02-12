@@ -17,6 +17,7 @@ private:
     int bit, loc;
 public:
     CharSet();
+    CharSet(const unsigned char &in);
     CharSet(const unsigned char *in);
     CharSet(const string &in);
     void clear();
@@ -40,8 +41,10 @@ public:
 class StringTokenizer
 {
 private:
+    static const CharSet QUOTES;
     StringTokenizer() {};
     CharSet delim;
+    CharSet quotes;
     vector<string*> tokens;
     char *scratchpad;
     unsigned int position, size;
@@ -51,12 +54,15 @@ private:
     void readTokens(const string &in);
     void nextChar(const string &in);
     void addToken(const string &in);
-    void readQuote(const string &in, char &qmark);
+    void readQuote(const string &in, unsigned char &qmark);
     void readEscape(const string &in);
 public:
     StringTokenizer(const string &in, string  delim, bool keepQuotes = false);
     StringTokenizer(const string &in, char   *delim, bool keepQuotes = false);
     StringTokenizer(const string &in, CharSet delim, bool keepQuotes = false);
+    StringTokenizer(const string &in, string  delim, string  quotes, bool keepQuotes = false);
+    StringTokenizer(const string &in, char   *delim, char   *quotes, bool keepQuotes = false);
+    StringTokenizer(const string &in, CharSet delim, CharSet quotes, bool keepQuotes = false);
     int  countTokens();
     bool hasMoreTokens();
     void reset();

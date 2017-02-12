@@ -19,6 +19,17 @@ CharSet::CharSet()
 /**
  * Creates a new char set contain the characters in the c_string array.
  */
+CharSet::CharSet(const unsigned char &in)
+{
+    data = new char[BYTES];
+    clear();
+    add(in);
+}
+
+
+/**
+ * Creates a new char set contain the characters in the c_string array.
+ */
 CharSet::CharSet(const unsigned char *in)
 {
     data = new char[BYTES];
