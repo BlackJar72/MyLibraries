@@ -1,6 +1,6 @@
 #include "GameMath.h"
 
-namespace vecmatices {
+namespace gamemath {
 
 Mat3f::Mat3f()
 {

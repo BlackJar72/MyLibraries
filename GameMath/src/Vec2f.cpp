@@ -1,6 +1,6 @@
 #include "GameMath.h"
 
-namespace vecmatices {
+namespace gamemath {
 
 Vec2f::Vec2f() {
     data[0] = data[1] = 0;
@@ -24,7 +24,7 @@ Vec2f::~Vec2f() {/*Nothing to do? The array is not dynamically allocated.*/}
 
 
 float Vec2f::dot(const Vec2f &b) {
-    return (data[0] * b.data[0]) + (data[0] * b.data[0]);
+    return (data[0] * b.data[0]) + (data[1] * b.data[1]);
 }
 
 
@@ -50,7 +50,7 @@ Vec2f Vec2f::sub(const Vec2f &b) {
 }
 
 
-Vec2f Vec2f::add(const float &b) {
+Vec2f Vec2f::add(const float b) {
     Vec2f direction = *this;
     direction.normalize();
     direction.mul(b);
@@ -58,7 +58,7 @@ Vec2f Vec2f::add(const float &b) {
 }
 
 
-Vec2f Vec2f::sub(const float &b) {
+Vec2f Vec2f::sub(const float b) {
     Vec2f direction = *this;
     direction.normalize();
     direction.mul(b);
@@ -66,29 +66,29 @@ Vec2f Vec2f::sub(const float &b) {
 }
 
 
-Vec2f Vec2f::mul(const float &b) {
+Vec2f Vec2f::mul(const float b) {
     return Vec2f(data[0] * b, data[1] * b);
 }
 
 
-Vec2f Vec2f::div(const float &b) {
+Vec2f Vec2f::div(const float b) {
     return Vec2f(data[0] / b, data[1] / b);
 }
 
 
-void Vec2f::set(const int &index, const float &b) {
+void Vec2f::set(const int index, const float b) {
     // Should I include error checking?  Or assume this will be remembered?
     data[index] = b;
 }
 
 
-float Vec2f::get(const int &index) {
+float Vec2f::get(const int index) const {
     // Should I include error checking?  Or assume this will be remembered?
     return data[index];
 }
 
 
-Vec2f Vec2f::rotate(const float &angle) {
+Vec2f Vec2f::rotate(const float angle) {
     float sine   = sin(angle * GMPI);
     float cosine = cos(angle * GMPI);
     return Vec2f(((data[0] * cosine) - (data[1] * sine)),
@@ -117,7 +117,7 @@ const Vec2f operator-(const Vec2f &a, const Vec2f &b) {
 }
 
 
-const Vec2f Vec2f::operator+(const float &b) {
+const Vec2f Vec2f::operator+(const float b) {
     Vec2f direction = *this;
     direction.normalize();
     direction.mul(b);
@@ -125,7 +125,7 @@ const Vec2f Vec2f::operator+(const float &b) {
 }
 
 
-const Vec2f Vec2f::operator-(const float &b) {
+const Vec2f Vec2f::operator-(const float b) {
     Vec2f direction = *this;
     direction.normalize();
     direction.mul(b);
@@ -133,23 +133,71 @@ const Vec2f Vec2f::operator-(const float &b) {
 }
 
 
-const Vec2f operator*(const Vec2f &a, const float &b) {
+Vec2f& Vec2f::operator+=(const Vec2f &b) {
+    data[0] += b.data[0];
+    data[1] += b.data[1];
+    return *this;
+}
+
+
+Vec2f& Vec2f::operator-=(const Vec2f &b) {
+    data[0] -= b.data[0];
+    data[1] -= b.data[1];
+    return *this;
+}
+
+
+Vec2f& Vec2f::operator+=(const float b) {
+    Vec2f direction = *this;
+    direction.normalize();
+    direction.mul(b);
+    data[0] += direction.data[0];
+    data[1] += direction.data[1];
+    return *this;
+}
+
+
+Vec2f& Vec2f::operator-=(const float b) {
+    Vec2f direction = *this;
+    direction.normalize();
+    direction.mul(b);
+    data[0] -= direction.data[0];
+    data[1] -= direction.data[1];
+    return *this;
+}
+
+
+const Vec2f operator*(const Vec2f &a, const float b) {
     return Vec2f(a.data[0] * b, a.data[1] * b);
 }
 
 
-const Vec2f operator/(const Vec2f &a, const float &b) {
+const Vec2f operator/(const Vec2f &a, const float b) {
     return Vec2f(a.data[0] / b, a.data[1] / b);
 }
 
 
-const Vec2f operator*(const float &a, const Vec2f &b) {
+const Vec2f operator*(const float a, const Vec2f &b) {
     return Vec2f(b.data[0] * a, b.data[1] * a);
 }
 
 
-const Vec2f operator/(const float &a, const Vec2f &b) {
+const Vec2f operator/(const float a, const Vec2f &b) {
     return Vec2f(b.data[0] / a, b.data[1] / a);
+}
+
+
+Vec2f& Vec2f::operator*=(const float b) {
+    data[0] *= b;
+    data[1] *= b;
+    return *this;
+}
+
+
+Vec2f& Vec2f::operator/=(const float b) {
+    data[0] /= b;
+    data[1] /= b;
+    return *this;
 }
 
 

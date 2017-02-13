@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1487023097 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Mat2f.cpp
+	"GameMath.h"
+
+1487026074 /home/jared/Libraries/cpp/src/Mine/GameMath/include/GameMath.h
+	<cmath>
+	<string>
+
+1487023107 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Mat3f.cpp
+	"GameMath.h"
+
+1487023114 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Mat4f.cpp
+	"GameMath.h"
+
+1487023122 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Quanternion.cpp
+	"GameMath.h"
+
+1487025907 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec3f.cpp
+	"GameMath.h"
+
+1487024816 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec4f.cpp
+	"GameMath.h"
+
+1487025962 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec2f.cpp
+	"GameMath.h"
+
+1487023072 /home/jared/Libraries/cpp/src/Mine/GameMath/include/Vec2f.h
+	"GameMath.h"
+
+1487023537 /home/jared/Libraries/cpp/src/Mine/GameMath/include/Vec3f.h
+	"GameMath.h"
+	"Vec4f.h"
+
+1487023470 /home/jared/Libraries/cpp/src/Mine/GameMath/include/Vec4f.h
+	"GameMath.h"
+	"Vec3f.h"
+
