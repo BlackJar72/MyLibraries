@@ -1,11 +1,11 @@
-#ifndef VECTORMATRICES_H_INCLUDED
-#define VECTORMATRICES_H_INCLUDED
+#ifndef GAMEMATH_H
+#define GAMEMATH_H
 #include <cmath>
 #include <string>
 
 // Using define here rather than const's in every
 // class or global space
-#define VECMATPI 3.14159265
+#define GMPI 3.14159265
 
 using namespace std;
 

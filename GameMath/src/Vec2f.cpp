@@ -1,4 +1,4 @@
-#include "VectorMatrices.h"
+#include "GameMath.h"
 
 namespace vecmatices {
 
@@ -89,8 +89,8 @@ float Vec2f::get(const int &index) {
 
 
 Vec2f Vec2f::rotate(const float &angle) {
-    float sine   = sin(angle * VECMATPI);
-    float cosine = cos(angle * VECMATPI);
+    float sine   = sin(angle * GMPI);
+    float cosine = cos(angle * GMPI);
     return Vec2f(((data[0] * cosine) - (data[1] * sine)),
                  ((data[0] * sine)   - (data[1] * cosine)));
 }

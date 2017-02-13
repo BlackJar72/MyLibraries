@@ -1,13 +1,13 @@
-#include "VectorMatrices.h"
+#include "GameMath.h"
 
 namespace vecmatices {
 
-Mat3f::Mat3f()
+Mat4f::Mat4f()
 {
     //ctor
 }
 
-Mat3f::~Mat3f()
+Mat4f::~Mat4f()
 {
     //dtor
 }

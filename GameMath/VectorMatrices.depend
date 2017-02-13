@@ -1,0 +1,30 @@
+# depslib dependency file v1.0
+1487002306 source:/home/jared/Libraries/cpp/src/Mine/VectorMatrices/src/Mat2f.cpp
+	"GameMath.h"
+
+1487001004 /home/jared/Libraries/cpp/src/Mine/VectorMatrices/include/VectorMatrices.h
+	<cmath>
+	<string>
+
+1487002309 source:/home/jared/Libraries/cpp/src/Mine/VectorMatrices/src/Mat3f.cpp
+	"GameMath.h"
+
+1487002312 source:/home/jared/Libraries/cpp/src/Mine/VectorMatrices/src/Mat4f.cpp
+	"GameMath.h"
+
+1487002316 source:/home/jared/Libraries/cpp/src/Mine/VectorMatrices/src/Quanternion.cpp
+	"GameMath.h"
+
+1487002301 source:/home/jared/Libraries/cpp/src/Mine/VectorMatrices/src/Vec3f.cpp
+	"GameMath.h"
+
+1487002304 source:/home/jared/Libraries/cpp/src/Mine/VectorMatrices/src/Vec4f.cpp
+	"GameMath.h"
+
+1487002463 /home/jared/Libraries/cpp/src/Mine/VectorMatrices/include/GameMath.h
+	<cmath>
+	<string>
+
+1487002503 source:/home/jared/Libraries/cpp/src/Mine/VectorMatrices/src/Vec2f.cpp
+	"GameMath.h"
+

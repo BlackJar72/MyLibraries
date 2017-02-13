@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/VectorMatrices" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/GameMath" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Debug/" />
 				<Option type="2" />
@@ -19,7 +19,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/VectorMatrices" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/GameMath" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
@@ -38,7 +38,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/VectorMatrices.h" />
+		<Unit filename="include/GameMath.h" />
 		<Unit filename="src/Mat2f.cpp" />
 		<Unit filename="src/Mat3f.cpp" />
 		<Unit filename="src/Mat4f.cpp" />
