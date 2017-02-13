@@ -1,5 +1,6 @@
 #include "StringTokenizer.h"
 #include <string>
+#include <cstring>
 
 using namespace std;
 
@@ -47,6 +48,25 @@ CharSet::CharSet(const string &in)
     clear();
     add(in);
 }
+
+
+CharSet::CharSet(const CharSet& other) {
+    data = new char[BYTES];
+    memcpy(data, other.data, BYTES);
+    loc = other.loc;
+    bit = other.bit;
+}
+
+
+CharSet& CharSet::operator= (const CharSet& other) {
+    if (this != &other) {
+        memcpy(data, other.data, BYTES);
+        loc = other.loc;
+        bit = other.bit;
+    }
+    return *this;
+}
+
 
 
 

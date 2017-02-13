@@ -1,14 +1,12 @@
 #include "StringTokenizer.h"
+#include <cstring>
 
-namespace stringtoken
-{
+namespace stringtoken {
 
 const CharSet StringTokenizer::QUOTES = CharSet('\"');
 
 StringTokenizer::StringTokenizer(const string &in, string delim, bool keepQuotes) {
     this->delim = CharSet(delim);
-    // FIXME: There must be a better way than either copying every time is standard
-    // or dynamically allocating ever times it not.  For now, this...
     quotes = QUOTES;
 	readTokens(in);
 }
@@ -16,8 +14,6 @@ StringTokenizer::StringTokenizer(const string &in, string delim, bool keepQuotes
 
 StringTokenizer::StringTokenizer(const string &in, char *delim, bool keepQuotes) {
     this->delim = CharSet(delim);
-    // FIXME: There must be a better way than either copying every time is standard
-    // or dynamically allocating ever times it not.  For now, this...
     quotes = QUOTES;
 	readTokens(in);
 }
@@ -25,8 +21,6 @@ StringTokenizer::StringTokenizer(const string &in, char *delim, bool keepQuotes)
 
 StringTokenizer::StringTokenizer(const string &in, CharSet delim, bool keepQuotes) {
     this->delim = CharSet(delim);
-    // FIXME: There must be a better way than either copying every time is standard
-    // or dynamically allocating ever times it not.  For now, this...
     quotes = QUOTES;
 	readTokens(in);
 }
@@ -34,8 +28,6 @@ StringTokenizer::StringTokenizer(const string &in, CharSet delim, bool keepQuote
 StringTokenizer::StringTokenizer(const string &in, string  delim,
                                  string  quotes, bool keepQuotes) {
     this->delim = CharSet(delim);
-    // FIXME: There must be a better way than either copying every time is standard
-    // or dynamically allocating ever times it not.  For now, this...
     this->quotes = CharSet(quotes);
 	readTokens(in);
 }
@@ -44,8 +36,6 @@ StringTokenizer::StringTokenizer(const string &in, string  delim,
 StringTokenizer::StringTokenizer(const string &in, char   *delim,
                                  char   *quotes, bool keepQuotes) {
     this->delim = CharSet(delim);
-    // FIXME: There must be a better way than either copying every time is standard
-    // or dynamically allocating ever times it not.  For now, this...
     this->quotes = CharSet(quotes);
 	readTokens(in);
 }
@@ -54,28 +44,73 @@ StringTokenizer::StringTokenizer(const string &in, char   *delim,
 StringTokenizer::StringTokenizer(const string &in, CharSet delim,
                                  CharSet quotes, bool keepQuotes) {
     this->delim = CharSet(delim);
-    // FIXME: There must be a better way than either copying every time is standard
-    // or dynamically allocating ever times it not.  For now, this...
     this->quotes = quotes;
 	readTokens(in);
 }
 
 
-StringTokenizer::~StringTokenizer()
-{
-    delete scratchpad;
+StringTokenizer::StringTokenizer(const StringTokenizer& other) {
+    scratchpad = new char[inSize];
+    memcpy(scratchpad, other.scratchpad, inSize);
+    memcpy(tokens, other.tokens, dataSize * sizeof(string*));
+    delim = other.delim;
+    quotes = other.quotes;
+    tokens = other.tokens;
+    scratchpad = other.scratchpad;
+    position = other.position;
+    size = other.size;
+    token = other.token;
+    dataSize = other.dataSize;
+    numTokens = other.numTokens;
+    next = other.next;
+    inSize = other.inSize;
+    onTokens = other.onTokens;
+    keepQuotes = other.keepQuotes;
+}
+
+
+StringTokenizer& StringTokenizer::operator= (const StringTokenizer& other) {
+    if (this != &other) {
+        memcpy(scratchpad, other.scratchpad, inSize);
+        memcpy(tokens, other.tokens, dataSize * sizeof(string*));
+        delim = other.delim;
+        quotes = other.quotes;
+        tokens = other.tokens;
+        scratchpad = other.scratchpad;
+        position = other.position;
+        size = other.size;
+        token = other.token;
+        dataSize = other.dataSize;
+        numTokens = other.numTokens;
+        next = other.next;
+        inSize = other.inSize;
+        onTokens = other.onTokens;
+        keepQuotes = other.keepQuotes;
+    }
+    return *this;
+}
+
+
+StringTokenizer::~StringTokenizer() {
+//    int n = tokens.size();
+//    for(int i = 0; i < n; i++) {
+//        delete tokens.at(i);
+//    }
+//    delete scratchpad;
 }
 
 
 /**
  * Reads the line of text and turns it into tokens.
  */
-void StringTokenizer::readTokens(const string &in)
-{
-    tokens = vector<string*>((in.size() / 5) + 1);
-    scratchpad = new char[in.size() + 1];
+void StringTokenizer::readTokens(const string &in) {
+    inSize = in.size() + 1;
+    dataSize = (inSize / 5) + 1;
+    tokens = new string*[dataSize];
+    scratchpad = new char[inSize];
     scratchpad[in.size()] = 0;
     position = size = next = 0;
+    token = 0;
     while(position < in.size())
     {
         nextChar(in);
@@ -100,7 +135,8 @@ void StringTokenizer::readTokens(const string &in)
 		onTokens = false;
 		size = 0;
 	}
-	//token = 0;
+	numTokens = token;
+	token = 0;
 }
 
 
@@ -108,7 +144,14 @@ void StringTokenizer::readTokens(const string &in)
  * Adds a token that has been found.
  */
 inline void StringTokenizer::addToken(const string &in) {
-	tokens.push_back(new string(scratchpad, size));
+    if(token >= dataSize) {
+        dataSize = (dataSize * 3) / 2;
+        string** bigger = new string*[dataSize];
+        memcpy(bigger, tokens, numTokens * sizeof(string*));
+
+    }
+	tokens[token] = new string(scratchpad, size);
+	token++;
 }
 
 
@@ -126,7 +169,7 @@ void StringTokenizer::nextChar(const string &in) {
 
 /**
  * This will read every thing from the until the basis character is
- * encountered again, ignoring all delimeters.  The basis should always
+ * encountered again, ignoring all delimiters.  The basis should always
  * be the same character that started the quote section, which should
  * usually be either a single or double quote (" or '), with double
  * quotes preferred.
@@ -154,8 +197,8 @@ void StringTokenizer::readQuote(const string &in, unsigned char &qmark) {
 
 /**
  * This will change a two character escape sequence into the correct
- * chracter, allowing quotes (among other things) to be used.  Note
- * that this uses the standered backslash as and that an literal
+ * character, allowing quotes (among other things) to be used.  Note
+ * that this uses the standard backslash as and that an literal
  * backslash must thus be represented as a double backslash.
  */
 void StringTokenizer::readEscape(const string &in) {
@@ -202,6 +245,63 @@ void StringTokenizer::readEscape(const string &in) {
 		position++;
 		next = in.at(position);
 	} while(next == '\\');
+}
+
+
+/**
+ * Returns the number of tokens.
+ */
+unsigned int StringTokenizer::countTokens() {
+    return numTokens;
+}
+
+
+/**
+ * Returns whether or not there are more tokens
+ */
+bool StringTokenizer::hasMoreTokens() {
+	return (token < numTokens);
+}
+
+
+/**
+ * Returns the next available token.  If there are no more tokens it
+ * will return null.
+ */
+string* StringTokenizer::nextToken() {
+	if(hasMoreTokens()) {
+		return tokens[token++];
+	} else return tokens[numTokens - 1];
+}
+
+
+/**
+ * Returns the next available token, but not advance.  If there are no more tokens it
+ * will return null.
+ */
+string* StringTokenizer::peek() {
+	if(hasMoreTokens()) {
+		return tokens[token];
+	} else return tokens[numTokens - 1];
+}
+
+
+/**
+ * Resets the to the first token
+ */
+void StringTokenizer::reset() {
+	token = 0;
+}
+
+
+/**
+ * Gets the token at the given index.  If an index is out of range this
+ * will return null.
+ */
+string* StringTokenizer::getToken(unsigned int index) {
+	if(index >= 0 && index <numTokens) {
+		return tokens[index];
+	} else return tokens[0];
 }
 
 
