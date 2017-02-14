@@ -188,6 +188,84 @@ class Quanternion {
 };
 
 
+class Xorshift {
+    public:
+        Xorshift();
+        Xorshift(unsigned int seed);
+        virtual ~Xorshift();
+        unsigned int   nextInt();
+        unsigned int   nextInt(int min, int max);
+        unsigned long  nextLong();
+        unsigned short nextShort();
+        unsigned char  nextChar();
+        float nextFloat();
+        double nextDouble();
+        bool nextBool();
+        unsigned int getSeed();
+        void setSeed(unsigned int seed);
+        unsigned int getFromSeed(unsigned int seed);
+    protected:
+    private:
+        const static unsigned int MAXINT = 0xffffffff;
+        unsigned int seed;
+        unsigned int val;
+};
+
+
+class Xorshift64
+{
+    public:
+        Xorshift64();
+        Xorshift64(unsigned long int seed);
+        virtual ~Xorshift64();
+        unsigned int   nextInt();
+        unsigned int   nextInt(int min, int max);
+        unsigned long  nextLong();
+        unsigned short nextShort();
+        unsigned char  nextChar();
+        float nextFloat();
+        double nextDouble();
+        bool nextBool();
+        unsigned long int getSeed();
+        void setSeed(unsigned long int seed);
+        unsigned int getFromSeed(unsigned long int seed);
+    protected:
+    private:
+        const static unsigned long int MAXLONG = 0xffffffffffffffff;
+        unsigned long int seed;
+        unsigned long int val;
+};
+
+
+class SpatialRandom {
+    public:
+        SpatialRandom();
+        SpatialRandom(unsigned long int seed);
+        virtual ~SpatialRandom();
+        unsigned long int longFor(int x, int y, int z, int t);
+        unsigned long int longFor(int x, int y, int z);
+        unsigned long int longFor(int x, int y);
+        float floatFor(int x, int y, int z, int t);
+        float floatFor(int x, int y, int z);
+        float floatFor(int x, int y);
+        Xorshift xorshiftFor(int x, int y, int z, int t);
+        Xorshift xorshiftFor(int x, int y, int z);
+        Xorshift xorshiftFor(int x, int y);
+        Xorshift64 xorshift64For(int x, int y, int z, int t);
+        Xorshift64 xorshift64For(int x, int y, int z);
+        Xorshift64 xorshift64For(int x, int y);
+        unsigned long int getSeed();
+        void setSeed(unsigned long int seed);
+    protected:
+    private:
+        const static unsigned long int MAXLONG = 0xffffffffffffffff;
+        unsigned long int seed;
+        unsigned long int val;
+        unsigned long int lshift(long in, int dist);
+        unsigned long int rshift(long in, int dist);
+};
+
+
 }
 
 
