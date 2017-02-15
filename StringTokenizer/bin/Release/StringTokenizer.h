@@ -53,7 +53,7 @@ private:
     void readTokens(const string &in);
     void nextChar(const string &in);
     void addToken(const string &in);
-    void readQuote(const string &in, unsigned char &qmark);
+    void readQuote(const string &in, const unsigned char qmark);
     void readEscape(const string &in);
 public:
     StringTokenizer(const string &in, string  delim, bool keepQuotes = false);

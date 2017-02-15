@@ -1,5 +1,6 @@
 #include "StringTokenizer.h"
 #include <cstring>
+#include <iostream>
 
 namespace stringtoken {
 
@@ -8,6 +9,7 @@ const CharSet StringTokenizer::QUOTES = CharSet('\"');
 StringTokenizer::StringTokenizer(const string &in, string delim, bool keepQuotes) {
     this->delim = CharSet(delim);
     quotes = QUOTES;
+    this->keepQuotes = keepQuotes;
 	readTokens(in);
 }
 
@@ -15,6 +17,7 @@ StringTokenizer::StringTokenizer(const string &in, string delim, bool keepQuotes
 StringTokenizer::StringTokenizer(const string &in, char *delim, bool keepQuotes) {
     this->delim = CharSet(delim);
     quotes = QUOTES;
+    this->keepQuotes = keepQuotes;
 	readTokens(in);
 }
 
@@ -22,6 +25,7 @@ StringTokenizer::StringTokenizer(const string &in, char *delim, bool keepQuotes)
 StringTokenizer::StringTokenizer(const string &in, CharSet delim, bool keepQuotes) {
     this->delim = CharSet(delim);
     quotes = QUOTES;
+    this->keepQuotes = keepQuotes;
 	readTokens(in);
 }
 
@@ -29,6 +33,7 @@ StringTokenizer::StringTokenizer(const string &in, string  delim,
                                  string  quotes, bool keepQuotes) {
     this->delim = CharSet(delim);
     this->quotes = CharSet(quotes);
+    this->keepQuotes = keepQuotes;
 	readTokens(in);
 }
 
@@ -37,6 +42,7 @@ StringTokenizer::StringTokenizer(const string &in, char   *delim,
                                  char   *quotes, bool keepQuotes) {
     this->delim = CharSet(delim);
     this->quotes = CharSet(quotes);
+    this->keepQuotes = keepQuotes;
 	readTokens(in);
 }
 
@@ -45,6 +51,7 @@ StringTokenizer::StringTokenizer(const string &in, CharSet delim,
                                  CharSet quotes, bool keepQuotes) {
     this->delim = CharSet(delim);
     this->quotes = quotes;
+    this->keepQuotes = keepQuotes;
 	readTokens(in);
 }
 
@@ -92,11 +99,11 @@ StringTokenizer& StringTokenizer::operator= (const StringTokenizer& other) {
 
 
 StringTokenizer::~StringTokenizer() {
-//    int n = tokens.size();
-//    for(int i = 0; i < n; i++) {
-//        delete tokens.at(i);
-//    }
-//    delete scratchpad;
+    for(unsigned int i = 0; i < numTokens; i++) {
+        delete tokens[i];
+    }
+    delete tokens;
+    delete scratchpad;
 }
 
 
@@ -181,17 +188,23 @@ void StringTokenizer::nextChar(const string &in) {
  * Also not that the quotation character itself in not included; to used
  * these are part of a string its required to include and escaped version.
  */
-void StringTokenizer::readQuote(const string &in, unsigned char &qmark) {
-	onTokens = true;
-	if(!keepQuotes)nextChar(in);
-	while((position < in.size()) && (next != qmark)) {
-		scratchpad[size] = next;
-		size++;
+void StringTokenizer::readQuote(const string &in, const unsigned char qmark) {
+    onTokens = true;
+	addToken(in);
+	size = 0;
+	if(keepQuotes) {
+        scratchpad[size++] = qmark;
+	}
+	do {
 		nextChar(in);
+		scratchpad[size++] = next;
+	} while((position < in.size()) && (next != qmark));
+	if((!keepQuotes) && (next == qmark)) {
+        size--;
 	}
-	if(keepQuotes && (next == qmark)) {
-        scratchpad[size++] = next;
-	}
+	addToken(in);
+	position++;
+	size = 0;
 }
 
 

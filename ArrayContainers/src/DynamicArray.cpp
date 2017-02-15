@@ -47,10 +47,12 @@ void DynamicArray<T>::add(T added, unsigned int index) {
     if(index > elements) {
         // index may be equal to elements; this would be the same as add(T).
         // TODO: Throw exception
-        return;
+    } else if(index == elements) {
+        add(added);
+    } else {
+        // TDOD: Implement this
+        elements++;
     }
-    // TDOD: Implement this
-    elements++;
 }
 
 
