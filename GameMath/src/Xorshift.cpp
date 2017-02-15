@@ -64,7 +64,7 @@ bool Xorshift::nextBool() {
 }
 
 
-unsigned int Xorshift::getSeed() {
+unsigned int Xorshift::getSeed() const {
     return seed;
 }
 
@@ -74,7 +74,7 @@ void Xorshift::setSeed(unsigned int seed) {
 }
 
 
-unsigned int Xorshift::getFromSeed(unsigned int seed) {
+unsigned int Xorshift::getFromSeed(unsigned int seed) const {
         seed *= 5443;
         seed += 15485863;
         seed ^= seed << 13;

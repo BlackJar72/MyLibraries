@@ -2,7 +2,7 @@
 1487023097 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Mat2f.cpp
 	"GameMath.h"
 
-1487038060 /home/jared/Libraries/cpp/src/Mine/GameMath/include/GameMath.h
+1487132706 /home/jared/Libraries/cpp/src/Mine/GameMath/include/GameMath.h
 	<cmath>
 	<string>
 
@@ -15,13 +15,13 @@
 1487023122 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Quanternion.cpp
 	"GameMath.h"
 
-1487025907 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec3f.cpp
+1487132549 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec3f.cpp
 	"GameMath.h"
 
-1487026050 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec4f.cpp
+1487132726 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec4f.cpp
 	"GameMath.h"
 
-1487025962 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec2f.cpp
+1487132507 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Vec2f.cpp
 	"GameMath.h"
 
 1487023072 /home/jared/Libraries/cpp/src/Mine/GameMath/include/Vec2f.h
@@ -35,15 +35,15 @@
 	"GameMath.h"
 	"Vec3f.h"
 
-1487038247 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/SpatialRandom.cpp
+1487132453 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/SpatialRandom.cpp
 	"GameMath.h"
 	<ctime>
 
-1487038210 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Xorshift64.cpp
+1487132746 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Xorshift64.cpp
 	"GameMath.h"
 	<ctime>
 
-1487035951 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Xorshift.cpp
+1487132736 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/Xorshift.cpp
 	"GameMath.h"
 	<ctime>
 

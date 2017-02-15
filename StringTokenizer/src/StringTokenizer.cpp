@@ -148,7 +148,8 @@ inline void StringTokenizer::addToken(const string &in) {
         dataSize = (dataSize * 3) / 2;
         string** bigger = new string*[dataSize];
         memcpy(bigger, tokens, numTokens * sizeof(string*));
-
+        delete tokens;
+        tokens = bigger;
     }
 	tokens[token] = new string(scratchpad, size);
 	token++;

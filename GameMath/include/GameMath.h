@@ -17,7 +17,7 @@ class Vec2f {
         Vec2f(float x, float y);
         Vec2f(float* ar);
         virtual ~Vec2f();
-        float dot(const Vec2f &b);
+        float dot(const Vec2f &b) const;
         float length() const;
         void normalize();
         Vec2f add(const Vec2f &b);
@@ -29,7 +29,7 @@ class Vec2f {
         void set(const int index, const float value);
         float get(const int index) const;
         Vec2f rotate(const float angle);
-        bool equals(const Vec2f &b);
+        bool equals(const Vec2f &b) const;
         friend const Vec2f operator+(const Vec2f &a, const Vec2f &b);
         friend const Vec2f operator-(const Vec2f &a, const Vec2f &b);
         const Vec2f operator+(const float b);
@@ -62,7 +62,7 @@ class Vec3f {
         Vec3f(float x, float y, float z);
         Vec3f(float* ar);
         virtual ~Vec3f();
-        float dot(const Vec3f &b);
+        float dot(const Vec3f &b) const;
         float length() const;
         void normalize();
         Vec3f add(const Vec3f &b);
@@ -74,7 +74,7 @@ class Vec3f {
         void set(const int index, const float value);
         float get(const int index) const;
         float cross(const Vec3f &b);
-        bool equals(const Vec3f &b);
+        bool equals(const Vec3f &b) const;
         friend const Vec3f operator+(const Vec3f &a, const Vec3f &b);
         friend const Vec3f operator-(const Vec3f &a, const Vec3f &b);
         const Vec3f operator+(const float b);
@@ -108,7 +108,7 @@ class Vec4f {
         Vec4f(float* ar);
         Vec4f(const Vec3f &vec);
         virtual ~Vec4f();
-        float dot(const Vec4f &b);
+        float dot(const Vec4f &b) const;
         float length() const;
         void normalize();
         Vec4f add(const Vec4f &b);
@@ -120,8 +120,8 @@ class Vec4f {
         void set(const int index, const float value);
         float get(const int index) const;
         Vec3f trunc3d();
-        Vec3f real3d();
-        bool equals(const Vec4f &b);
+        Vec3f real3d() const;
+        bool equals(const Vec4f &b) const;
         friend const Vec4f operator+(const Vec4f &a, const Vec4f &b);
         friend const Vec4f operator-(const Vec4f &a, const Vec4f &b);
         const Vec4f operator+(const float b);
@@ -201,9 +201,9 @@ class Xorshift {
         float nextFloat();
         double nextDouble();
         bool nextBool();
-        unsigned int getSeed();
+        unsigned int getSeed() const;
         void setSeed(unsigned int seed);
-        unsigned int getFromSeed(unsigned int seed);
+        unsigned int getFromSeed(unsigned int seed) const;
     protected:
     private:
         const static unsigned int MAXINT = 0xffffffff;
@@ -226,9 +226,9 @@ class Xorshift64
         float nextFloat();
         double nextDouble();
         bool nextBool();
-        unsigned long int getSeed();
+        unsigned long int getSeed() const;
         void setSeed(unsigned long int seed);
-        unsigned int getFromSeed(unsigned long int seed);
+        unsigned int getFromSeed(unsigned long int seed) const;
     protected:
     private:
         const static unsigned long int MAXLONG = 0xffffffffffffffff;
@@ -254,7 +254,7 @@ class SpatialRandom {
         Xorshift64 xorshift64For(int x, int y, int z, int t);
         Xorshift64 xorshift64For(int x, int y, int z);
         Xorshift64 xorshift64For(int x, int y);
-        unsigned long int getSeed();
+        unsigned long int getSeed() const;
         void setSeed(unsigned long int seed);
     protected:
     private:

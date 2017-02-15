@@ -23,7 +23,7 @@ Vec2f::Vec2f(float* ar) {
 Vec2f::~Vec2f() {/*Nothing to do? The array is not dynamically allocated.*/}
 
 
-float Vec2f::dot(const Vec2f &b) {
+float Vec2f::dot(const Vec2f &b) const {
     return (data[0] * b.data[0]) + (data[1] * b.data[1]);
 }
 
@@ -96,8 +96,8 @@ Vec2f Vec2f::rotate(const float angle) {
 }
 
 
-bool Vec2f::equals(const Vec2f &b) {
-    return ((data[0] = b.data[0]) && (data[1] == b.data[1]));
+bool Vec2f::equals(const Vec2f &b) const {
+    return ((data[0] == b.data[0]) && (data[1] == b.data[1]));
 }
 
 /*----------------------------------------------------------*/

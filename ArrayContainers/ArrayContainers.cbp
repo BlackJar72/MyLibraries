@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="GameMath" />
+		<Option title="ArrayContainers" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/GameMath" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/ArrayContainers" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Debug/" />
 				<Option type="2" />
@@ -19,7 +19,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/GameMath" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/ArrayContainers" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
@@ -38,17 +38,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/GameMath.h" />
-		<Unit filename="src/Mat2f.cpp" />
-		<Unit filename="src/Mat3f.cpp" />
-		<Unit filename="src/Mat4f.cpp" />
-		<Unit filename="src/Quanternion.cpp" />
-		<Unit filename="src/SpatialRandom.cpp" />
-		<Unit filename="src/Vec2f.cpp" />
-		<Unit filename="src/Vec3f.cpp" />
-		<Unit filename="src/Vec4f.cpp" />
-		<Unit filename="src/Xorshift.cpp" />
-		<Unit filename="src/Xorshift64.cpp" />
+		<Unit filename="include/ArrayContainers.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="src/ArrayContainer.cpp" />
+		<Unit filename="src/ArrayList.cpp" />
+		<Unit filename="src/DynamicArray.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

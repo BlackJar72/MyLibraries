@@ -36,7 +36,7 @@ Vec4f::Vec4f(const Vec3f &vec) {
 Vec4f::~Vec4f() {/*Nothing to do? The array is not dynamically allocated.*/}
 
 
-float Vec4f::dot(const Vec4f &b) {
+float Vec4f::dot(const Vec4f &b) const {
     return (data[0] * b.data[0]) + (data[1] * b.data[1])
             + (data[2] * b.data[2]) + (data[3] * b.data[3]);
 }
@@ -114,14 +114,14 @@ Vec3f Vec4f::trunc3d() {
 }
 
 
-Vec3f Vec4f::real3d(){
+Vec3f Vec4f::real3d() const {
     return Vec3f(data[0] / data[3], data[1] / data[3], data[2] / data[4]);
 }
 
 
-bool Vec4f::equals(const Vec4f &b) {
-    return ((data[0] = b.data[0]) && (data[1] == b.data[1])
-            && (data[2] = b.data[2]) && (data[3] == b.data[3]));
+bool Vec4f::equals(const Vec4f &b) const {
+    return ((data[0] == b.data[0]) && (data[1] == b.data[1])
+            && (data[2] == b.data[2]) && (data[3] == b.data[3]));
 }
 
 /*----------------------------------------------------------*/

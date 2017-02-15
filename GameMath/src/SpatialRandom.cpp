@@ -113,7 +113,7 @@ Xorshift64 SpatialRandom::xorshift64For(int x, int y) {
 }
 
 
-unsigned long int SpatialRandom::getSeed() {
+unsigned long int SpatialRandom::getSeed() const {
     return seed;
 }
 

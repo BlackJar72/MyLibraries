@@ -25,7 +25,7 @@ Vec3f::Vec3f(float* ar) {
 Vec3f::~Vec3f() {/*Nothing to do? The array is not dynamically allocated.*/}
 
 
-float Vec3f::dot(const Vec3f &b) {
+float Vec3f::dot(const Vec3f &b) const {
     return (data[0] * b.data[0]) + (data[1] * b.data[1] +
             (data[2] * b.data[2]));
 }
@@ -107,8 +107,8 @@ float Vec3f::cross(const Vec3f &b) {
 //}
 
 
-bool Vec3f::equals(const Vec3f &b) {
-    return ((data[0] = b.data[0]) && (data[1] == b.data[1])
+bool Vec3f::equals(const Vec3f &b) const {
+    return ((data[0] == b.data[0]) && (data[1] == b.data[1])
             && (data[2] == b.data[2]));
 }
 
