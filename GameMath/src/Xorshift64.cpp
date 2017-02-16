@@ -30,13 +30,14 @@ unsigned int Xorshift64::nextInt(int min, int max) {
 
 
 unsigned long Xorshift64::nextLong() {
-        val *= 5443;
-        val += 1548586312338621L;
-        val ^= val >> 19;
-        val ^= val << 31;
-        val ^= val << 23;
-        val ^= val >> 7;
-        return val;
+    // This will overflow -- GOOD!
+    val *= 5443;
+    val += 1548586312338621L;
+    val ^= val >> 19;
+    val ^= val << 31;
+    val ^= val << 23;
+    val ^= val >> 7;
+    return val;
 }
 
 
@@ -76,12 +77,14 @@ void Xorshift64::setSeed(unsigned long int seed) {
 
 
 unsigned int Xorshift64::getFromSeed(unsigned long int seed) const {
-        seed *= 5443;
-        seed += 15485863;
-        seed ^= seed << 13;
-        seed ^= seed << 17;
-        seed ^= seed << 5;
-        return seed;
+    // This will overflow -- GOOD!
+    seed *= 5443;
+    seed += 1548586312338621L;
+    seed ^= seed >> 19;
+    seed ^= seed << 31;
+    seed ^= seed << 23;
+    seed ^= seed >> 7;
+    return seed;
 }
 
 

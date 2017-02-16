@@ -18,21 +18,8 @@ SpatialRandom::SpatialRandom(unsigned long int seed) {
 SpatialRandom::~SpatialRandom() {}
 
 
-unsigned long int SpatialRandom::lshift(long in, int dist) {
-        unsigned long int out = in << dist;
-        out += (in >> (64 - dist));
-        return out;
-}
-
-
-unsigned long int SpatialRandom::rshift(long in, int dist) {
-        unsigned long int out = in >> dist;
-        out += (in << (64 - dist));
-        return out;
-}
-
-
 unsigned long int SpatialRandom::longFor(int x, int y, int z, int t) {
+    // This will overflow -- GOOD!
     long out = seed + (15485077L * (long)t)
                     + (12338621L * (long)x)
                     + (15485863L * (long)y)
@@ -46,6 +33,7 @@ unsigned long int SpatialRandom::longFor(int x, int y, int z, int t) {
 
 
 unsigned long int SpatialRandom::longFor(int x, int y, int z) {
+    // This will overflow -- GOOD!
     long out = seed + (12338621L * (long)x)
                     + (15485863L * (long)y)
                     + (14416417L * (long)z);
@@ -58,6 +46,7 @@ unsigned long int SpatialRandom::longFor(int x, int y, int z) {
 
 
 unsigned long int SpatialRandom::longFor(int x, int y) {
+    // This will overflow -- GOOD!
     long out = seed + (12338621L * (long)x)
                     + (15485863L * (long)y);
     out ^= lshift(out, (x % 29) + 13);

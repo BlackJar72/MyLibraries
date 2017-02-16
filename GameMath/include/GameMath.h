@@ -53,6 +53,7 @@ class Vec2f {
     protected:
     private:
         float data[2];
+        friend class Mat2f;
 };
 
 
@@ -107,6 +108,7 @@ class Vec4f {
         Vec4f(float x, float y, float z, float w);
         Vec4f(float* ar);
         Vec4f(const Vec3f &vec);
+        Vec4f(const Vec3f &vec, float w);
         virtual ~Vec4f();
         float dot(const Vec4f &b) const;
         float length() const;
@@ -148,10 +150,45 @@ class Vec4f {
 };
 
 
+/*
+NOTE: Thinking about how these matrices will be copied around has
+me realizing some of the real limits of my knowledge about C++ and
+compiler optimization (e.g., will the copy out and assignment copy
+be combined? Or will it call a constructor for each?).  I really
+should learn this before committing to a system.
+
+Also, might it not be better to perform many of these operation on
+the matrix itself instead of creating a new one each time (as is
+now done); this would mean more flexibility, as copies could still
+be made by assignment or copy constructors, but you wouldn't have
+to do this.  Also, this would make little different in efficiency
+if the compiler optimizes out a constructor call, but if not it
+might be more efficient by reducing the number of times a copy is
+made.
+
+In short, this needs some re-thinking and study, and may change
+in the future.
+*/
+
+
 class Mat2f {
     public:
         Mat2f();
         virtual ~Mat2f();
+        float get(const int x, const int y) const;
+        void set(const int x, const int y, float value);
+        Mat2f add(const Mat2f &b) const;
+        Mat2f sub(const Mat2f &b) const;
+        Mat2f mul(const Mat2f &b) const;
+        Vec2f mul(const Vec2f &b) const;
+        Mat2f mul(const float n) const;
+        Mat2f div(const float n) const;
+        void  setIdentity();
+        static Mat2f getIdentity();
+        float det() const;
+        Mat2f transpose() const;
+        Mat2f inverse() const;
+        // TODO: Operators
     protected:
     private:
         float m[4];
@@ -261,8 +298,6 @@ class SpatialRandom {
         const static unsigned long int MAXLONG = 0xffffffffffffffff;
         unsigned long int seed;
         unsigned long int val;
-        unsigned long int lshift(long in, int dist);
-        unsigned long int rshift(long in, int dist);
 };
 
 

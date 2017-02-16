@@ -33,6 +33,15 @@ Vec4f::Vec4f(const Vec3f &vec) {
 }
 
 
+
+Vec4f::Vec4f(const Vec3f &vec, float w) {
+    data[0] = vec.get(0);
+    data[1] = vec.get(1);
+    data[2] = vec.get(2);
+    data[3] = w;
+}
+
+
 Vec4f::~Vec4f() {/*Nothing to do? The array is not dynamically allocated.*/}
 
 
