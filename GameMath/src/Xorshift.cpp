@@ -31,6 +31,11 @@ unsigned int Xorshift::nextInt() {
 }
 
 
+unsigned int Xorshift::nextInt(int mod) {
+    return (nextInt() % mod);
+}
+
+
 unsigned int Xorshift::nextInt(int min, int max) {
     return (nextInt() % (max - min + 1)) + min;
 }

@@ -110,10 +110,25 @@ Mat2f Mat2f::inverse() const {
         throw e;*/
     } else {
         out.m[0] =   m[3] / determinant;    out.m[1] = -(m[1] / determinant);
-        out.m[0] = -(m[2] / determinant);   out.m[3] =   m[0] / determinant;
+        out.m[2] = -(m[2] / determinant);   out.m[3] =   m[0] / determinant;
     }
     return out;
 }
+
+
+bool Mat2f::equals(const Mat2f &b) const {
+    // The small overhead of a loop, but also "short-circuit" exiting...
+    // ...I'm not sure if this is the better idea of not, but I'll keep it.
+    for(int i = 0; i <= 2; i += 2)
+        for(int j = 0; j < 2; j++)
+            if(m[i + j] != b.m[i + j]) return false;
+    return true;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                                OPERATORS                                */
+/*-------------------------------------------------------------------------*/
 
 
 }

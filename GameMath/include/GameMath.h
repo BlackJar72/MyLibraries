@@ -99,6 +99,7 @@ class Vec3f {
     protected:
     private:
         float data[3];
+        friend class Mat3f;
 };
 
 
@@ -188,6 +189,7 @@ class Mat2f {
         float det() const;
         Mat2f transpose() const;
         Mat2f inverse() const;
+        bool  equals(const Mat2f &b) const;
         // TODO: Operators
     protected:
     private:
@@ -199,6 +201,23 @@ class Mat3f {
     public:
         Mat3f();
         virtual ~Mat3f();
+        float get(const int x, const int y) const;
+        void set(const int x, const int y, float value);
+        Mat3f add(const Mat3f &b) const;
+        Mat3f sub(const Mat3f &b) const;
+        Mat3f mul(const Mat3f &b) const;
+        Vec3f mul(const Vec3f &b) const;
+        Mat3f mul(const float n) const;
+        Mat3f div(const float n) const;
+        void  setIdentity();
+        static Mat3f getIdentity();
+        float det() const;
+        Mat3f minors() const;
+        Mat3f cofactor() const;
+        Mat3f transpose() const;
+        Mat3f inverse() const;
+        bool  equals(const Mat3f &b) const;
+        // TODO: Operators
     protected:
     private:
         float m[9];
@@ -231,6 +250,7 @@ class Xorshift {
         Xorshift(unsigned int seed);
         virtual ~Xorshift();
         unsigned int   nextInt();
+        unsigned int   nextInt(int mod);
         unsigned int   nextInt(int min, int max);
         unsigned long  nextLong();
         unsigned short nextShort();
@@ -256,6 +276,7 @@ class Xorshift64
         Xorshift64(unsigned long int seed);
         virtual ~Xorshift64();
         unsigned int   nextInt();
+        unsigned int   nextInt(int mod);
         unsigned int   nextInt(int min, int max);
         unsigned long  nextLong();
         unsigned short nextShort();
