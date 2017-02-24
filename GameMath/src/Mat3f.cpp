@@ -55,6 +55,7 @@ Mat3f Mat3f::sub(const Mat3f &b) const {
 
 Mat3f Mat3f::mul(const Mat3f &b) const {
     Mat3f out = Mat3f();
+    // TODO: Make fit this type; currently is for Mat2f
     out.m[0] = (m[0] * b.m[0]) + (m[1] * b.m[2]);
     out.m[1] = (m[0] * b.m[1]) + (m[1] * b.m[3]);
     out.m[2] = (m[2] * b.m[0]) + (m[3] * b.m[2]);
@@ -64,9 +65,9 @@ Mat3f Mat3f::mul(const Mat3f &b) const {
 
 
 Vec3f Mat3f::mul(const Vec3f &b) const {
-        return Vec3f(b.data[0]*m[0] + b.data[1]*m[1] + b.data[2]*m[2],
-                     b.data[0]*m[3] + b.data[1]*m[4] + b.data[2]*m[5],
-                     b.data[0]*m[6] + b.data[1]*m[7] + b.data[2]*m[8]);
+    return Vec3f(b.data[0]*m[0] + b.data[1]*m[1] + b.data[2]*m[2],
+            b.data[0]*m[3] + b.data[1]*m[4] + b.data[2]*m[5],
+            b.data[0]*m[6] + b.data[1]*m[7] + b.data[2]*m[8]);
 }
 
 

@@ -228,6 +228,23 @@ class Mat4f {
     public:
         Mat4f();
         virtual ~Mat4f();
+        float get(const int x, const int y) const;
+        void set(const int x, const int y, float value);
+        Mat4f add(const Mat4f &b) const;
+        Mat4f sub(const Mat4f &b) const;
+        Mat4f mul(const Mat4f &b) const;
+        Vec4f mul(const Vec4f &b) const;
+        Mat4f mul(const float n) const;
+        Mat4f div(const float n) const;
+        void  setIdentity();
+        static Mat4f getIdentity();
+        float det() const;
+        Mat4f minors() const;
+        Mat4f cofactor() const;
+        Mat4f transpose() const;
+        Mat4f inverse() const;
+        bool  equals(const Mat4f &b) const;
+        // TODO: Operators
     protected:
     private:
         float m[16];
