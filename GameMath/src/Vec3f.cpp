@@ -58,7 +58,7 @@ Vec3f Vec3f::sub(const Vec3f &b) {
 
 
 Vec3f Vec3f::add(const float b) {
-    Vec3f direction = *this;
+    Vec3f direction = *this;  // Copy contructor should preserve referenced data
     direction.normalize();
     direction.mul(b);
     return direction.add(*this);
@@ -66,7 +66,7 @@ Vec3f Vec3f::add(const float b) {
 
 
 Vec3f Vec3f::sub(const float b) {
-    Vec3f direction = *this;
+    Vec3f direction = *this; // Copy contructor should preserve referenced data
     direction.normalize();
     direction.mul(b);
     return direction.sub(*this);

@@ -100,6 +100,7 @@ class Vec3f {
     private:
         float data[3];
         friend class Mat3f;
+        friend class Mat4f;
 };
 
 
@@ -245,6 +246,19 @@ class Mat4f {
         Mat4f transpose() const;
         Mat4f inverse() const;
         bool  equals(const Mat4f &b) const;
+        void setScale(const float x, const float y, const float z);
+        void setScale(const float s);
+        void setTranslation(const float x, const float y, const float z);
+        void setTranslation(const Vec3f &t);
+        void setTranslation(const Vec4f &t);
+        void setRotaion(const float r, const float x, const float y, const float z);
+        void setRotaion(const float r, const Vec3f &axis);
+        void setRotaion(const float r, const Vec4f &axis);
+        void setRotaion(const float r);
+        void setPerspective(const float height, const float width, const float fov,
+                            const float near, const float far);
+        void setPerspective(const float a, const float fov, const float near,
+                            const float far);
         // TODO: Operators
     protected:
     private:
