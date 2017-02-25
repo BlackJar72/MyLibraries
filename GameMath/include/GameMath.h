@@ -148,6 +148,7 @@ class Vec4f {
     protected:
     private:
         float data[4];
+        friend class Mat4f;
 };
 
 

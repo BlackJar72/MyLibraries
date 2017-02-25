@@ -70,43 +70,67 @@ Mat4f Mat4f::sub(const Mat4f &b) const {
 
 Mat4f Mat4f::mul(const Mat4f &b) const {
     Mat4f out = Mat4f();
-    out.m[0] = (m[0] * b.m[0]) + (m[1] * b.m[2]);
-    out.m[1] = (m[0] * b.m[1]) + (m[1] * b.m[3]);
-    out.m[2] = (m[2] * b.m[0]) + (m[3] * b.m[2]);
-    out.m[3] = (m[2] * b.m[1]) + (m[3] * b.m[3]);
+    out.m[0] = (m[0] * b.m[0]) + (m[1] * b.m[4]) + (m[2] * b.m[8])  + (m[3] + b.m[12]);
+    out.m[1] = (m[0] * b.m[1]) + (m[1] * b.m[5]) + (m[2] * b.m[9])  + (m[3] + b.m[13]);
+    out.m[2] = (m[0] * b.m[2]) + (m[1] * b.m[6]) + (m[2] * b.m[10]) + (m[3] + b.m[14]);
+    out.m[3] = (m[0] * b.m[3]) + (m[1] * b.m[7]) + (m[2] * b.m[11]) + (m[3] + b.m[15]);
+
+    out.m[4] = (m[4] * b.m[0]) + (m[5] * b.m[4]) + (m[6] * b.m[8])  + (m[7] + b.m[12]);
+    out.m[5] = (m[4] * b.m[1]) + (m[5] * b.m[5]) + (m[6] * b.m[9])  + (m[7] + b.m[13]);
+    out.m[6] = (m[4] * b.m[2]) + (m[5] * b.m[6]) + (m[6] * b.m[10]) + (m[7] + b.m[14]);
+    out.m[7] = (m[4] * b.m[3]) + (m[5] * b.m[7]) + (m[6] * b.m[11]) + (m[7] + b.m[15]);
+
+    out.m[8]  = (m[8] * b.m[0]) + (m[9] * b.m[4]) + (m[10] * b.m[8])  + (m[11] + b.m[12]);
+    out.m[9]  = (m[8] * b.m[1]) + (m[9] * b.m[5]) + (m[10] * b.m[9])  + (m[11] + b.m[13]);
+    out.m[10] = (m[8] * b.m[2]) + (m[9] * b.m[6]) + (m[10] * b.m[10]) + (m[11] + b.m[14]);
+    out.m[11] = (m[8] * b.m[3]) + (m[9] * b.m[7]) + (m[10] * b.m[11]) + (m[11] + b.m[15]);
+
+    out.m[12] = (m[12] * b.m[0]) + (m[13] * b.m[4]) + (m[14] * b.m[8])  + (m[15] + b.m[12]);
+    out.m[13] = (m[12] * b.m[1]) + (m[13] * b.m[5]) + (m[14] * b.m[9])  + (m[15] + b.m[13]);
+    out.m[14] = (m[12] * b.m[2]) + (m[13] * b.m[6]) + (m[14] * b.m[10]) + (m[15] + b.m[14]);
+    out.m[15] = (m[12] * b.m[3]) + (m[13] * b.m[7]) + (m[14] * b.m[11]) + (m[15] + b.m[15]);
     return out;
 }
 
 
 Vec4f Mat4f::mul(const Vec4f &b) const {
-        return Vec4f(b.data[0]*m[0] + b.data[1]*m[1] + b.data[2]*m[2],
-                     b.data[0]*m[3] + b.data[1]*m[4] + b.data[2]*m[5],
-                     b.data[0]*m[6] + b.data[1]*m[7] + b.data[2]*m[8]);
+        return Vec4f(b.data[0]*m[0]  + b.data[1]*m[1]  + b.data[2]*m[2]  + b.data[3]*m[3],
+                     b.data[0]*m[4]  + b.data[1]*m[5]  + b.data[2]*m[6]  + b.data[3]*m[7],
+                     b.data[0]*m[8]  + b.data[1]*m[9]  + b.data[2]*m[10] + b.data[3]*m[11],
+                     b.data[0]*m[12] + b.data[1]*m[13] + b.data[2]*m[14] + b.data[3]*m[15]);
 }
 
 
 Mat4f Mat4f::mul(const float n) const {
     Mat4f out = Mat4f();
-    out.m[0] = m[0]*n;    out.m[1] = m[1]*n;    out.m[2] = m[2]*n;
-    out.m[3] = m[3]*n;    out.m[4] = m[4]*n;    out.m[5] = m[5]*n;
-    out.m[6] = m[6]*n;    out.m[7] = m[7]*n;    out.m[8] = m[8]*n;
+    out.m[0]  = m[0]*n;    out.m[1]  = m[1]*n;    out.m[2]  = m[2]*n;    out.m[3]  = m[3]*n;
+    out.m[4]  = m[4]*n;    out.m[5]  = m[5]*n;    out.m[6]  = m[6]*n;    out.m[7]  = m[7]*n;
+    out.m[8]  = m[8]*n;    out.m[9]  = m[9]*n;    out.m[10] = m[10]*n;   out.m[11] = m[11]*n;
+    out.m[12] = m[12]*n;   out.m[13] = m[13]*n;   out.m[14] = m[14]*n;   out.m[15] = m[15]*n;
     return out;
 }
 
 
+//
+// TODO:  Below this point is incomplete; the below is simply Mat3f
+//
+
+
 Mat4f Mat4f::div(const float n) const {
     Mat4f out = Mat4f();
-    out.m[0] = m[0]/n;    out.m[1] = m[1]/n;    out.m[2] = m[2]/n;
-    out.m[3] = m[3]/n;    out.m[4] = m[4]/n;    out.m[5] = m[5]/n;
-    out.m[6] = m[6]/n;    out.m[7] = m[7]/n;    out.m[8] = m[8]/n;
+    out.m[0]  = m[0]/n;    out.m[1]  = m[1]/n;    out.m[2]  = m[2]/n;    out.m[3]  = m[3]/n;
+    out.m[4]  = m[4]/n;    out.m[5]  = m[5]/n;    out.m[6]  = m[6]/n;    out.m[7]  = m[7]/n;
+    out.m[8]  = m[8]/n;    out.m[9]  = m[9]/n;    out.m[10] = m[10]/n;   out.m[11] = m[11]/n;
+    out.m[12] = m[12]/n;   out.m[13] = m[13]/n;   out.m[14] = m[14]/n;   out.m[15] = m[15]/n;
     return out;
 }
 
 
 void  Mat4f::setIdentity() {
-    m[0] = 1;   m[1] = 0;   m[2] = 0;
-    m[3] = 0;   m[4] = 1;   m[5] = 0;
-    m[6] = 0;   m[7] = 0;   m[8] = 1;
+    m[0]  = 1;   m[1]  = 0;   m[2]  = 0;   m[3]  = 0;
+    m[4]  = 0;   m[5]  = 1;   m[6]  = 0;   m[7]  = 0;
+    m[8]  = 0;   m[9]  = 0;   m[10] = 1;   m[11] = 0;
+    m[12] = 0;   m[13] = 0;   m[14] = 0;   m[15] = 1;
 }
 
 
