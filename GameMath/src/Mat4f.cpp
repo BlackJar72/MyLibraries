@@ -205,8 +205,8 @@ Mat4f Mat4f::inverse() const {
 bool Mat4f::equals(const Mat4f &b) const {
     // The small overhead of a loop, but also "short-circuit" exiting...
     // ...I'm not sure if this is the better idea of not, but I'll keep it.
-    for(int i = 0; i <= 3; i += 3)
-        for(int j = 0; j < 3; j++)
+    for(int i = 0; i <= 12; i += 4)
+        for(int j = 0; j < 4; j++)
             if(m[i + j] != b.m[i + j]) return false;
     return true;
 }
