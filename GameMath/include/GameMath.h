@@ -11,6 +11,21 @@ using namespace std;
 
 namespace gamemath {
 
+class GMException
+{
+    public:
+        GMException(string name, string description);
+        virtual ~GMException();
+        string getName() const;
+        string getDescription() const;
+    protected:
+    private:
+        GMException();
+        string name;
+        string description;
+};
+
+
 class Vec2f {
     public:
         Vec2f();
@@ -259,6 +274,20 @@ class Mat4f {
                             const float near, const float far);
         void setPerspective(const float a, const float fov, const float near,
                             const float far);
+        static Mat4f invertProjection(const Mat4f &proj);
+        static Mat4f getScale(const float x, const float y, const float z);
+        static Mat4f getScale(const float s);
+        static Mat4f getTranslation(const float x, const float y, const float z);
+        static Mat4f getTranslation(const Vec3f &t);
+        static Mat4f getTranslation(const Vec4f &t);
+        static Mat4f getRotaion(const float r, const float x, const float y, const float z);
+        static Mat4f getRotaion(const float r, const Vec3f &axis);
+        static Mat4f getRotaion(const float r, const Vec4f &axis);
+        static Mat4f getRotaion(const float r);
+        static Mat4f getPerspective(const float height, const float width, const float fov,
+                                    const float near, const float far);
+        static Mat4f getPerspective(const float a, const float fov, const float near,
+                                    const float far);
         // TODO: Operators
     protected:
     private:

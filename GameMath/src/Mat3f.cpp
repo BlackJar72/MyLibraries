@@ -157,12 +157,8 @@ Mat3f Mat3f::inverse() const {
     Mat3f out = Mat3f();
     float determinant = det();
     if(determinant == 0) {
-        // TODO: Create and exception class to throw
-        /*ArithmeticException e = new ArithmeticException("Warning: Tring to "
-                    + "calculate in invalded matrix inverse, requiring divsion "
-                    + "by 0");
-
-        throw e;*/
+        throw GMException("Non-Invertible",
+                          "Inverse of Non-Invertible Matrix (division by zero) from Mat3f");
     } else {
         return minors().cofactor().transpose().div(determinant);
     }

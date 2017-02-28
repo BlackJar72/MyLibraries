@@ -239,12 +239,8 @@ Mat4f Mat4f::inverse() const {
     Mat4f out = Mat4f();
     float determinant = det();
     if(determinant == 0) {
-        // TODO: Create and exception class to throw
-        /*ArithmeticException e = new ArithmeticException("Warning: Tring to "
-                    + "calculate in invalded matrix inverse, requiring divsion "
-                    + "by 0");
-
-        throw e;*/
+        throw GMException("Non-Invertible",
+                          "Inverse of Non-Invertible Matrix (division by zero) from Mat4f");
     } else {
         return minors().cofactor().transpose().div(determinant);
     }
@@ -396,6 +392,99 @@ void Mat4f::setPerspective(const float a, const float fov, const float near,
     m[2] = 0;           m[6] = 0;     m[10] = -(near + far) / r;      m[14] = -1;
     m[3] = 0;           m[7] = 0;     m[11] = -(2 * near * far) / r;  m[15] =  0;
 }
+
+
+
+Mat4f Mat4f::invertProjection(const Mat4f &proj) {
+    Mat4f out = Mat4f();
+    out.m[0]  =  1 / proj.m[0];
+    out.m[5]  =  1 / proj.m[5];
+    out.m[10] =  1 / proj.m[15];
+    out.m[14] = -1;
+    out.m[11] = -(proj.m[10] / proj.m[15]);
+    return out;
+}
+
+
+
+Mat4f Mat4f::getScale(const float x, const float y, const float z) {
+    Mat4f out = Mat4f();
+    out.setScale(x, y, z);
+    return out;
+}
+
+
+Mat4f Mat4f::getScale(const float s) {
+    Mat4f out = Mat4f();
+    out.setScale(s);
+    return out;
+}
+
+
+Mat4f Mat4f::getTranslation(const float x, const float y, const float z) {
+    Mat4f out = Mat4f();
+    out.setTranslation(x, y, z);
+    return out;
+}
+
+
+Mat4f Mat4f::getTranslation(const Vec3f &t) {
+    Mat4f out = Mat4f();
+    out.setTranslation(t);
+    return out;
+}
+
+
+Mat4f Mat4f::getTranslation(const Vec4f &t) {
+    Mat4f out = Mat4f();
+    out.setTranslation(t);
+    return out;
+}
+
+
+Mat4f Mat4f::getRotaion(const float r, const float x, const float y, const float z) {
+    Mat4f out = Mat4f();
+    out.setRotaion(r, x, y, z);
+    return out;
+}
+
+
+Mat4f Mat4f::getRotaion(const float r, const Vec3f &axis) {
+    Mat4f out = Mat4f();
+    out.setRotaion(r, axis);
+    return out;
+}
+
+
+Mat4f Mat4f::getRotaion(const float r, const Vec4f &axis) {
+    Mat4f out = Mat4f();
+    out.setRotaion(r, axis);
+    return out;
+}
+
+
+Mat4f Mat4f::getRotaion(const float r) {
+    Mat4f out = Mat4f();
+    out.setRotaion(r);
+    return out;
+}
+
+
+Mat4f Mat4f::getPerspective(const float height, const float width, const float fov,
+                            const float near, const float far) {
+    Mat4f out = Mat4f();
+    out.setPerspective(height, width, fov, near, far);
+    return out;
+}
+
+
+Mat4f Mat4f::getPerspective(const float a, const float fov, const float near,
+                            const float far) {
+    Mat4f out = Mat4f();
+    out.setPerspective(a, fov, near, far);
+    return out;
+}
+
 
 /*-------------------------------------------------------------------------*/
 /*                                OPERATORS                                */

@@ -102,12 +102,8 @@ Mat2f Mat2f::inverse() const {
     Mat2f out = Mat2f();
     float determinant = det();
     if(determinant == 0) {
-        // TODO: Create and exception class to throw
-        /*ArithmeticException e = new ArithmeticException("Warning: Tring to "
-                    + "calculate in invalded matrix inverse, requiring divsion "
-                    + "by 0");
-
-        throw e;*/
+        throw GMException("Non-Invertible",
+                          "Inverse of Non-Invertible Matrix (division by zero) from Mat2f");
     } else {
         out.m[0] =   m[3] / determinant;    out.m[1] = -(m[1] / determinant);
         out.m[2] = -(m[2] / determinant);   out.m[3] =   m[0] / determinant;
