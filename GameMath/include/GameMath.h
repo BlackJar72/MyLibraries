@@ -89,7 +89,7 @@ class Vec3f {
         Vec3f div(const float b);
         void set(const int index, const float value);
         float get(const int index) const;
-        float cross(const Vec3f &b);
+        Vec3f cross(const Vec3f &b);
         bool equals(const Vec3f &b) const;
         friend const Vec3f operator+(const Vec3f &a, const Vec3f &b);
         friend const Vec3f operator-(const Vec3f &a, const Vec3f &b);
@@ -116,6 +116,7 @@ class Vec3f {
         float data[3];
         friend class Mat3f;
         friend class Mat4f;
+        friend class Quaternion;
 };
 
 
@@ -165,6 +166,7 @@ class Vec4f {
     private:
         float data[4];
         friend class Mat4f;
+        friend class Quaternion;
 };
 
 
@@ -295,13 +297,33 @@ class Mat4f {
 };
 
 
-class Quanternion {
+class Quaternion {
     public:
-        Quanternion();
-        virtual ~Quanternion();
+        Quaternion(float x, float y, float z, float w);
+        virtual ~Quaternion();
+        Quaternion conjugate() const;
+        Quaternion mul(const Quaternion &b) const;
+        Quaternion mul(const Vec4f &b) const;
+        Quaternion mul(const Vec3f &b) const;
+        const float length() const;
+        void normalize();
+        Quaternion getNormalized() const;
+        Quaternion add(const Quaternion &b) const;
+        Quaternion sub(const Quaternion &b) const;
+        void set(size_t index, float value);
+        const float get(size_t index) const;
+        const bool equals(const Quaternion &other) const;
+        void rotate(Vec3f &in) const;
+        void rotate(const Vec3f &in, Vec3f &out) const;
+        Vec3f getRotatef(const Vec3f &in) const;
+        void rotate(Vec4f &in) const;
+        void rotate(const Vec4f &in, Vec4f &out) const;
+        Vec4f getRotatef(const Vec4f &in) const;
+        // TODO: Operators
     protected:
     private:
         float data[4];
+        Quaternion();
 };
 
 

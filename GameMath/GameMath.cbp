@@ -39,6 +39,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/GameMath.h" />
+		<Unit filename="src/GMException.cpp" />
 		<Unit filename="src/Mat2f.cpp" />
 		<Unit filename="src/Mat3f.cpp" />
 		<Unit filename="src/Mat4f.cpp" />

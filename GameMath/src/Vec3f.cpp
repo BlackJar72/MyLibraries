@@ -95,8 +95,8 @@ float Vec3f::get(const int index) const {
 }
 
 
-float Vec3f::cross(const Vec3f &b) {
-    return (((data[1] * b.data[2]) - (data[2] * b.data[1])),
+Vec3f Vec3f::cross(const Vec3f &b) {
+    return Vec3f(((data[1] * b.data[2]) - (data[2] * b.data[1])),
             ((data[2] * b.data[0]) - (data[0] * b.data[2])),
             ((data[0] * b.data[1]) - (data[1] * b.data[0])));
 }
