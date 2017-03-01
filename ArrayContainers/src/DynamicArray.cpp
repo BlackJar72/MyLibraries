@@ -46,12 +46,18 @@ template <class T>
 void DynamicArray<T>::add(T added, unsigned int index) {
     if(index > elements) {
         // index may be equal to elements; this would be the same as add(T).
-        // TODO: Throw exception
+        throw IndexOutOfBound();
     } else if(index == elements) {
         add(added);
     } else {
-        // TDOD: Implement this
         elements++;
+        if(elements >= length) {
+            grow();
+        }
+        for(unsigned int i = index; i < (elements - 1); i++) {
+            data[i+1] = data[i];
+        }
+        data[index] = added;
     }
 }
 
@@ -59,8 +65,7 @@ void DynamicArray<T>::add(T added, unsigned int index) {
 template <class T>
 void DynamicArray<T>::set(T added, unsigned int index) {
     if(index >= elements) {
-        // TODO: Throw execption
-        return;
+        throw IndexOutOfBound();
     }
     data[index] = added;
 }
@@ -85,7 +90,28 @@ void DynamicArray<T>::reset() {
 
 
 template <class T>
+T DynamicArray<T>::peek() {
+    T* out = data + position;
+    return *out;
+}
+
+
+template <class T>
 T DynamicArray<T>::getNext() {
+    if(position >= elements) {
+        throw IndexOutOfBound();
+    }
+    T* out = data + position;
+    position++;
+    return *out;
+}
+
+
+template <class T>
+T DynamicArray<T>::getNextWrap() {
+    if(position >= elements) {
+            position = 0;
+    }
     T* out = data + position;
     position++;
     return *out;
@@ -95,10 +121,61 @@ T DynamicArray<T>::getNext() {
 template <class T>
 T DynamicArray<T>::get(const unsigned int index) const {
     if(index >= elements) {
-        // TODO: Throw exception
-        return data[0];
+        throw IndexOutOfBound();
     }
     return data[index];
+}
+
+
+template <class T>
+void DynamicArray<T>::remove(unsigned int index) {
+    if(index >= elements) {
+        throw IndexOutOfBound();
+    }
+    // Move all subsequent elements to preserve order
+    for(unsigned int i = index + 1; i < elements; i++) {
+        data[i-1] = data[i];
+    }
+    elements--;
+}
+
+
+template <class T>
+void DynamicArray<T>::removeFast(unsigned int index) {
+    if(index >= elements) {
+        throw IndexOutOfBound();
+    }
+    // Swap with the last elements; sacrifice order for speed
+    data[index] = data[elements - 1];
+    elements--;
+}
+
+
+template <class T>
+void DynamicArray<T>::removeAll(const T &in) {
+    unsigned int removed = 0;
+    for(unsigned int i = 0; i < elements; i++) {
+        if(removed) {
+            data[i - removed] = data[i];
+        }
+        if(data[i - removed] == in) {
+            removed++;
+        }
+        elements -= removed;
+    }
+}
+
+
+template <class T>
+void DynamicArray<T>::removeAllFast(const T &in) {
+    unsigned int removed = 0;
+    for(unsigned int i = 0; i < elements; i++) {
+        if(data[i] == in) {
+            removed++;
+            data[i] = data[elements - removed];
+        }
+        elements -= removed;
+    }
 }
 
 
