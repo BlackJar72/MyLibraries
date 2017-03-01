@@ -315,10 +315,10 @@ class Quaternion {
         const bool equals(const Quaternion &other) const;
         void rotate(Vec3f &in) const;
         void rotate(const Vec3f &in, Vec3f &out) const;
-        Vec3f getRotatef(const Vec3f &in) const;
+        Vec3f getRotated(const Vec3f &in) const;
         void rotate(Vec4f &in) const;
         void rotate(const Vec4f &in, Vec4f &out) const;
-        Vec4f getRotatef(const Vec4f &in) const;
+        Vec4f getRotated(const Vec4f &in) const;
         // TODO: Operators
     protected:
     private:

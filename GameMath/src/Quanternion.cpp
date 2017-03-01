@@ -119,7 +119,7 @@ void Quaternion::rotate(const Vec3f &in, Vec3f &out) const {
 }
 
 
-Vec3f Quaternion::getRotatef(const Vec3f &in) const {
+Vec3f Quaternion::getRotated(const Vec3f &in) const {
     Vec3f u = Vec3f(data[0], data[1], data[2]);
     return (((2.0 * u.dot(in) * u)
          + (((data[3]*data[3]) - u.dot(u)) * in))
@@ -151,7 +151,7 @@ void Quaternion::rotate(const Vec4f &in, Vec4f &out) const {
 }
 
 
-Vec4f Quaternion::getRotatef(const Vec4f &in) const {
+Vec4f Quaternion::getRotated(const Vec4f &in) const {
     Vec3f u = Vec3f(data[0], data[1], data[2]);
     Vec3f v = Vec3f(in.data[0], in.data[1], in.data[2]);
     Vec3f p = ((2.0 * u.dot(v) * u)
