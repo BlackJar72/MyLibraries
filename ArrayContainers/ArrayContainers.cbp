@@ -44,6 +44,7 @@
 		<Unit filename="src/ArrayContainer.cpp" />
 		<Unit filename="src/ArrayList.cpp" />
 		<Unit filename="src/DynamicArray.cpp" />
+		<Unit filename="src/IndexOutOfBound.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

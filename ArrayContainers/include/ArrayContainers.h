@@ -18,7 +18,7 @@ class DynamicArray {
         DynamicArray();
         virtual ~DynamicArray();
         void add(T added);
-        void add(T added, unsigned int index); // TODO: Not yet implemented
+        void add(T added, unsigned int index);
         void set(T added, unsigned int index);
         T get(const unsigned int index) const;
         T peek();
@@ -43,23 +43,36 @@ class DynamicArray {
 };
 
 
+// A hash table mapping string to type T
+// this will be use in the registry class
+// below to map strings to ints (indicies).
 template <class T>
-class ArrayContainer : public DynamicArray<T> {
-    public:
-        ArrayContainer();
-        virtual ~ArrayContainer();
-    protected:
-    private:
-};
-
-
-template <class T>
-class ArrayList : public DynamicArray<T> {
+class StringHashTable : public DynamicArray<T> {
     public:
         ArrayList();
         virtual ~ArrayList();
     protected:
     private:
+};
+
+
+// A resources locater class mapping string to both ints and
+// to type T (through the ints, as indices).  In use the ints
+// should be gotten and cached for fast access to the underlying
+// resource (objects of type T).  For example, to load and find
+// images or models by a human-friendly name, but then access
+// them with array-like speed in performance critical use.
+template <class T>
+class Registry {
+    // TODO:  Needs more planning; will use and array for data and a
+    // hash table or strings to indices within the first array.
+    public:
+        ArrayContainer();
+        virtual ~ArrayContainer();
+    protected:
+    private:
+        T* data;
+        void grow();
 };
 
 }
