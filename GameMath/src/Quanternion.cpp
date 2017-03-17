@@ -6,11 +6,11 @@ Quaternion::Quaternion() {}
 Quaternion::~Quaternion() {}
 
 
-Quaternion::Quaternion(float x, float y, float z, float w) {
-        data[0] = x;
-        data[1] = y;
-        data[2] = z;
-        data[3] = w;
+Quaternion::Quaternion(float w, float x, float y, float z) {
+        data[0] = w;
+        data[1] = x;
+        data[2] = y;
+        data[3] = z;
 }
 
 
@@ -25,24 +25,6 @@ Quaternion Quaternion::mul(const Quaternion &b) const {
         data[1] * b.data[3] + data[3] * b.data[1] + data[2] * b.data[0] - data[0] * b.data[2],
         data[2] * b.data[3] + data[3] * b.data[2] + data[0] * b.data[1] - data[1] * b.data[0],
         data[3] * b.data[3] - data[0] * b.data[0] - data[1] * b.data[1] - data[2] * b.data[2]);
-}
-
-
-Quaternion Quaternion::mul(const Vec4f &b) const {
-    return Quaternion(
-        data[0] * b.data[3] + data[3] * b.data[0] + data[1] * b.data[2] - data[2] * b.data[1],
-        data[1] * b.data[3] + data[3] * b.data[1] + data[2] * b.data[0] - data[0] * b.data[2],
-        data[2] * b.data[3] + data[3] * b.data[2] + data[0] * b.data[1] - data[1] * b.data[0],
-        data[3] * b.data[3] - data[0] * b.data[0] - data[1] * b.data[1] - data[2] * b.data[2]);
-}
-
-
-Quaternion Quaternion::mul(const Vec3f &b) const {
-    return Quaternion(
-        data[3] * b.data[0] + data[1] * b.data[2] - data[2] * b.data[1],
-        data[3] * b.data[1] + data[2] * b.data[0] - data[0] * b.data[2],
-        data[3] * b.data[2] + data[0] * b.data[1] - data[1] * b.data[0],
-        data[0] * b.data[0] - data[1] * b.data[1] - data[2] * b.data[2]);
 }
 
 
@@ -161,9 +143,79 @@ Vec4f Quaternion::getRotated(const Vec4f &in) const {
 }
 
 
+Mat4f& Quaternion::toMat4f(Mat4f &in) const {
+    in.m[0] = 1 - (2 * data[2] * data[2]) - (2 * data[3] * data[3]);
+    in.m[1] = (2 * data[1] * data[2]) - (2 * data[0] * data[3]);
+    in.m[2] = (2 * data[1] * data[3]) - (2 * data[0] * data[2]);
+    in.m[3] = 0;
+
+    in.m[4] = (2 * data[1] * data[2]) - (2 * data[0] * data[3]);
+    in.m[5] = 1 - (2 * data[1] * data[1]) - (2 * data[3] * data[3]);
+    in.m[6] = (2 * data[2] * data[3]) - (2 * data[0] * data[0]);
+    in.m[7] = 0;
+
+    in.m[8]  = (2 * data[1] * data[3]) - (2 * data[0] * data[2]);
+    in.m[9]  = (2 * data[2] * data[3]) - (2 * data[0] * data[1]);
+    in.m[10] = 1 - (2 * data[1] * data[1]) - (2 * data[2] * data[2]);
+    in.m[11] = 0;
+
+    in.m[12] = 0;   in.m[13] = 0;   in.m[14] = 0;   in.m[15] = 1;
+
+    return in;
+}
+
+
+Quaternion& Quaternion::fromMat4f(Mat4f &in) {
+    data[0] = sqrt(1.0 + in.m[0] + in.m[5] + in.m[10]) / 2.0;
+    double w4 = (4.0 * data[0]);
+    data[1] = (in.m[9] - in.m[6]) / w4;
+    data[2] = (in.m[2] - in.m[8]) / w4;
+    data[3] = (in.m[4] - in.m[1]) / w4;
+    return *this;
+}
+
+
 /*-------------------------------------------------------------------------*/
 /*                                OPERATORS                                */
 /*-------------------------------------------------------------------------*/
+
+
+const Quaternion operator+(const Quaternion &a, const Quaternion &b) {
+    return Quaternion(a.data[0] + b.data[0], a.data[1] + b.data[1],
+                      a.data[2] + b.data[2], a.data[3] + b.data[3]);
+}
+
+
+const Quaternion operator-(const Quaternion &a, const Quaternion &b) {
+    return Quaternion(a.data[0] - b.data[0], a.data[1] - b.data[1],
+                      a.data[2] - b.data[2], a.data[3] - b.data[3]);
+}
+
+
+const Quaternion operator*(const Quaternion &a, const Quaternion &b) {
+    return Quaternion(
+        a.data[0] * b.data[3] + a.data[3] * b.data[0] + a.data[1] * b.data[2] - a.data[2] * b.data[1],
+        a.data[1] * b.data[3] + a.data[3] * b.data[1] + a.data[2] * b.data[0] - a.data[0] * b.data[2],
+        a.data[2] * b.data[3] + a.data[3] * b.data[2] + a.data[0] * b.data[1] - a.data[1] * b.data[0],
+        a.data[3] * b.data[3] - a.data[0] * b.data[0] - a.data[1] * b.data[1] - a.data[2] * b.data[2]);
+}
+
+
+const Vec3f Quaternion::operator*(const Vec3f &b) const {
+    Vec3f u = Vec3f(data[0], data[1], data[2]);
+    Vec3f v = Vec3f(b.data[0], b.data[1], b.data[2]);
+    return ((2.0 * u.dot(v) * u)
+            + (((data[3]*data[3]) - u.dot(u)) * v))
+            + ((2.0 * data[3]) * u.cross(v));
+}
+
+
+const bool operator==(const Quaternion &a, const Quaternion &b) {
+    return ((a.data[0] == b.data[0]) &&
+            (a.data[1] == b.data[1]) &&
+            (a.data[2] == b.data[2]) &&
+            (a.data[3] == b.data[3]));
+}
 
 
 }

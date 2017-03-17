@@ -294,6 +294,7 @@ class Mat4f {
     protected:
     private:
         float m[16];
+        friend class Quaternion;
 };
 
 
@@ -303,8 +304,6 @@ class Quaternion {
         virtual ~Quaternion();
         Quaternion conjugate() const;
         Quaternion mul(const Quaternion &b) const;
-        Quaternion mul(const Vec4f &b) const;
-        Quaternion mul(const Vec3f &b) const;
         const float length() const;
         void normalize();
         Quaternion getNormalized() const;
@@ -319,7 +318,14 @@ class Quaternion {
         void rotate(Vec4f &in) const;
         void rotate(const Vec4f &in, Vec4f &out) const;
         Vec4f getRotated(const Vec4f &in) const;
+        Mat4f& toMat4f(Mat4f &in) const;
+        Quaternion& fromMat4f(Mat4f &in);
         // TODO: Operators
+        friend const Quaternion operator+(const Quaternion &a, const Quaternion &b);
+        friend const Quaternion operator-(const Quaternion &a, const Quaternion &b);
+        friend const Quaternion operator*(const Quaternion &a, const Quaternion &b);
+        const Vec3f operator*(const Vec3f &b) const;
+        friend const bool operator==(const Quaternion &a, const Quaternion &b);
     protected:
     private:
         float data[4];
