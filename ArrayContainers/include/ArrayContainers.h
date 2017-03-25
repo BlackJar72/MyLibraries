@@ -49,8 +49,8 @@ class DynamicArray {
 template <class T>
 class StringHashTable : public DynamicArray<T> {
     public:
-        ArrayList();
-        virtual ~ArrayList();
+        StringHashTable();
+        virtual ~StringHashTable();
     protected:
     private:
 };
@@ -67,8 +67,8 @@ class Registry {
     // TODO:  Needs more planning; will use and array for data and a
     // hash table or strings to indices within the first array.
     public:
-        ArrayContainer();
-        virtual ~ArrayContainer();
+        Registry();
+        virtual ~Registry();
     protected:
     private:
         T* data;
