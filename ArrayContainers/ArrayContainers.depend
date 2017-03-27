@@ -11,3 +11,16 @@
 	"ArrayContainers.h"
 	<cstring>
 
+1490400033 source:/home/jared/Documents/src/MyLibraries/ArrayContainers/src/IndexOutOfBound.cpp
+	"ArrayContainers.h"
+
+1490582673 /home/jared/Documents/src/MyLibraries/ArrayContainers/include/ArrayContainers.h
+
+1490400588 source:/home/jared/Documents/src/MyLibraries/ArrayContainers/src/Registry.cpp
+
+1490400641 source:/home/jared/Documents/src/MyLibraries/ArrayContainers/src/StringHashTable.cpp
+
+1490582136 source:/home/jared/Documents/src/MyLibraries/ArrayContainers/src/DynamicArray.cpp
+	"ArrayContainers.h"
+	<cstring>
+

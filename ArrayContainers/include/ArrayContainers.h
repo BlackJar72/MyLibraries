@@ -30,16 +30,21 @@ class DynamicArray {
         void removeAllFast(const T &in);
         bool hasMore() const;
         unsigned int size() const;
+        const T* getArray() const;
         void reset(); // Sets position for getNext() to 0
+        const T& operator[](const unsigned int index) const;
     protected:
+    private:
+        T* data;
         static const int INIT_SIZE;
         static const float GROWTH_FACTOR;
+        static const float SHRINK_FACTOR;
+        static const float SHRINK_THRESHOLD;
         unsigned int elements;  // The number of elements stored
         unsigned int length;    // The size of the array
         unsigned int position;  // The current element for getNext()
-        T* data;
-    private:
         void grow();
+        void shrink();
 };
 
 

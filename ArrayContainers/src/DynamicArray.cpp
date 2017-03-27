@@ -7,6 +7,10 @@ template <class T>
 const int DynamicArray<T>::INIT_SIZE = 16;
 template <class T>
 const float DynamicArray<T>::GROWTH_FACTOR = 1.5;
+template <class T>
+const float DynamicArray<T>::SHRINK_FACTOR = 0.5;
+template <class T>
+const float DynamicArray<T>::SHRINK_THRESHOLD = 0.25;
 
 template <class T>
 DynamicArray<T>::DynamicArray() {
@@ -18,6 +22,9 @@ DynamicArray<T>::DynamicArray() {
 
 template <class T>
 DynamicArray<T>::~DynamicArray() {
+    // This does not delete objects that are stored; if
+    // such objects are of a type that requires deletion
+    // this must be done separately.
     delete data;
 }
 
@@ -29,6 +36,22 @@ void DynamicArray<T>::grow() {
     memcpy(bigger, data, elements * sizeof(T));
     delete data;
     data = bigger;
+}
+
+
+template <class T>
+void DynamicArray<T>::shrink() {
+    if(length <= INIT_SIZE) {
+        return;
+    }
+    length *= SHRINK_FACTOR;
+    if(length < INIT_SIZE) {
+        length = INIT_SIZE;
+    }
+    T* smaller = new T(length);
+    memcpy(smaller, data, elements * sizeof(T));
+    delete data;
+    data = smaller;
 }
 
 
@@ -137,6 +160,9 @@ void DynamicArray<T>::remove(unsigned int index) {
         data[i-1] = data[i];
     }
     elements--;
+    if(elements < (length * SHRINK_THRESHOLD)) {
+        shrink();
+    }
 }
 
 
@@ -148,6 +174,9 @@ void DynamicArray<T>::removeFast(unsigned int index) {
     // Swap with the last elements; sacrifice order for speed
     data[index] = data[elements - 1];
     elements--;
+    if(elements < (length * SHRINK_THRESHOLD)) {
+        shrink();
+    }
 }
 
 
@@ -163,6 +192,9 @@ void DynamicArray<T>::removeAll(const T &in) {
         }
         elements -= removed;
     }
+    if(elements < (length * SHRINK_THRESHOLD)) {
+        shrink();
+    }
 }
 
 
@@ -176,6 +208,26 @@ void DynamicArray<T>::removeAllFast(const T &in) {
         }
         elements -= removed;
     }
+    if(elements < (length * SHRINK_THRESHOLD)) {
+        shrink();
+    }
+}
+
+
+/*
+ * This is intended to get the array for use with
+ * C libraries / APIs.
+ */
+template <class T>
+const T* DynamicArray<T>::getArray() const {
+    return data;
+}
+
+
+template <class T>
+const T& DynamicArray<T>::operator[](const unsigned int index) const {
+    assert((index >= 0) || (index < size));
+    return data[index];
 }
 
 
