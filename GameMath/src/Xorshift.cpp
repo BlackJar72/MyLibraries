@@ -25,7 +25,7 @@ unsigned int Xorshift::nextInt() {
     val += 15485863;
     // ...for basic, blazing fast xorshift this is all you need.*/
     val ^= val << 13;
-    val ^= val << 17;
+    val ^= val >> 17;
     val ^= val << 5;
     return val;
 }
