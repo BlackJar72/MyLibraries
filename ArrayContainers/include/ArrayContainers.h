@@ -7,9 +7,12 @@ namespace ArrayContainers {
 class IndexOutOfBound {
     public:
         IndexOutOfBound();
+        IndexOutOfBound(const std::string src);
+        const std::string getSource() const;
         virtual ~IndexOutOfBound();
     protected:
     private:
+        std::string source;
 };
 
 unsigned int StringHash(const std::string &s);

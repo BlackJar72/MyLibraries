@@ -62,7 +62,7 @@ template <class T>
 void DynamicArray<T>::add(T added, unsigned int index) {
     if(index > elements) {
         // index may be equal to elements; this would be the same as add(T).
-        throw IndexOutOfBound();
+        throw IndexOutOfBound("void DynamicArray<T>::add(T added, unsigned int index)" + endl);
     } else if(index == elements) {
         add(added);
     } else {
@@ -81,7 +81,7 @@ void DynamicArray<T>::add(T added, unsigned int index) {
 template <class T>
 void DynamicArray<T>::set(T added, unsigned int index) {
     if(index >= elements) {
-        throw IndexOutOfBound();
+        throw IndexOutOfBound("void DynamicArray<T>::set(T added, unsigned int index)" + endl);
     }
     data[index] = added;
 }
@@ -115,7 +115,7 @@ T DynamicArray<T>::peek() {
 template <class T>
 T DynamicArray<T>::getNext() {
     if(position >= elements) {
-        throw IndexOutOfBound();
+        throw IndexOutOfBound("T DynamicArray<T>::getNext()" + endl);
     }
     T* out = data + position;
     position++;
@@ -137,7 +137,7 @@ T DynamicArray<T>::getNextWrap() {
 template <class T>
 T DynamicArray<T>::get(const unsigned int index) const {
     if(index >= elements) {
-        throw IndexOutOfBound();
+        throw IndexOutOfBound("T DynamicArray<T>::get(const unsigned int index) const" + endl);
     }
     return data[index];
 }
@@ -146,7 +146,7 @@ T DynamicArray<T>::get(const unsigned int index) const {
 template <class T>
 void DynamicArray<T>::remove(unsigned int index) {
     if(index >= elements) {
-        throw IndexOutOfBound();
+        throw IndexOutOfBound("void DynamicArray<T>::remove(unsigned int index)" + endl);
     }
     // Move all subsequent elements to preserve order
     for(unsigned int i = index + 1; i < elements; i++) {
@@ -162,7 +162,7 @@ void DynamicArray<T>::remove(unsigned int index) {
 template <class T>
 void DynamicArray<T>::removeFast(unsigned int index) {
     if(index >= elements) {
-        throw IndexOutOfBound();
+        throw IndexOutOfBound("void DynamicArray<T>::removeFast(unsigned int index)" + endl);
     }
     // Swap with the last elements; sacrifice order for speed
     data[index] = data[elements - 1];

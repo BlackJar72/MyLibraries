@@ -1,8 +1,19 @@
 #include "ArrayContainers.h"
+#include <string>
 
 namespace ArrayContainers {
 
-IndexOutOfBound::IndexOutOfBound() {}
+IndexOutOfBound::IndexOutOfBound() : source( "" )  {}
+
+
+IndexOutOfBound::IndexOutOfBound(const std::string src) : source ( src ) {}
+
+
+
+const std::string IndexOutOfBound::getSource() const {
+    return source;
+}
+
 
 IndexOutOfBound::~IndexOutOfBound() {}
 
