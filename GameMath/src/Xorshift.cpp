@@ -11,7 +11,7 @@ Xorshift::Xorshift() {
 
 
 Xorshift::Xorshift(unsigned int seed) {
-    val = this->seed = time(0);
+    val = this->seed = seed;
 }
 
 

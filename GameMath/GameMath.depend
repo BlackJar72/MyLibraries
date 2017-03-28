@@ -50,3 +50,43 @@
 1488298374 source:/home/jared/Libraries/cpp/src/Mine/GameMath/src/GMException.cpp
 	"GameMath.h"
 
+1490400033 source:/home/jared/Documents/src/MyLibraries/GameMath/src/GMException.cpp
+	"GameMath.h"
+
+1490718896 /home/jared/Documents/src/MyLibraries/GameMath/include/GameMath.h
+	<cmath>
+	<string>
+
+1490400033 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Mat2f.cpp
+	"GameMath.h"
+
+1490400033 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Mat3f.cpp
+	"GameMath.h"
+
+1490400033 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Mat4f.cpp
+	"GameMath.h"
+
+1490400033 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Quanternion.cpp
+	"GameMath.h"
+
+1490718572 source:/home/jared/Documents/src/MyLibraries/GameMath/src/SpatialRandom.cpp
+	"GameMath.h"
+	<ctime>
+
+1490400033 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Vec2f.cpp
+	"GameMath.h"
+
+1490400033 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Vec3f.cpp
+	"GameMath.h"
+
+1490400033 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Vec4f.cpp
+	"GameMath.h"
+
+1490718437 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Xorshift64.cpp
+	"GameMath.h"
+	<ctime>
+
+1490718415 source:/home/jared/Documents/src/MyLibraries/GameMath/src/Xorshift.cpp
+	"GameMath.h"
+	<ctime>
+

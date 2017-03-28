@@ -11,7 +11,7 @@ SpatialRandom::SpatialRandom() {
 
 
 SpatialRandom::SpatialRandom(unsigned long int seed) {
-    val = this->seed = time(0);
+    val = this->seed = seed;
 }
 
 

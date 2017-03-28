@@ -12,7 +12,7 @@ Xorshift64::Xorshift64() {
 
 
 Xorshift64::Xorshift64(unsigned long int seed) {
-    val = this->seed = time(0);
+    val = this->seed = seed;
 }
 
 
