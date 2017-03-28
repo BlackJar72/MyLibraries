@@ -14,6 +14,12 @@ class IndexOutOfBound {
 
 unsigned int StringHash(const std::string &s);
 
+const int   D_ARRAY_INIT_SIZE = 16;
+const float D_ARRAY_GROWTH_FACTOR = 1.5;
+const float D_ARRAY_SHRINK_FACTOR = 0.5;
+const float D_ARRAY_SHRINK_THRESHOLD = 0.25;
+
+
 template <class T>
 class DynamicArray {
     public:
@@ -38,10 +44,6 @@ class DynamicArray {
     protected:
     private:
         T* data;
-        static const int INIT_SIZE;
-        static const float GROWTH_FACTOR;
-        static const float SHRINK_FACTOR;
-        static const float SHRINK_THRESHOLD;
         unsigned int elements;  // The number of elements stored
         unsigned int length;    // The size of the array
         unsigned int position;  // The current element for getNext()
@@ -49,32 +51,28 @@ class DynamicArray {
         void shrink();
 };
 
-/*-------------------------------------------------------------*
- *      SERIOUSLY CONSIDERING BREAKING THIS INTO PIECES        *
- *-------------------------------------------------------------*/
-
 
 // This is a helper class to hold the data, allowing
 // it to act as a singly linked list in case of either
 // hash collision or simple slot collisions.
 template <class T>
-class Node {
+class StringHashNode {
     public:
-        Node(std::string key, T value);
+        StringHashNode(std::string key, T value);
         void add(std::string key, T value);
         // Used in removal to check if the first should be removed
         bool matchs(std::string key);
         // For removal of first node
-        Node<T>* getNextNode();
+        StringHashNode<T>* getNextNode();
         // For removal of other nodes
         void remove(std::string key);
         T get(std::string key);
-        virtual ~Node();
+        virtual ~StringHashNode();
     private:
-        Node();
+        StringHashNode();
         std::string key;
         T value;
-        Node<T>* next;
+        StringHashNode<T>* next;
 };
 
 
@@ -88,6 +86,7 @@ class StringHashTable {
         virtual ~StringHashTable();
     protected:
     private:
+        StringHashNode<T>* data;
 };
 
 
@@ -107,6 +106,7 @@ class Registry {
     protected:
     private:
         T* data;
+        //StringHashTable<int> nameMap;
         void grow();
 };
 

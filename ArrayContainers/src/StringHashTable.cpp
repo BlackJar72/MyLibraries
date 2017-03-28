@@ -7,7 +7,7 @@ namespace ArrayContainers {
 
 
 template <class T>
-Node<T>::Node(string key, T value) {
+StringHashNode<T>::StringHashNode(string key, T value) {
     this->value = value;
     this->key  = key;
     next = NULL;
@@ -15,13 +15,13 @@ Node<T>::Node(string key, T value) {
 
 
 template <class T>
-Node<T>::Node(){/*Do norhing; this should never be called*/}
+StringHashNode<T>::StringHashNode(){/*Do nothing. Never use this!*/}
 
 
 template <class T>
-void Node<T>::add(string key, T value) {
+void StringHashNode<T>::add(string key, T value) {
     if(next == NULL) {
-        next = new Node(key, value);
+        next = new StringHashNode(key, value);
     } else {
         next->addValue(key, value);
     }
@@ -30,24 +30,24 @@ void Node<T>::add(string key, T value) {
 
 // Used in removal to check if the first should be removed
 template <class T>
-bool Node<T>::matchs(string key) {
+bool StringHashNode<T>::matchs(string key) {
     return (key.compare(this->key) == 0);
 }
 
 
 // For removal of first node
 template <class T>
-Node<T>* Node<T>::getNextNode() {
+StringHashNode<T>* StringHashNode<T>::getNextNode() {
     return next;
 }
 
 
 // For removal of other nodes
 template <class T>
-void Node<T>::remove(string key) {
+void StringHashNode<T>::remove(string key) {
     assert(next != NULL); // Should never happen; implies searching wrong bucket
     if(next->key.compare(key) == 0){
-        Node<T>* tmp = next;
+        StringHashNode<T>* tmp = next;
         next = next->next;
         delete tmp;
     } else {
@@ -57,7 +57,7 @@ void Node<T>::remove(string key) {
 
 
 template <class T>
-T Node<T>::get(string key) {
+T StringHashNode<T>::get(string key) {
     // Question: Does C++ short-cicuit like Java and D?
     // That would allow this to be collapsed into a single if.
     if(next == NULL) {
@@ -73,13 +73,17 @@ T Node<T>::get(string key) {
 
 
 template <class T>
-Node<T>::~Node(){
+StringHashNode<T>::~StringHashNode(){
     if(next != NULL) {
         ~next();
     }
 }
 
-
+/*
+ * This will produce a usable hash of a string.
+ * Its primarily for generating decent hashes for
+ * use in hash maps / hash tables.
+ */
 unsigned int StringHash(const string &s) {
     unsigned int out = 0;
     unsigned int i = 0;

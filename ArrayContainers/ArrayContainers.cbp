@@ -44,7 +44,7 @@
 		<Unit filename="include/ArrayContainers.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/DynamicArray.cpp" />
+		<Unit filename="src/ArrayList.cpp" />
 		<Unit filename="src/IndexOutOfBound.cpp" />
 		<Unit filename="src/Registry.cpp" />
 		<Unit filename="src/StringHashTable.cpp" />

@@ -3,18 +3,11 @@
 
 namespace ArrayContainers {
 
-template <class T>
-const int DynamicArray<T>::INIT_SIZE = 16;
-template <class T>
-const float DynamicArray<T>::GROWTH_FACTOR = 1.5;
-template <class T>
-const float DynamicArray<T>::SHRINK_FACTOR = 0.5;
-template <class T>
-const float DynamicArray<T>::SHRINK_THRESHOLD = 0.25;
+
 
 template <class T>
 DynamicArray<T>::DynamicArray() {
-    length = INIT_SIZE;
+    length = D_ARRAY_INIT_SIZE;
     position = elements = 0;
     data = new T[length];
 }
@@ -31,7 +24,7 @@ DynamicArray<T>::~DynamicArray() {
 
 template <class T>
 void DynamicArray<T>::grow() {
-    length *= GROWTH_FACTOR;
+    length *= D_ARRAY_GROWTH_FACTOR;
     T* bigger = new T(length);
     memcpy(bigger, data, elements * sizeof(T));
     delete data;
@@ -41,12 +34,12 @@ void DynamicArray<T>::grow() {
 
 template <class T>
 void DynamicArray<T>::shrink() {
-    if(length <= INIT_SIZE) {
+    if(length <= D_ARRAY_INIT_SIZE) {
         return;
     }
-    length *= SHRINK_FACTOR;
-    if(length < INIT_SIZE) {
-        length = INIT_SIZE;
+    length *= D_ARRAY_SHRINK_FACTOR;
+    if(length < D_ARRAY_INIT_SIZE) {
+        length = D_ARRAY_INIT_SIZE;
     }
     T* smaller = new T(length);
     memcpy(smaller, data, elements * sizeof(T));
@@ -160,7 +153,7 @@ void DynamicArray<T>::remove(unsigned int index) {
         data[i-1] = data[i];
     }
     elements--;
-    if(elements < (length * SHRINK_THRESHOLD)) {
+    if(elements < (length * D_ARRAY_SHRINK_THRESHOLD)) {
         shrink();
     }
 }
@@ -174,7 +167,7 @@ void DynamicArray<T>::removeFast(unsigned int index) {
     // Swap with the last elements; sacrifice order for speed
     data[index] = data[elements - 1];
     elements--;
-    if(elements < (length * SHRINK_THRESHOLD)) {
+    if(elements < (length * D_ARRAY_SHRINK_THRESHOLD)) {
         shrink();
     }
 }
@@ -192,7 +185,7 @@ void DynamicArray<T>::removeAll(const T &in) {
         }
         elements -= removed;
     }
-    if(elements < (length * SHRINK_THRESHOLD)) {
+    if(elements < (length * D_ARRAY_SHRINK_THRESHOLD)) {
         shrink();
     }
 }
@@ -208,7 +201,7 @@ void DynamicArray<T>::removeAllFast(const T &in) {
         }
         elements -= removed;
     }
-    if(elements < (length * SHRINK_THRESHOLD)) {
+    if(elements < (length * D_ARRAY_SHRINK_THRESHOLD)) {
         shrink();
     }
 }
