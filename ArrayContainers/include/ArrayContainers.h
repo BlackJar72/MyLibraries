@@ -1,5 +1,6 @@
 #ifndef ARRAYCONTAINERS_H
 #define ARRAYCONTAINERS_H
+#include <string>
 
 namespace ArrayContainers {
 
@@ -11,6 +12,7 @@ class IndexOutOfBound {
     private:
 };
 
+unsigned int StringHash(const std::string &s);
 
 template <class T>
 class DynamicArray {
@@ -47,12 +49,40 @@ class DynamicArray {
         void shrink();
 };
 
+/*-------------------------------------------------------------*
+ *      SERIOUSLY CONSIDERING BREAKING THIS INTO PIECES        *
+ *-------------------------------------------------------------*/
+
+
+// This is a helper class to hold the data, allowing
+// it to act as a singly linked list in case of either
+// hash collision or simple slot collisions.
+template <class T>
+class Node {
+    public:
+        Node(std::string key, T value);
+        void add(std::string key, T value);
+        // Used in removal to check if the first should be removed
+        bool matchs(std::string key);
+        // For removal of first node
+        Node<T>* getNextNode();
+        // For removal of other nodes
+        void remove(std::string key);
+        T get(std::string key);
+        virtual ~Node();
+    private:
+        Node();
+        std::string key;
+        T value;
+        Node<T>* next;
+};
+
 
 // A hash table mapping string to type T
 // this will be use in the registry class
 // below to map strings to ints (indicies).
 template <class T>
-class StringHashTable : public DynamicArray<T> {
+class StringHashTable {
     public:
         StringHashTable();
         virtual ~StringHashTable();
