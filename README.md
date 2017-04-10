@@ -4,6 +4,12 @@ Just a place to keep my person static libraries.
 
 These may or may not be complete, many are likely to be works in progress.
 
+These are not intended to replace STL classes, but mostly as a fun learning project.  Having said that, in some cases they can be simpler to work with if less is needed and I suspect the registry class is something I can see using a lot for resource locators.  However, this is mostly a project I'm doing just because I can.
+
+Also note, that these avoid directly using pointers except for the special case of their main data arrays.  This is for flexibilty, as they can be made to hold pointers as the data types.
+
+Like all these libraries, progress on this is likely to be slow simply because its not a priority and other things tend to take precedence over working on this.
+
 # No liability is accepted, period
 
 No liability is accepted for anything related to these, not for any damages or any kind, nor for usefulness / fitness / marketability for any purpose whatsoever.  Actually, these are only being shown, not released.  When and if some of these 
