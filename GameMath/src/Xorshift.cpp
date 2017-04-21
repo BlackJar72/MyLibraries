@@ -42,7 +42,7 @@ unsigned int Xorshift::nextInt(int min, int max) {
 
 
 unsigned long Xorshift::nextLong() {
-    unsigned long int out = nextInt();
+    unsigned long long out = nextInt();
     return (out << 32) + nextInt();
 }
 

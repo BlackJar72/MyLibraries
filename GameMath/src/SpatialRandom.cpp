@@ -10,7 +10,7 @@ SpatialRandom::SpatialRandom() {
 }
 
 
-SpatialRandom::SpatialRandom(unsigned long int seed) {
+SpatialRandom::SpatialRandom(unsigned long long seed) {
     val = this->seed = seed;
 }
 
@@ -18,7 +18,7 @@ SpatialRandom::SpatialRandom(unsigned long int seed) {
 SpatialRandom::~SpatialRandom() {}
 
 
-unsigned long int SpatialRandom::longFor(int x, int y, int z, int t) {
+unsigned long long SpatialRandom::longFor(int x, int y, int z, int t) {
     // This will overflow -- GOOD!
     long out = seed + (15485077L * (long)t)
                     + (12338621L * (long)x)
@@ -32,7 +32,7 @@ unsigned long int SpatialRandom::longFor(int x, int y, int z, int t) {
 }
 
 
-unsigned long int SpatialRandom::longFor(int x, int y, int z) {
+unsigned long long SpatialRandom::longFor(int x, int y, int z) {
     // This will overflow -- GOOD!
     long out = seed + (12338621L * (long)x)
                     + (15485863L * (long)y)
@@ -45,7 +45,7 @@ unsigned long int SpatialRandom::longFor(int x, int y, int z) {
 }
 
 
-unsigned long int SpatialRandom::longFor(int x, int y) {
+unsigned long long SpatialRandom::longFor(int x, int y) {
     // This will overflow -- GOOD!
     long out = seed + (12338621L * (long)x)
                     + (15485863L * (long)y);
@@ -102,12 +102,12 @@ Xorshift64 SpatialRandom::xorshift64For(int x, int y) {
 }
 
 
-unsigned long int SpatialRandom::getSeed() const {
+unsigned long long SpatialRandom::getSeed() const {
     return seed;
 }
 
 
-void SpatialRandom::setSeed(unsigned long int seed) {
+void SpatialRandom::setSeed(unsigned long long seed) {
     val = (this->seed) = seed;
 }
 

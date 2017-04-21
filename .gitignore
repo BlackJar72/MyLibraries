@@ -5,3 +5,5 @@ Debug
 .directory
 /StringTokenizer/dist/Debug/
 /StringTokenizer/build/
+dist/Debug/
+build/

@@ -11,7 +11,7 @@ Xorshift64::Xorshift64() {
 }
 
 
-Xorshift64::Xorshift64(unsigned long int seed) {
+Xorshift64::Xorshift64(unsigned long long seed) {
     val = this->seed = seed;
 }
 
@@ -72,17 +72,17 @@ bool Xorshift64::nextBool() {
 }
 
 
-unsigned long int Xorshift64::getSeed() const {
+unsigned long long Xorshift64::getSeed() const {
     return seed;
 }
 
 
-void Xorshift64::setSeed(unsigned long int seed) {
+void Xorshift64::setSeed(unsigned long long seed) {
     val = this->seed = seed;
 }
 
 
-unsigned int Xorshift64::getFromSeed(unsigned long int seed) const {
+unsigned int Xorshift64::getFromSeed(unsigned long long seed) const {
     // This will overflow -- GOOD!
     seed *= 5443;
     seed += 1548586312338621L;
