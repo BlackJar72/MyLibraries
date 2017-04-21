@@ -29,9 +29,9 @@ public:
     void remove(const unsigned char *in);
     void remove(const string &in);
     void remove(const CharSet &in);
-    CharSet* setUnion(const CharSet &in);
-    CharSet* intersection(const CharSet &in);
-    CharSet* complement();
+    CharSet setUnion(const CharSet &in);
+    CharSet intersection(const CharSet &in);
+    CharSet complement();
     bool contains(const unsigned char &in);
     bool isEmpty();
     virtual ~CharSet();

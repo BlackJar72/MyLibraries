@@ -4,6 +4,11 @@ its inability to account for quotations).  More to the point, it was part of
 Doomlike Dungeons, but I'm porting it to C++, with some minor improvements, 
 for more general use in other projects.
 
+This is probably not the best way to do this, and probably actually be done better 
+with a less object object-oriented approach.  This could have definitely be more 
+memory efficient.  However, its not that big and does work for it's intended 
+purpose.
+
 # This may or may not be complete
 
 I might added a more advance StringLexer, capable of reading into a tree structure 

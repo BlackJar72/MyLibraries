@@ -194,12 +194,12 @@ void CharSet::remove(const CharSet &in)
 /**
  * Return the union of this CharSet and the input.
  */
-CharSet* CharSet::setUnion(const CharSet &in)
+CharSet CharSet::setUnion(const CharSet &in)
 {
-    CharSet* out = new CharSet();
+    CharSet out = CharSet();
     for(int i = 0; i < BYTES; i++)
     {
-        out->data[i] = in.data[i] | data[i];
+        out.data[i] = in.data[i] | data[i];
     }
     return out;
 }
@@ -208,12 +208,12 @@ CharSet* CharSet::setUnion(const CharSet &in)
 /**
  * Return the intersection of this CharSet and the input.
  */
-CharSet* CharSet::intersection(const CharSet &in)
+CharSet CharSet::intersection(const CharSet &in)
 {
-    CharSet* out = new CharSet();
+    CharSet out = CharSet();
     for(int i = 0; i < BYTES; i++)
     {
-        out->data[i] = in.data[i] & data[i];
+        out.data[i] = in.data[i] & data[i];
     }
     return out;
 }
@@ -222,12 +222,12 @@ CharSet* CharSet::intersection(const CharSet &in)
 /**
  * Return the complement of this CharSet.
  */
-CharSet* CharSet::complement()
+CharSet CharSet::complement()
 {
-    CharSet* out = new CharSet();
+    CharSet out = CharSet();
     for(int i = 0; i < BYTES; i++)
     {
-        out->data[i] = ~data[i];
+        out.data[i] = ~data[i];
     }
     return out;
 }
