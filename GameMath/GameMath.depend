@@ -93,7 +93,7 @@
 1490729752 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/GMException.cpp
 	"GameMath.h"
 
-1492807330 /home/jared/Libraries/cpp/src/MyLibraries/GameMath/include/GameMath.h
+1492985447 /home/jared/Libraries/cpp/src/MyLibraries/GameMath/include/GameMath.h
 	<cmath>
 	<string>
 
@@ -108,4 +108,21 @@
 
 1490729752 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/Quanternion.cpp
 	"GameMath.h"
+
+1490729752 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/Vec2f.cpp
+	"GameMath.h"
+
+1490729752 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/Vec3f.cpp
+	"GameMath.h"
+
+1490729752 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/Vec4f.cpp
+	"GameMath.h"
+
+1492807382 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/Xorshift.cpp
+	"GameMath.h"
+	<ctime>
+
+1492807382 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/Xorshift64.cpp
+	"GameMath.h"
+	<ctime>
 

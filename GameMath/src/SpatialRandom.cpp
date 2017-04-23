@@ -5,20 +5,20 @@ using namespace std;
 
 namespace gamemath {
 
-SpatialRandom::SpatialRandom() {
+SpatialNoise::SpatialNoise() {
     val = seed = time(0);
 }
 
 
-SpatialRandom::SpatialRandom(unsigned long long seed) {
+SpatialNoise::SpatialNoise(unsigned long long seed) {
     val = this->seed = seed;
 }
 
 
-SpatialRandom::~SpatialRandom() {}
+SpatialNoise::~SpatialNoise() {}
 
 
-unsigned long long SpatialRandom::longFor(int x, int y, int z, int t) {
+unsigned long long SpatialNoise::longFor(int x, int y, int z, int t) {
     // This will overflow -- GOOD!
     long out = seed + (15485077L * (long)t)
                     + (12338621L * (long)x)
@@ -32,7 +32,7 @@ unsigned long long SpatialRandom::longFor(int x, int y, int z, int t) {
 }
 
 
-unsigned long long SpatialRandom::longFor(int x, int y, int z) {
+unsigned long long SpatialNoise::longFor(int x, int y, int z) {
     // This will overflow -- GOOD!
     long out = seed + (12338621L * (long)x)
                     + (15485863L * (long)y)
@@ -45,7 +45,7 @@ unsigned long long SpatialRandom::longFor(int x, int y, int z) {
 }
 
 
-unsigned long long SpatialRandom::longFor(int x, int y) {
+unsigned long long SpatialNoise::longFor(int x, int y) {
     // This will overflow -- GOOD!
     long out = seed + (12338621L * (long)x)
                     + (15485863L * (long)y);
@@ -57,57 +57,57 @@ unsigned long long SpatialRandom::longFor(int x, int y) {
 }
 
 
-float SpatialRandom::floatFor(int x, int y, int z, int t) {
+float SpatialNoise::floatFor(int x, int y, int z, int t) {
     return (((float)longFor(x, y, z, t)) / ((float)MAXLONG));
 }
 
 
-float SpatialRandom::floatFor(int x, int y, int z) {
+float SpatialNoise::floatFor(int x, int y, int z) {
     return (((float)longFor(x, y, z)) / ((float)MAXLONG));
 }
 
 
-float SpatialRandom::floatFor(int x, int y) {
+float SpatialNoise::floatFor(int x, int y) {
     return (((float)longFor(x, y)) / ((float)MAXLONG));
 }
 
 
-Xorshift SpatialRandom::xorshiftFor(int x, int y, int z, int t) {
+Xorshift SpatialNoise::xorshiftFor(int x, int y, int z, int t) {
     return Xorshift((unsigned int)longFor(x, y, z, t));
 }
 
 
-Xorshift SpatialRandom::xorshiftFor(int x, int y, int z) {
+Xorshift SpatialNoise::xorshiftFor(int x, int y, int z) {
     return Xorshift((unsigned int)longFor(x, y, z));
 }
 
 
-Xorshift SpatialRandom::xorshiftFor(int x, int y) {
+Xorshift SpatialNoise::xorshiftFor(int x, int y) {
     return Xorshift((unsigned int)longFor(x, y));
 }
 
 
-Xorshift64 SpatialRandom::xorshift64For(int x, int y, int z, int t) {
+Xorshift64 SpatialNoise::xorshift64For(int x, int y, int z, int t) {
     return Xorshift64(longFor(x, y, z, t));
 }
 
 
-Xorshift64 SpatialRandom::xorshift64For(int x, int y, int z) {
+Xorshift64 SpatialNoise::xorshift64For(int x, int y, int z) {
     return Xorshift64(longFor(x, y, z));
 }
 
 
-Xorshift64 SpatialRandom::xorshift64For(int x, int y) {
+Xorshift64 SpatialNoise::xorshift64For(int x, int y) {
     return Xorshift64(longFor(x, y));
 }
 
 
-unsigned long long SpatialRandom::getSeed() const {
+unsigned long long SpatialNoise::getSeed() const {
     return seed;
 }
 
 
-void SpatialRandom::setSeed(unsigned long long seed) {
+void SpatialNoise::setSeed(unsigned long long seed) {
     val = (this->seed) = seed;
 }
 

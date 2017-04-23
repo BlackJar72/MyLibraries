@@ -384,11 +384,11 @@ class Xorshift64
 };
 
 
-class SpatialRandom {
+class SpatialNoise {
     public:
-        SpatialRandom();
-        SpatialRandom(unsigned long long seed);
-        virtual ~SpatialRandom();
+        SpatialNoise();
+        SpatialNoise(unsigned long long seed);
+        virtual ~SpatialNoise();
         unsigned long long longFor(int x, int y, int z, int t);
         unsigned long long longFor(int x, int y, int z);
         unsigned long long longFor(int x, int y);
