@@ -31,19 +31,19 @@ unsigned int Xorshift::nextInt() {
 }
 
 
-unsigned int Xorshift::nextInt(int mod) {
+unsigned int Xorshift::nextInt(const int &mod) {
     return (nextInt() % mod);
 }
 
 
-unsigned int Xorshift::nextInt(int min, int max) {
+unsigned int Xorshift::nextInt(const int &min, const int &max) {
     return (nextInt() % (max - min + 1)) + min;
 }
 
 
 unsigned long Xorshift::nextLong() {
     unsigned long long out = nextInt();
-    return (out << 32) + nextInt();
+    return (out << 32) | nextInt();
 }
 
 

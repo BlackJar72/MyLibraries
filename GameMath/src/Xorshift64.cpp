@@ -24,13 +24,13 @@ unsigned int Xorshift64::nextInt() {
 }
 
 
-unsigned int Xorshift64::nextInt(int mod) {
+unsigned int Xorshift64::nextInt(const int &mod) {
     return (nextLong() % mod);
 }
 
 
 
-unsigned int Xorshift64::nextInt(int min, int max) {
+unsigned int Xorshift64::nextInt(const int &min, const int &max) {
     return (nextLong() % (max - min + 1)) + min;
 }
 

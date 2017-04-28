@@ -339,8 +339,8 @@ class Xorshift {
         Xorshift(unsigned int seed);
         virtual ~Xorshift();
         unsigned int   nextInt();
-        unsigned int   nextInt(int mod);
-        unsigned int   nextInt(int min, int max);
+        unsigned int   nextInt(const int &mod);
+        unsigned int   nextInt(const int &min, const int &max);
         unsigned long  nextLong();
         unsigned short nextShort();
         unsigned char  nextChar();
@@ -365,8 +365,8 @@ class Xorshift64
         Xorshift64(unsigned long long seed);
         virtual ~Xorshift64();
         unsigned int   nextInt();
-        unsigned int   nextInt(int mod);
-        unsigned int   nextInt(int min, int max);
+        unsigned int   nextInt(const int &mod);
+        unsigned int   nextInt(const int &min, const int &max);
         unsigned long  nextLong();
         unsigned short nextShort();
         unsigned char  nextChar();
@@ -389,25 +389,36 @@ class SpatialNoise {
         SpatialNoise();
         SpatialNoise(unsigned long long seed);
         virtual ~SpatialNoise();
-        unsigned long long longFor(int x, int y, int z, int t);
-        unsigned long long longFor(int x, int y, int z);
-        unsigned long long longFor(int x, int y);
-        float floatFor(int x, int y, int z, int t);
-        float floatFor(int x, int y, int z);
-        float floatFor(int x, int y);
-        Xorshift xorshiftFor(int x, int y, int z, int t);
-        Xorshift xorshiftFor(int x, int y, int z);
-        Xorshift xorshiftFor(int x, int y);
-        Xorshift64 xorshift64For(int x, int y, int z, int t);
-        Xorshift64 xorshift64For(int x, int y, int z);
-        Xorshift64 xorshift64For(int x, int y);
+        unsigned long long longFor(const int &x, const int &y, const int &z, const int &t) const;
+        unsigned long long longFor(const int &x, const int &y, const int &z) const;
+        unsigned long long longFor(const int &x, const int &y) const;
+        float floatFor(const int &x, const int &y, const int &z, const int &t) const;
+        float floatFor(const int &x, const int &y, const int &z) const;
+        float floatFor(const int &x, const int &y) const;
+        double doubleFor(const int &x, const int &y, const int &z, const int &t) const;
+        double doubleFor(const int &x, const int &y, const int &z) const;
+        double doubleFor(const int &x, const int &y) const;
+        unsigned int intFor(const int &x, const int &y, const int &z, const int &t) const;
+        unsigned int intFor(const int &x, const int &y, const int &z) const;
+        unsigned int intFor(const int &x, const int &y) const;
+        Xorshift xorshiftFor(const int &x, const int &y, const int &z, const int &t) const;
+        Xorshift xorshiftFor(const int &x, const int &y, const int &z) const;
+        Xorshift xorshiftFor(const int &x, const int &y) const;
+        Xorshift64 xorshift64For(const int &x, const int &y, const int &z, const int &t)const;
+        Xorshift64 xorshift64For(const int &x, const int &y, const int &z) const;
+        Xorshift64 xorshift64For(const int &x, const int &y) const;
         unsigned long long getSeed() const;
         void setSeed(unsigned long long seed);
     protected:
     private:
+        inline long rrotate(const long &in, const int &by) const {
+            return ((in >> by) | (in << (64 - by)));
+        }
+        inline long lrotate(const long &in, const int &by) const {
+            return ((in << by) | (in >> (64 - by)));
+        }
         const static unsigned long long MAXLONG = 0xffffffffffffffff;
         unsigned long long seed;
-        unsigned long long val;
 };
 
 
