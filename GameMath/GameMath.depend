@@ -93,7 +93,7 @@
 1490729752 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/GMException.cpp
 	"GameMath.h"
 
-1493421614 /home/jared/Libraries/cpp/src/MyLibraries/GameMath/include/GameMath.h
+1493535059 /home/jared/Libraries/cpp/src/MyLibraries/GameMath/include/GameMath.h
 	<cmath>
 	<string>
 
@@ -122,11 +122,11 @@
 	"GameMath.h"
 	<ctime>
 
-1492807382 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/Xorshift64.cpp
+1493421044 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/Xorshift64.cpp
 	"GameMath.h"
 	<ctime>
 
-1493421450 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/SpatialRandom.cpp
+1493534961 source:/home/jared/Libraries/cpp/src/MyLibraries/GameMath/src/SpatialRandom.cpp
 	"GameMath.h"
 	<ctime>
 

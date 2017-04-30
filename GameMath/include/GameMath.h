@@ -386,8 +386,7 @@ class Xorshift64
 
 class SpatialNoise {
     public:
-        SpatialNoise();
-        SpatialNoise(unsigned long long seed);
+        SpatialNoise(unsigned long long seed1, unsigned long long seed2);
         virtual ~SpatialNoise();
         unsigned long long longFor(const int &x, const int &y, const int &z, const int &t) const;
         unsigned long long longFor(const int &x, const int &y, const int &z) const;
@@ -408,9 +407,9 @@ class SpatialNoise {
         Xorshift64 xorshift64For(const int &x, const int &y, const int &z) const;
         Xorshift64 xorshift64For(const int &x, const int &y) const;
         unsigned long long getSeed() const;
-        void setSeed(unsigned long long seed);
     protected:
     private:
+        SpatialNoise();
         inline long rrotate(const long &in, const int &by) const {
             return ((in >> by) | (in << (64 - by)));
         }
@@ -418,7 +417,8 @@ class SpatialNoise {
             return ((in << by) | (in >> (64 - by)));
         }
         const static unsigned long long MAXLONG = 0xffffffffffffffff;
-        unsigned long long seed;
+        const unsigned long long seed1;
+        const unsigned long long seed2;
 };
 
 
