@@ -1,5 +1,7 @@
 #include "ArrayContainers.h"
 #include <cstring>
+#include <iostream>
+#include <string>
 
 namespace ArrayContainers {
 
@@ -18,7 +20,7 @@ DynamicArray<T>::~DynamicArray() {
     // This does not delete objects that are stored; if
     // such objects are of a type that requires deletion
     // this must be done separately.
-    delete data;
+    delete[] data;
 }
 
 
@@ -27,7 +29,7 @@ void DynamicArray<T>::grow() {
     length *= D_ARRAY_GROWTH_FACTOR;
     T* bigger = new T(length);
     memcpy(bigger, data, elements * sizeof(T));
-    delete data;
+    delete[] data;
     data = bigger;
 }
 
@@ -62,7 +64,7 @@ template <class T>
 void DynamicArray<T>::add(T added, unsigned int index) {
     if(index > elements) {
         // index may be equal to elements; this would be the same as add(T).
-        throw IndexOutOfBound("void DynamicArray<T>::add(T added, unsigned int index)" + endl);
+        throw IndexOutOfBound(std::string("void DynamicArray<T>::add(T added, unsigned int index)"));
     } else if(index == elements) {
         add(added);
     } else {
@@ -81,7 +83,7 @@ void DynamicArray<T>::add(T added, unsigned int index) {
 template <class T>
 void DynamicArray<T>::set(T added, unsigned int index) {
     if(index >= elements) {
-        throw IndexOutOfBound("void DynamicArray<T>::set(T added, unsigned int index)" + endl);
+        throw IndexOutOfBound(std::string("void DynamicArray<T>::set(T added, unsigned int index)"));
     }
     data[index] = added;
 }
@@ -115,7 +117,7 @@ T DynamicArray<T>::peek() {
 template <class T>
 T DynamicArray<T>::getNext() {
     if(position >= elements) {
-        throw IndexOutOfBound("T DynamicArray<T>::getNext()" + endl);
+        throw IndexOutOfBound(std::string("T DynamicArray<T>::getNext()"));
     }
     T* out = data + position;
     position++;
@@ -137,7 +139,7 @@ T DynamicArray<T>::getNextWrap() {
 template <class T>
 T DynamicArray<T>::get(const unsigned int index) const {
     if(index >= elements) {
-        throw IndexOutOfBound("T DynamicArray<T>::get(const unsigned int index) const" + endl);
+        throw IndexOutOfBound(std::string("T DynamicArray<T>::get(const unsigned int index) const"));
     }
     return data[index];
 }
@@ -146,7 +148,7 @@ T DynamicArray<T>::get(const unsigned int index) const {
 template <class T>
 void DynamicArray<T>::remove(unsigned int index) {
     if(index >= elements) {
-        throw IndexOutOfBound("void DynamicArray<T>::remove(unsigned int index)" + endl);
+        throw IndexOutOfBound(std::string("void DynamicArray<T>::remove(unsigned int index)"));
     }
     // Move all subsequent elements to preserve order
     for(unsigned int i = index + 1; i < elements; i++) {
@@ -162,7 +164,7 @@ void DynamicArray<T>::remove(unsigned int index) {
 template <class T>
 void DynamicArray<T>::removeFast(unsigned int index) {
     if(index >= elements) {
-        throw IndexOutOfBound("void DynamicArray<T>::removeFast(unsigned int index)" + endl);
+        throw IndexOutOfBound(std::string("void DynamicArray<T>::removeFast(unsigned int index)"));
     }
     // Swap with the last elements; sacrifice order for speed
     data[index] = data[elements - 1];

@@ -24,3 +24,12 @@
 1486749487 source:/home/jared/Libraries/cpp/src/Mine/fuck/src/StringTokenizer.cpp
 	"StringTokenizer.h"
 
+1492813201 source:/home/jared/Libraries/cpp/src/MyLibraries/StringTokenizer/src/CharSet.cpp
+	"StringTokenizer.h"
+	<string>
+	<cstring>
+
+1492812999 /home/jared/Libraries/cpp/src/MyLibraries/StringTokenizer/include/StringTokenizer.h
+	<string>
+	<vector>
+

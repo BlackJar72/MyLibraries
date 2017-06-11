@@ -100,10 +100,10 @@ StringTokenizer& StringTokenizer::operator= (const StringTokenizer& other) {
 
 StringTokenizer::~StringTokenizer() {
     for(unsigned int i = 0; i < numTokens; i++) {
-        delete tokens[i];
+        delete[] tokens[i];
     }
-    delete tokens;
-    delete scratchpad;
+    delete[] tokens;
+    delete[] scratchpad;
 }
 
 
@@ -155,7 +155,7 @@ inline void StringTokenizer::addToken(const string &in) {
         dataSize = (dataSize * 3) / 2;
         string** bigger = new string*[dataSize];
         memcpy(bigger, tokens, numTokens * sizeof(string*));
-        delete tokens;
+        delete[] tokens;
         tokens = bigger;
     }
 	tokens[token] = new string(scratchpad, size);
