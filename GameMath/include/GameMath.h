@@ -406,7 +406,7 @@ class SpatialNoise {
         Xorshift64 xorshift64For(const int &x, const int &y, const int &z, const int &t)const;
         Xorshift64 xorshift64For(const int &x, const int &y, const int &z) const;
         Xorshift64 xorshift64For(const int &x, const int &y) const;
-        unsigned long long getSeed() const;
+        unsigned long long* getSeeds() const;
     protected:
     private:
         SpatialNoise();

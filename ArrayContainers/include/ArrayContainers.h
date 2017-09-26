@@ -16,40 +16,41 @@ class IndexOutOfBound {
 };
 
 unsigned int StringHash(const std::string &s);
-
-const int   D_ARRAY_INIT_SIZE = 16;
-const float D_ARRAY_GROWTH_FACTOR = 1.5;
-const float D_ARRAY_SHRINK_FACTOR = 0.5;
-const float D_ARRAY_SHRINK_THRESHOLD = 0.25;
+//unsigned int StringHash(const char* data);
 
 
 template <class T>
 class DynamicArray {
     public:
-        DynamicArray();
+        DynamicArray<T>();
+        DynamicArray<T>(int initialSize);
+        DynamicArray<T>(const DynamicArray<T>& a);
         virtual ~DynamicArray();
-        void add(T added);
-        void add(T added, unsigned int index);
-        void set(T added, unsigned int index);
-        T get(const unsigned int index) const;
-        T peek();
-        T getNext();
-        T getNextWrap();
+        DynamicArray<T> copy();
+        void add(const T& added);
+        void add(const T& added, unsigned int index);
+        void set(const T& added, unsigned int index);
+        T& get(const unsigned int index) const;
+        T& peek();
+        T& getNext();
+        T& getNextWrap();
         void remove(unsigned int index);
         void removeFast(unsigned int index);
         void removeAll(const T &in);
         void removeAllFast(const T &in);
         bool hasMore() const;
         unsigned int size() const;
+        unsigned int currentCapacity() const;
         const T* getArray() const;
-        void reset(); // Sets position for getNext() to 0
-        const T& operator[](const unsigned int index) const;
+        void reset() const;
+        T& operator[](const unsigned int index) const;
     protected:
     private:
         T* data;
+        static const T* empty;
         unsigned int elements;  // The number of elements stored
         unsigned int length;    // The size of the array
-        unsigned int position;  // The current element for getNext()
+        unsigned mutable int position;  // The current element for getNext()
         void grow();
         void shrink();
 };

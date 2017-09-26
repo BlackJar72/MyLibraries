@@ -14,14 +14,14 @@ SpatialNoise::~SpatialNoise() {}
 
 
 unsigned long long SpatialNoise::longFor(const int &x, const int &y, const int &z, const int &t) const {
-    long out = seed1 + (15485077L * (long)t)
-                     + (12338621L * (long)x)
-                     + (15485863L * (long)y)
-                     + (14416417L * (long)z);
-    long alt = seed2 + (179424743L * (long)t)
-                     + (154858637L * (long)y)
-                     + (179426003L * (long)x)
-                     + (179425819L * (long)z);
+    long long out = seed1 + (15485077L  * (long long)t)
+                          + (12338621L  * (long long)x)
+                          + (15485863L  * (long long)y)
+                          + (14416417L  * (long long)z);
+    long long alt = seed2 + (179424743L * (long long)t)
+                          + (154858637L * (long long)y)
+                          + (179426003L * (long long)x)
+                          + (179425819L * (long long)z);
     alt ^= lrotate(alt, (x % 29) + 13);
     alt ^= rrotate(alt, (y % 31) + 7);
     alt ^= lrotate(alt, (z % 23) + 19);
@@ -35,12 +35,12 @@ unsigned long long SpatialNoise::longFor(const int &x, const int &y, const int &
 
 
 unsigned long long SpatialNoise::longFor(const int &x, const int &y, const int &z) const {
-    long out = seed1 + (12338621L * (long)x)
-                     + (15485863L * (long)y)
-                     + (14416417L * (long)z);
-    long alt = seed2 + (154858637L * (long)y)
-                     + (179426003L * (long)x)
-                     + (179425819L * (long)z);
+    long long out = seed1 + (12338621L  * (long long)x)
+                          + (15485863L  * (long long)y)
+                          + (14416417L  * (long long)z);
+    long long alt = seed2 + (154858637L * (long long)y)
+                          + (179426003L * (long long)x)
+                          + (179425819L * (long long)z);
     alt ^= lrotate(alt, (x % 29) + 13);
     alt ^= rrotate(alt, (y % 31) + 7);
     alt ^= lrotate(alt, (z % 23) + 19);
@@ -54,10 +54,10 @@ unsigned long long SpatialNoise::longFor(const int &x, const int &y, const int &
 
 
 unsigned long long SpatialNoise::longFor(const int &x, const int &y) const {
-    long out = seed1 + (12338621L * (long)x)
-                     + (15485863L * (long)y);
-    long alt = seed2 + (154858637L * (long)y)
-                     + (179426003L * (long)x);
+    long long out = seed1 + (12338621L  * (long long)x)
+                          + (15485863L  * (long long)y);
+    long long alt = seed2 + (154858637L * (long long)y)
+                          + (179426003L * (long long)x);
     alt ^= lrotate(alt, (x % 29) + 13);
     alt ^= rrotate(alt, (y % 31) + 7);
     alt ^= lrotate(alt, 19);
@@ -67,7 +67,6 @@ unsigned long long SpatialNoise::longFor(const int &x, const int &y) const {
     out ^= lrotate(out, 13);
     out ^= rrotate(out, 45);
     return (out ^ alt);
-    return out;
 }
 
 
@@ -146,8 +145,11 @@ Xorshift64 SpatialNoise::xorshift64For(const int &x, const int &y) const {
 }
 
 
-unsigned long long SpatialNoise::getSeed() const {
-    return seed1;
+unsigned long long* SpatialNoise::getSeeds() const {
+    unsigned long long* out = new unsigned long long[2];
+    out[0] = seed1;
+    out[1] = seed2;
+    return out;
 }
 
 

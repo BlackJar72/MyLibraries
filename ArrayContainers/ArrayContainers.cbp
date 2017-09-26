@@ -44,10 +44,14 @@
 		<Unit filename="include/ArrayContainers.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="include/MemoryPool.h" />
 		<Unit filename="src/DynamicArray.cpp" />
+		<Unit filename="src/FreePool.cpp" />
+		<Unit filename="src/Freelist.cpp" />
 		<Unit filename="src/IndexOutOfBound.cpp" />
 		<Unit filename="src/Registry.cpp" />
 		<Unit filename="src/StringHashTable.cpp" />
+		<Unit filename="src/UnorderedArray.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

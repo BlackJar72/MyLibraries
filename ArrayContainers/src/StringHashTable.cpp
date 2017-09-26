@@ -80,7 +80,7 @@ StringHashNode<T>::~StringHashNode(){
 }
 
 /*
- * This will produce a usable hash of a string.
+ * This will produce a usable hash of a standard string.
  * Its primarily for generating decent hashes for
  * use in hash maps / hash tables.
  */
@@ -88,6 +88,24 @@ unsigned int StringHash(const string &s) {
     unsigned int out = 0;
     unsigned int i = 0;
     const char* data = s.c_str();
+    while(data[i] != 0) {
+        out ^= (data[i] << (8 * (i%4)));
+        out ^=  (out << 13);
+        out ^=  (out >> 5);
+        out ^=  (out << 17);
+        i++;
+    }
+    return out;
+}
+
+/*
+ * This will produce a usable hash of a c-string.
+ * Its primarily for generating decent hashes for
+ * use in hash maps / hash tables.
+ */
+unsigned int StringHash(const char* data) {
+    unsigned int out = 0;
+    unsigned int i = 0;
     while(data[i] != 0) {
         out ^= (data[i] << (8 * (i%4)));
         out ^=  (out << 13);

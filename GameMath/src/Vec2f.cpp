@@ -89,10 +89,13 @@ float Vec2f::get(const int index) const {
 
 
 Vec2f Vec2f::rotate(const float angle) {
+    // FIXME:  It seems like one of the components should be
+    // calculated with addition; too tired to think about it
+    // now, but check and fix this.
     float sine   = sin(angle * GMPI);
     float cosine = cos(angle * GMPI);
     return Vec2f(((data[0] * cosine) - (data[1] * sine)),
-                 ((data[0] * sine)   - (data[1] * cosine)));
+                 ((data[0] * sine)   + (data[1] * cosine)));
 }
 
 

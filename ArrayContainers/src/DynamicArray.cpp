@@ -2,10 +2,18 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <assert.h>
 
 namespace ArrayContainers {
 
+const int   D_ARRAY_INIT_SIZE = 16;
+const float D_ARRAY_GROWTH_FACTOR = 1.5;
+const float D_ARRAY_SHRINK_FACTOR = 0.5;
+const float D_ARRAY_SHRINK_THRESHOLD = 0.25;
 
+
+template <class T>
+const T* DynamicArray<T>::empty = {};
 
 template <class T>
 DynamicArray<T>::DynamicArray() {
@@ -16,11 +24,34 @@ DynamicArray<T>::DynamicArray() {
 
 
 template <class T>
+DynamicArray<T>::DynamicArray(int initialSize) {
+    length = initialSize;
+    position = elements = 0;
+    data = new T[length];
+}
+
+
+template <class T>
+DynamicArray<T>::DynamicArray(const DynamicArray<T>& a) : data(new T[a.length]) {
+    // Considered making a copy contructor, ran into trouble :(
+    memccpy(data, a.data, a.elements * sizeof(T));
+}
+
+
+template <class T>
 DynamicArray<T>::~DynamicArray() {
     // This does not delete objects that are stored; if
     // such objects are of a type that requires deletion
     // this must be done separately.
     delete[] data;
+}
+
+
+template <class T>
+DynamicArray<T> DynamicArray<T>::copy() {
+    DynamicArray<T> out(length);
+    memccpy(out.data, data, elements * sizeof(T));
+    return out; // Mover constructor should get the data out effectively.
 }
 
 
@@ -51,7 +82,7 @@ void DynamicArray<T>::shrink() {
 
 
 template <class T>
-void DynamicArray<T>::add(T added) {
+void DynamicArray<T>::add(const T& added) {
     data[elements] = added;
     elements++;
     if(elements >= length) {
@@ -61,7 +92,7 @@ void DynamicArray<T>::add(T added) {
 
 
 template <class T>
-void DynamicArray<T>::add(T added, unsigned int index) {
+void DynamicArray<T>::add(const T& added, unsigned int index) {
     if(index > elements) {
         // index may be equal to elements; this would be the same as add(T).
         throw IndexOutOfBound(std::string("void DynamicArray<T>::add(T added, unsigned int index)"));
@@ -81,7 +112,7 @@ void DynamicArray<T>::add(T added, unsigned int index) {
 
 
 template <class T>
-void DynamicArray<T>::set(T added, unsigned int index) {
+void DynamicArray<T>::set(const T& added, unsigned int index) {
     if(index >= elements) {
         throw IndexOutOfBound(std::string("void DynamicArray<T>::set(T added, unsigned int index)"));
     }
@@ -96,26 +127,41 @@ unsigned int DynamicArray<T>::size() const {
 
 
 template <class T>
+unsigned int DynamicArray<T>::currentCapacity() const {
+    return length;
+}
+
+
+template <class T>
 bool DynamicArray<T>::hasMore() const {
     return (position < elements);
 }
 
 
 template <class T>
-void DynamicArray<T>::reset() {
+void DynamicArray<T>::reset() const {
     position = 0;
 }
 
 
 template <class T>
-T DynamicArray<T>::peek() {
+T& DynamicArray<T>::peek() {
     T* out = data + position;
     return *out;
 }
 
 
 template <class T>
-T DynamicArray<T>::getNext() {
+T& DynamicArray<T>::get(const unsigned int index) const {
+    if(index >= elements) {
+        throw IndexOutOfBound(std::string("T DynamicArray<T>::get(const unsigned int index) const"));
+    }
+    return data[index];
+}
+
+
+template <class T>
+T& DynamicArray<T>::getNext() {
     if(position >= elements) {
         throw IndexOutOfBound(std::string("T DynamicArray<T>::getNext()"));
     }
@@ -126,22 +172,13 @@ T DynamicArray<T>::getNext() {
 
 
 template <class T>
-T DynamicArray<T>::getNextWrap() {
+T& DynamicArray<T>::getNextWrap() {
     if(position >= elements) {
             position = 0;
     }
     T* out = data + position;
-    position++;
+    (++position) % elements;
     return *out;
-}
-
-
-template <class T>
-T DynamicArray<T>::get(const unsigned int index) const {
-    if(index >= elements) {
-        throw IndexOutOfBound(std::string("T DynamicArray<T>::get(const unsigned int index) const"));
-    }
-    return data[index];
 }
 
 
@@ -179,10 +216,11 @@ template <class T>
 void DynamicArray<T>::removeAll(const T &in) {
     unsigned int removed = 0;
     for(unsigned int i = 0; i < elements; i++) {
-        if(removed) {
+        bool match = (data[i] == in);
+        if(removed & !match) {
             data[i - removed] = data[i];
         }
-        if(data[i - removed] == in) {
+        if(match) {
             removed++;
         }
         elements -= removed;
@@ -220,8 +258,8 @@ const T* DynamicArray<T>::getArray() const {
 
 
 template <class T>
-const T& DynamicArray<T>::operator[](const unsigned int index) const {
-    assert((index >= 0) || (index < size));
+T& DynamicArray<T>::operator[](const unsigned int index) const {
+    assert(index < elements);
     return data[index];
 }
 

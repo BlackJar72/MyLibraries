@@ -6,7 +6,7 @@ namespace ArrayContainers {
 IndexOutOfBound::IndexOutOfBound() : source( "" )  {}
 
 
-IndexOutOfBound::IndexOutOfBound(const std::string src) : source ( src ) {}
+IndexOutOfBound::IndexOutOfBound(const std::string src) : source ( "Index out of Bounds: " + src ) {}
 
 
 
