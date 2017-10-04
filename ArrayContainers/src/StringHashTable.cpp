@@ -1,6 +1,7 @@
  #include "ArrayContainers.h"
  #include <cstring>
  #include <string>
+ #include "glfw3.h"
 
 using namespace std;
 namespace ArrayContainers {

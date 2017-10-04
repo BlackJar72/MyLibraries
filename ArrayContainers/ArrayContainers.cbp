@@ -19,7 +19,11 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add directory="include" />
+					<Add directory="/usr/local/include/GLFW" />
 				</Compiler>
+				<Linker>
+					<Add directory="/usr/local/lib" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/ArrayContainers" prefix_auto="1" extension_auto="1" />
@@ -46,9 +50,9 @@
 		</Unit>
 		<Unit filename="include/MemoryPool.h" />
 		<Unit filename="src/DynamicArray.cpp" />
-		<Unit filename="src/FreePool.cpp" />
 		<Unit filename="src/Freelist.cpp" />
 		<Unit filename="src/IndexOutOfBound.cpp" />
+		<Unit filename="src/ObjectPool.cpp" />
 		<Unit filename="src/Registry.cpp" />
 		<Unit filename="src/StringHashTable.cpp" />
 		<Unit filename="src/UnorderedArray.cpp" />

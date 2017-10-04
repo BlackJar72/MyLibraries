@@ -6,7 +6,7 @@ using namespace MemoryPool;
 template <class T>
 ObjectPool<T>::ObjectPool(const unsigned int capacity) :
         length(capacity) {
-    data = new T[capacity];
+    data = new FreelistElement<T>[capacity];
     head = data;
     for(int i = 1; i < length; i++) {
         data[i - 1].used = false;
