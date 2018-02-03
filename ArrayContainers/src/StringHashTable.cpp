@@ -1,38 +1,66 @@
  #include "ArrayContainers.h"
  #include <cstring>
  #include <string>
- #include "glfw3.h"
+ #include <cstring>
 
 using namespace std;
 namespace ArrayContainers {
 
+//#define EMPTY 0xBEDEAD
+const unsigned int NULLHASH = 0xBEDEAD;
+const string EMPTY = string("");
+
+/*----------------------------------------------------------------*/
+/*                  THE CONTAINER NODES                           */
+/*----------------------------------------------------------------*/
+
 
 template <class T>
-StringHashNode<T>::StringHashNode(string key, T value) {
-    this->value = value;
-    this->key  = key;
-    next = NULL;
+StringHashNode<T>::StringHashNode() :
+        key(EMPTY), value(T()),
+        hash(NULLHASH) {}
+
+
+template <class T>
+StringHashNode<T>::StringHashNode(const std::string& inKey, const T& inValue) :
+        key(inKey), value(inValue), hash(StringHash(inKey)), next(0) {}
+
+
+
+template <class T>
+void StringHashNode<T>::add(const std::string& key, const T& value) {
+    StringHashNode* target = next;
+    do {
+        target = tryAdd(key, value, target);
+    } while(target);
 }
 
 
 template <class T>
-StringHashNode<T>::StringHashNode(){/*Do nothing. Never use this!*/}
-
-
-template <class T>
-void StringHashNode<T>::add(string key, T value) {
-    if(next == NULL) {
-        next = new StringHashNode(key, value);
+StringHashNode<T>* StringHashNode<T>::tryAdd(const std::string& key, const T& value,
+            StringHashNode* target) {
+    if(target == 0) {
+        target = new StringHashNode(key, value);
+        return 0;
     } else {
-        next->addValue(key, value);
+        return target->next;
     }
 }
 
 
-// Used in removal to check if the first should be removed
+// Used in removal to check if the first should be removed.
+// Hoping the compiler will inline this withing this unit.
 template <class T>
-bool StringHashNode<T>::matchs(string key) {
-    return (key.compare(this->key) == 0);
+inline bool StringHashNode<T>::matches(const std::string& key) const {
+    return (key == this->key);
+}
+
+
+// Used to determine if the node is empty.
+// Hoping the compiler will inline this withing this unit.
+template <class T>
+inline bool StringHashNode<T>::isEmpty() const {
+    return (hash == NULLHASH) && (key == EMPTY);
 }
 
 
@@ -45,31 +73,65 @@ StringHashNode<T>* StringHashNode<T>::getNextNode() {
 
 // For removal of other nodes
 template <class T>
-void StringHashNode<T>::remove(string key) {
-    assert(next != NULL); // Should never happen; implies searching wrong bucket
-    if(next->key.compare(key) == 0){
-        StringHashNode<T>* tmp = next;
-        next = next->next;
-        delete tmp;
+void StringHashNode<T>::remove(const std::string& key) {
+    #ifdef _DEBUG
+    // Should never happen; implies searching wrong bucket
+    // or failure to store data (or perhaps storing incorrectly).
+    assert(next != NULL);
+    #endif // _DEBUG
+    StringHashNode* current = this;
+    StringHashNode* target  = next;
+    do {
+        current = tryRemove(key, target, current);
+        target  = current->next;
+    } while (target);
+
+}
+
+
+template <class T>
+StringHashNode<T>* StringHashNode<T>::tryRemove(const std::string& key,
+                StringHashNode* target, StringHashNode* previous) {
+    if(matches(key)){
+        previous->next = target->next;
+        delete target;
+        return 0;
     } else {
-        next->remove(key);
+        #ifdef _DEBUG
+        // If this is true the end of the bucket has been reached without
+        // finding the target.  If things are working this should not happen.
+        assert(!target);
+        #endif // _DEBUG
+        return target;
     }
 }
 
 
 template <class T>
-T StringHashNode<T>::get(string key) {
-    // Question: Does C++ short-cicuit like Java and D?
-    // That would allow this to be collapsed into a single if.
-    if(next == NULL) {
-        // If true, there are no other options, so this mush be
-        // the correct value (assuming no bugs in placement).
-        return value;
-    } else if(key.compare(this->key) == 0) {
-        // Comparing the string here should be both faster and more
-        // than hashing it.
-        return value;
-    } else return next->getValue(key);
+T& StringHashNode<T>::get(const std::string& key) {
+    StringHashNode<T>* target = this;
+    while(target && !target->isEmpty()) {
+        if(target->matches(key)) {
+            return target->value;
+        } else {
+            target = target-> next;
+        }
+    }
+    return T();
+}
+
+
+template <class T>
+bool StringHashNode<T>::contains(const std::string& key) const {
+    StringHashNode<T>* target = this;
+    while(target && !target->isEmpty()) {
+        if(target->matches(key)) {
+            return true;
+        } else {
+            target = target-> next;
+        }
+    }
+    return false;
 }
 
 
@@ -80,7 +142,105 @@ StringHashNode<T>::~StringHashNode(){
     }
 }
 
-/*
+
+/*----------------------------------------------------------------*/
+/*                   THE HASHMAP PROPER                           */
+/*----------------------------------------------------------------*/
+
+
+template <class T>
+StringHashTable<T>::StringHashTable() {
+        arrayLength = 16;
+        capacity = (arrayLength * 4) / 3;
+        length = 0;
+        minLength = arrayLength;
+        shrinkSize = 0;
+        data = new StringHashNode<T>[arrayLength];
+}
+
+
+template <class T>
+StringHashTable<T>::StringHashTable(size_t startSize) {
+        arrayLength = startSize;
+        capacity = (arrayLength * 4) / 3;
+        length = 0;
+        minLength = arrayLength;
+        shrinkSize = 0;
+        data = new StringHashNode<T>[arrayLength];
+}
+
+
+template <class T>
+void StringHashTable<T>::StringHashTable::grow() {
+    size_t oldLen = arrayLength;
+    StringHashNode<T>* oldData = data;
+    makeInternalData((arrayLength * 3) / 2);
+    data = new StringHashNode<T>[arrayLength];
+    rebucket(oldData, oldLen);
+    delete[] oldData;
+}
+
+
+template <class T>
+void StringHashTable<T>::StringHashTable::shrink() {
+    size_t oldLen = arrayLength;
+    StringHashNode<T>* oldData = data;
+    makeInternalData(arrayLength / 2);
+    data = new StringHashNode<T>[arrayLength];
+    rebucket(oldData, oldLen);
+    delete[] oldData;
+}
+
+
+template <class T>
+void StringHashTable<T>::makeInternalData(size_t newLength) {
+        arrayLength = newLength;
+        capacity = (arrayLength * 4) / 3;
+        length = 0;
+        shrinkSize = ((arrayLength - minLength) * 3) / 16;
+}
+
+
+template <class T>
+void StringHashTable<T>::rebucket(StringHashNode<T>* oldData, const size_t oldLen) {
+    for(int i = 0; i < oldLen; i++) {
+        if(!oldData[i].isEmpty()) {
+            add(oldData[i]);
+        }
+    }
+}
+
+
+template <class T>
+void StringHashTable<T>::add(const std::string& key, const T& value) {
+    data->add[StringHash(key) % capacity](key, value);
+}
+
+
+template <class T>
+void StringHashTable<T>::remove(const std::string& key) {
+    data->remove[StringHash(key) % capacity](key);
+}
+
+
+template <class T>
+T StringHashTable<T>::get(const std::string& key) {
+    return data[StringHash(key) % capacity].get(key);
+}
+
+
+template <class T>
+bool StringHashTable<T>::contains(const std::string& key) {
+    return data->contains(key);
+}
+
+
+/*----------------------------------------------------------------*/
+/*                 HASH FUNCTIONS BELOW                           */
+/*----------------------------------------------------------------*/
+
+
+/**
  * This will produce a usable hash of a standard string.
  * Its primarily for generating decent hashes for
  * use in hash maps / hash tables.
@@ -99,16 +259,45 @@ unsigned int StringHash(const string &s) {
     return out;
 }
 
-/*
+/**
  * This will produce a usable hash of a c-string.
  * Its primarily for generating decent hashes for
  * use in hash maps / hash tables.
  */
-unsigned int StringHash(const char* data) {
+unsigned int StringHash(char* data) {
     unsigned int out = 0;
     unsigned int i = 0;
     while(data[i] != 0) {
         out ^= (data[i] << (8 * (i%4)));
+        out ^=  (out << 13);
+        out ^=  (out >> 5);
+        out ^=  (out << 17);
+        i++;
+    }
+    return out;
+}
+
+/**
+ * This will produce a usable hash a generic type as defined
+ * by the template parameter.
+ *
+ * Note that for this to work properly T must have a constant
+ * size; this should generally be true.
+ *
+ * Also note that pointers will be hashed based on their addresses,
+ * not their contents, and are thus not valid in many case; this
+ * includes pointers and arrays as members of classes / structs
+ * and thus implicitly applies to classes / structs that contain
+ * them.  Specifically, if the data has been serialized and reloaded
+ * (or loaded elsewhere such as through a network) the hash will
+ * also change, making structures dependent on them invalid.
+ */
+template <class T>
+unsigned int GenericHash(const T& data) {
+    char* bytes = reinterpret_cast<char*>(&data);
+    unsigned int out = 0;
+    for(int i = 0; i < sizeof(T); i++) {
+        out ^= ((*(bytes + i)) << (8 * (i%4)));
         out ^=  (out << 13);
         out ^=  (out >> 5);
         out ^=  (out << 17);
