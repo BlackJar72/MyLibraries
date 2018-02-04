@@ -24,6 +24,11 @@ StringHashNode<T>::StringHashNode(const std::string& inKey, const T& inValue) :
         key(inKey), value(inValue), hash(StringHash(inKey)), next(0) {}
 
 
+template <class T>
+StringHashNode<T>::~StringHashNode() {
+    // Do NOT delete next; it may still be a valid node.
+}
+
 
 template <class T>
 void StringHashNode<T>::add(const std::string& key, const T& value) {
@@ -151,14 +156,6 @@ bool StringHashNode<T>::contains(const std::string& key) const {
 
 
 template <class T>
-StringHashNode<T>::~StringHashNode(){
-    if(next != NULL) {
-        ~next();
-    }
-}
-
-
-template <class T>
 unsigned int StringHashNode<T>::getHash() const {
     return hash;
 }
@@ -188,6 +185,21 @@ StringHashTable<T>::StringHashTable(size_t startSize) {
     minLength = arrayLength;
     shrinkSize = 0;
     data = new StringHashNode<T>[arrayLength];
+}
+
+
+template <class T>
+StringHashTable<T>::~StringHashTable() {
+    for(int i = 0; i < arrayLength; i++) {
+        StringHashNode<T>* garbage0;
+        StringHashNode<T>* garbage1 = data[i].next;
+        while(garbage1) {
+            garbage0 = garbage1;
+            garbage1 = garbage1->next;
+            delete garbage0;
+        }
+    }
+    delete[] data;
 }
 
 
@@ -248,6 +260,9 @@ void StringHashTable<T>::add(const std::string& key, const T& value) {
     } else {
         data->add[StringHash(key) % capacity](key, value);
     }
+    if(++length >= capacity) {
+        grow();
+    }
 }
 
 
@@ -258,6 +273,9 @@ void StringHashTable<T>::remove(const std::string& key) {
         data[bucket] = StringHashNode<T>();
     } else {
         data->remove[StringHash(key) % capacity](key);
+    }
+    if(--length < shrinkSize) {
+        shrink();
     }
 }
 

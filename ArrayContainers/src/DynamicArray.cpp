@@ -189,7 +189,7 @@ void DynamicArray<T>::remove(unsigned int index) {
         data[i-1] = data[i];
     }
     elements--;
-    if(elements < (length * D_ARRAY_SHRINK_THRESHOLD)) {
+    if(elements < ((length * D_ARRAY_SHRINK_THRESHOLD) + D_ARRAY_INIT_SIZE)) {
         shrink();
     }
 }

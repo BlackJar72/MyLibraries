@@ -81,6 +81,7 @@ class StringHashNode {
     private:
         StringHashNode();
         StringHashNode(const std::string& key, const T& value);
+        virtual ~StringHashNode();
 
         const std::string key;
         T value;
@@ -95,7 +96,6 @@ class StringHashNode {
         T& get(const std::string& key);
         bool contains(const std::string& key) const;
         unsigned int getHash() const;
-        virtual ~StringHashNode();
         StringHashNode<T>* tryAdd(const std::string& key, const T& value,
                 StringHashNode* target);
         StringHashNode<T>* tryRemove(const std::string& key,
@@ -114,13 +114,13 @@ class StringHashTable {
     public:
         StringHashTable();
         StringHashTable(size_t startSize);
+        ~StringHashTable();
         void add(const std::string& key, const T& value);
         void remove(const std::string& key);
         T get(const std::string& key) const;
         T& getRef(const std::string& key) const;
         T* getPtr(const std::string& key) const;
         bool contains(const std::string& key) const;
-        virtual ~StringHashTable();
     protected:
     private:
         StringHashNode<T>* data;
@@ -153,11 +153,12 @@ class Registry {
         unsigned int add(const std::string& name, const T& t);
         unsigned int getID(const std::string& name) const;
         T get(unsigned int id) const;
+        T& getRef(unsigned int id) const;
+        T* getPtr(unsigned int id) const;
         T get(const std::string& name) const;
         T& getRef(const std::string& name) const;
         T* getPtr(const std::string& name) const;
-        bool contains(const std::string& name, const T& t);
-        void remove(const std::string& name, const T& t);
+        bool contains(const std::string& name);
     protected:
     private:
         T* data;
