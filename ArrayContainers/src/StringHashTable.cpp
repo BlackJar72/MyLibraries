@@ -21,7 +21,7 @@ StringHashNode<T>::StringHashNode() : key(EMPTY), value(T()), hash(NULLHASH) {}
 
 template <class T>
 StringHashNode<T>::StringHashNode(const std::string& inKey, const T& inValue) :
-        key(inKey), value(inValue), hash(StringHash(inKey)), next(0) {}
+        key(inKey), value(inValue), hash(stringHash(inKey)), next(0) {}
 
 
 template <class T>
@@ -258,7 +258,7 @@ void StringHashTable<T>::add(const std::string& key, const T& value) {
     if(data[bucket].isEmpty()) {
         data[bucket] = node;
     } else {
-        data->add[StringHash(key) % capacity](key, value);
+        data->add[stringHash(key) % capacity](key, value);
     }
     if(++length >= capacity) {
         grow();
@@ -268,11 +268,11 @@ void StringHashTable<T>::add(const std::string& key, const T& value) {
 
 template <class T>
 void StringHashTable<T>::remove(const std::string& key) {
-    unsigned int bucket = StringHash(key) % arrayLength;
+    unsigned int bucket = stringHash(key) % arrayLength;
     if(data[bucket].matches(key)) {
         data[bucket] = StringHashNode<T>();
     } else {
-        data->remove[StringHash(key) % capacity](key);
+        data->remove[stringHash(key) % capacity](key);
     }
     if(--length < shrinkSize) {
         shrink();
@@ -282,97 +282,25 @@ void StringHashTable<T>::remove(const std::string& key) {
 
 template <class T>
 T StringHashTable<T>::get(const std::string& key) const {
-    return data[StringHash(key) % capacity].get(key);
+    return data[stringHash(key) % capacity].get(key);
 }
 
 
 template <class T>
 T& StringHashTable<T>::getRef(const std::string& key) const {
-    return data[StringHash(key) % capacity].get(key);
+    return data[stringHash(key) % capacity].get(key);
 }
 
 
 template <class T>
 T* StringHashTable<T>::getPtr(const std::string& key) const {
-    return &data[StringHash(key) % capacity].get(key);
+    return &data[stringHash(key) % capacity].get(key);
 }
 
 
 template <class T>
 bool StringHashTable<T>::contains(const std::string& key) const {
     return data->contains(key);
-}
-
-
-/*----------------------------------------------------------------*/
-/*                 HASH FUNCTIONS BELOW                           */
-/*----------------------------------------------------------------*/
-
-
-/**
- * This will produce a usable hash of a standard string.
- * Its primarily for generating decent hashes for
- * use in hash maps / hash tables.
- */
-unsigned int StringHash(const string &s) {
-    unsigned int out = 0;
-    unsigned int i = 0;
-    const char* data = s.c_str();
-    while(data[i] != 0) {
-        out ^= (data[i] << (8 * (i%4)));
-        out ^=  (out << 13);
-        out ^=  (out >> 5);
-        out ^=  (out << 17);
-        i++;
-    }
-    return out;
-}
-
-/**
- * This will produce a usable hash of a c-string.
- * Its primarily for generating decent hashes for
- * use in hash maps / hash tables.
- */
-unsigned int StringHash(char* data) {
-    unsigned int out = 0;
-    unsigned int i = 0;
-    while(data[i] != 0) {
-        out ^= (data[i] << (8 * (i%4)));
-        out ^=  (out << 13);
-        out ^=  (out >> 5);
-        out ^=  (out << 17);
-        i++;
-    }
-    return out;
-}
-
-/**
- * This will produce a usable hash a generic type as defined
- * by the template parameter.
- *
- * Note that for this to work properly T must have a constant
- * size; this should generally be true.
- *
- * Also note that pointers will be hashed based on their addresses,
- * not their contents, and are thus not valid in many case; this
- * includes pointers and arrays as members of classes / structs
- * and thus implicitly applies to classes / structs that contain
- * them.  Specifically, if the data has been serialized and reloaded
- * (or loaded elsewhere such as through a network) the hash will
- * also change, making structures dependent on them invalid.
- */
-template <class T>
-unsigned int GenericHash(const T& data) {
-    char* bytes = reinterpret_cast<char*>(&data);
-    unsigned int out = 0;
-    for(int i = 0; i < sizeof(T); i++) {
-        out ^= ((*(bytes + i)) << (8 * (i%4)));
-        out ^=  (out << 13);
-        out ^=  (out >> 5);
-        out ^=  (out << 17);
-        i++;
-    }
-    return out;
 }
 
 

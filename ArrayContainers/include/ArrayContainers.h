@@ -15,11 +15,12 @@ class IndexOutOfBound {
         std::string source;
 };
 
-unsigned int StringHash(const std::string &s);
-unsigned int StringHash(char* data);
+unsigned int stringHash(const std::string &s);
+unsigned int wstringHash(const std::wstring &s);
+unsigned int stringHash(char* data);
 
 template <class T>
-unsigned int GenericHash(const T& data);
+unsigned int genericHash(const T& data);
 
 
 /**

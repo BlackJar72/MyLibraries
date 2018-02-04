@@ -32,13 +32,13 @@
 	"ArrayContainers.h"
 	<string>
 
-1517753371 /home/jared/Libraries/cpp/src/MyLibraries/ArrayContainers/include/ArrayContainers.h
+1517754488 /home/jared/Libraries/cpp/src/MyLibraries/ArrayContainers/include/ArrayContainers.h
 	<string>
 
-1517750229 source:/home/jared/Libraries/cpp/src/MyLibraries/ArrayContainers/src/Registry.cpp
+1517753354 source:/home/jared/Libraries/cpp/src/MyLibraries/ArrayContainers/src/Registry.cpp
 	"ArrayContainers.h"
 
-1517750805 source:/home/jared/Libraries/cpp/src/MyLibraries/ArrayContainers/src/StringHashTable.cpp
+1517753742 source:/home/jared/Libraries/cpp/src/MyLibraries/ArrayContainers/src/StringHashTable.cpp
 	"ArrayContainers.h"
 	<cstring>
 	<string>
@@ -92,4 +92,7 @@
 	<GL/gl.h>
 	<GL/glext.h>
 	<GL/glu.h>
+
+1517754744 source:/home/jared/Libraries/cpp/src/MyLibraries/ArrayContainers/src/HashFunctions.cpp
+	"ArrayContainers.h"
 
