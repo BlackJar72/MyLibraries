@@ -40,6 +40,9 @@ StringHashNode<T>* StringHashNode<T>::tryAdd(const std::string& key, const T& va
     if(target == 0) {
         target = new StringHashNode(key, value);
         return 0;
+    } else if(target->key == key) {
+        target->value = value;
+        return 0;
     } else {
         return target->next;
     }
@@ -260,13 +263,25 @@ void StringHashTable<T>::remove(const std::string& key) {
 
 
 template <class T>
-T StringHashTable<T>::get(const std::string& key) {
+T StringHashTable<T>::get(const std::string& key) const {
     return data[StringHash(key) % capacity].get(key);
 }
 
 
 template <class T>
-bool StringHashTable<T>::contains(const std::string& key) {
+T& StringHashTable<T>::getRef(const std::string& key) const {
+    return data[StringHash(key) % capacity].get(key);
+}
+
+
+template <class T>
+T* StringHashTable<T>::getPtr(const std::string& key) const {
+    return &data[StringHash(key) % capacity].get(key);
+}
+
+
+template <class T>
+bool StringHashTable<T>::contains(const std::string& key) const {
     return data->contains(key);
 }
 

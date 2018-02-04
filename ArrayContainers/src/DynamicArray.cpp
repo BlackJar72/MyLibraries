@@ -13,9 +13,6 @@ const float D_ARRAY_SHRINK_THRESHOLD = 0.25;
 
 
 template <class T>
-const T* DynamicArray<T>::empty = {};
-
-template <class T>
 DynamicArray<T>::DynamicArray() {
     length = D_ARRAY_INIT_SIZE;
     position = elements = 0;

@@ -61,7 +61,6 @@ class DynamicArray {
     protected:
     private:
         T* data;
-        static const T* empty;
         unsigned int elements;  // The number of elements stored
         unsigned int length;    // The size of the array
         unsigned mutable int position;  // The current element for getNext()
@@ -77,30 +76,31 @@ class DynamicArray {
  */
 template <class T>
 class StringHashNode {
-    public:
+    // This class is *ONLY* to be used with StringHashNode
+    friend class StringHashTable;
+    private:
         StringHashNode();
         StringHashNode(const std::string& key, const T& value);
+
+        const std::string key;
+        T value;
+        const unsigned int hash;
+        mutable StringHashNode<T>* next;
+
         void add(const std::string& key, const T& value);
-        void addNode(const StringHashNode<T>* node);
         bool matches(const std::string& key) const;
         bool isEmpty() const;
-        // For removal of first node
         StringHashNode<T>* getNextNode();
-        // For removal of other nodes
         void remove(const std::string& key);
         T& get(const std::string& key);
         bool contains(const std::string& key) const;
         unsigned int getHash() const;
         virtual ~StringHashNode();
-    private:
-        const std::string key;
-        const T value;
-        const unsigned int hash;
-        mutable StringHashNode<T>* next;
         StringHashNode<T>* tryAdd(const std::string& key, const T& value,
                 StringHashNode* target);
         StringHashNode<T>* tryRemove(const std::string& key,
                 StringHashNode* target, StringHashNode* previous);
+        void addNode(const StringHashNode<T>* node);
 };
 
 
@@ -116,8 +116,10 @@ class StringHashTable {
         StringHashTable(size_t startSize);
         void add(const std::string& key, const T& value);
         void remove(const std::string& key);
-        T get(const std::string& key);
-        bool contains(const std::string& key);
+        T get(const std::string& key) const;
+        T& getRef(const std::string& key) const;
+        T* getPtr(const std::string& key) const;
+        bool contains(const std::string& key) const;
         virtual ~StringHashTable();
     protected:
     private:
@@ -144,16 +146,26 @@ class StringHashTable {
  */
 template <class T>
 class Registry {
-    // TODO:  Needs more planning; will use and array for data and a
-    // hash table or strings to indices within the first array.
     public:
         Registry();
+        Registry(size_t startSize);
         virtual ~Registry();
+        unsigned int add(const std::string& name, const T& t);
+        unsigned int getID(const std::string& name) const;
+        T get(unsigned int id) const;
+        T get(const std::string& name) const;
+        T& getRef(const std::string& name) const;
+        T* getPtr(const std::string& name) const;
+        bool contains(const std::string& name, const T& t);
+        void remove(const std::string& name, const T& t);
     protected:
     private:
         T* data;
-        //StringHashTable<int> nameMap;
+        StringHashTable<int> nameMap;
+        size_t elements;
+        size_t length;
         void grow();
+        void shrink();
 };
 
 }
