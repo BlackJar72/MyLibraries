@@ -81,6 +81,7 @@ class StringHashNode {
         StringHashNode();
         StringHashNode(const std::string& key, const T& value);
         void add(const std::string& key, const T& value);
+        void addNode(const StringHashNode<T>* node);
         bool matches(const std::string& key) const;
         bool isEmpty() const;
         // For removal of first node
@@ -89,6 +90,7 @@ class StringHashNode {
         void remove(const std::string& key);
         T& get(const std::string& key);
         bool contains(const std::string& key) const;
+        unsigned int getHash() const;
         virtual ~StringHashNode();
     private:
         const std::string key;
@@ -116,6 +118,7 @@ class StringHashTable {
         void remove(const std::string& key);
         T get(const std::string& key);
         bool contains(const std::string& key);
+        virtual ~StringHashTable();
     protected:
     private:
         StringHashNode<T>* data;

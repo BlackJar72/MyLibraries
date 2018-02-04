@@ -16,9 +16,7 @@ const string EMPTY = string("");
 
 
 template <class T>
-StringHashNode<T>::StringHashNode() :
-        key(EMPTY), value(T()),
-        hash(NULLHASH) {}
+StringHashNode<T>::StringHashNode() : key(EMPTY), value(T()), hash(NULLHASH) {}
 
 
 template <class T>
@@ -45,6 +43,20 @@ StringHashNode<T>* StringHashNode<T>::tryAdd(const std::string& key, const T& va
     } else {
         return target->next;
     }
+}
+
+
+template <class T>
+void StringHashNode<T>::addNode(const StringHashNode<T>* node) {
+    StringHashNode* target = this;
+    do {
+        if(target->next = 0) {
+            target->next = node;
+            target = 0;
+        } else {
+            target = target->next;
+        }
+    } while(target);
 }
 
 
@@ -143,6 +155,12 @@ StringHashNode<T>::~StringHashNode(){
 }
 
 
+template <class T>
+unsigned int StringHashNode<T>::getHash() const {
+    return hash;
+}
+
+
 /*----------------------------------------------------------------*/
 /*                   THE HASHMAP PROPER                           */
 /*----------------------------------------------------------------*/
@@ -161,12 +179,12 @@ StringHashTable<T>::StringHashTable() {
 
 template <class T>
 StringHashTable<T>::StringHashTable(size_t startSize) {
-        arrayLength = startSize;
-        capacity = (arrayLength * 4) / 3;
-        length = 0;
-        minLength = arrayLength;
-        shrinkSize = 0;
-        data = new StringHashNode<T>[arrayLength];
+    arrayLength = startSize;
+    capacity = (arrayLength * 4) / 3;
+    length = 0;
+    minLength = arrayLength;
+    shrinkSize = 0;
+    data = new StringHashNode<T>[arrayLength];
 }
 
 
@@ -205,7 +223,14 @@ template <class T>
 void StringHashTable<T>::rebucket(StringHashNode<T>* oldData, const size_t oldLen) {
     for(int i = 0; i < oldLen; i++) {
         if(!oldData[i].isEmpty()) {
-            add(oldData[i]);
+            StringHashNode<T>* tmp;
+            StringHashNode<T>* element = &oldData[i];
+            while(element) {
+                data[element->hash % arrayLength].add(*element);
+                element = element->next;
+                tmp = element;
+                tmp->next = 0;
+            }
         }
     }
 }
@@ -213,13 +238,24 @@ void StringHashTable<T>::rebucket(StringHashNode<T>* oldData, const size_t oldLe
 
 template <class T>
 void StringHashTable<T>::add(const std::string& key, const T& value) {
-    data->add[StringHash(key) % capacity](key, value);
+    StringHashNode<T> node = StringHashNode<T>(key, value);
+    unsigned int bucket = node.getHash() % arrayLength;
+    if(data[bucket].isEmpty()) {
+        data[bucket] = node;
+    } else {
+        data->add[StringHash(key) % capacity](key, value);
+    }
 }
 
 
 template <class T>
 void StringHashTable<T>::remove(const std::string& key) {
-    data->remove[StringHash(key) % capacity](key);
+    unsigned int bucket = StringHash(key) % arrayLength;
+    if(data[bucket].matches(key)) {
+        data[bucket] = StringHashNode<T>();
+    } else {
+        data->remove[StringHash(key) % capacity](key);
+    }
 }
 
 
