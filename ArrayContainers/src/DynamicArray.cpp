@@ -1,8 +1,11 @@
-#include "/home/jared/Libraries/cpp/src/MyLibraries/ArrayContainers/include/ArrayContainers.h"
+#include "ArrayContainers.h"
 #include <cstring>
 #include <iostream>
 #include <string>
 #include <assert.h>
+
+// FIXME?: I probably should have the fast non-ordered and
+// the ordered versions as separate classes...?
 
 namespace ArrayContainers {
 
@@ -30,16 +33,19 @@ DynamicArray<T>::DynamicArray(int initialSize) {
 
 template <class T>
 DynamicArray<T>::DynamicArray(const DynamicArray<T>& a) : data(new T[a.length]) {
-    // Considered making a copy contructor, ran into trouble :(
+    // Considered making a move contructor, ran into trouble :(
     memccpy(data, a.data, a.elements * sizeof(T));
 }
 
 
+/**
+ * This does not delete objects that are stored; if
+ * such objects are of a type that requires deletion
+ * this must be done separately.
+ */
+ 
 template <class T>
 DynamicArray<T>::~DynamicArray() {
-    // This does not delete objects that are stored; if
-    // such objects are of a type that requires deletion
-    // this must be done separately.
     delete[] data;
 }
 
@@ -89,11 +95,11 @@ void DynamicArray<T>::add(const T& added) {
 
 
 template <class T>
-void DynamicArray<T>::add(const T& added, unsigned int index) {
-    if(index > elements) {
-        // index may be equal to elements; this would be the same as add(T).
-        throw IndexOutOfBound(std::string("void DynamicArray<T>::add(T added, unsigned int index)"));
-    } else if(index == elements) {
+void DynamicArray<T>::add(const T& added, unsigned int index) {	
+	#ifdef _DEBUG
+    assert(index < elements);
+	#endif
+    if(index == elements) {
         add(added);
     } else {
         elements++;
@@ -110,10 +116,11 @@ void DynamicArray<T>::add(const T& added, unsigned int index) {
 
 template <class T>
 void DynamicArray<T>::set(const T& added, unsigned int index) {
-    if(index >= elements) {
-        throw IndexOutOfBound(std::string("void DynamicArray<T>::set(T added, unsigned int index)"));
-    }
-    data[index] = added;
+	#ifdef _DEBUG
+    assert(index < elements);
+	#endif
+	// Even when not compiled for debug you can't read outside the buffer
+    data[index % elem] = added;
 }
 
 
@@ -143,17 +150,22 @@ void DynamicArray<T>::reset() const {
 
 template <class T>
 T& DynamicArray<T>::peek() {
-    T* out = data + position;
+	#ifdef _DEBUG
+    assert(index < elements);
+	#endif
+	// Even when not compiled for release you still cannot read outside the buffer
+    T* out = data + (position % elements);
     return *out;
 }
 
 
 template <class T>
 T& DynamicArray<T>::get(const unsigned int index) const {
-    if(index >= elements) {
-        throw IndexOutOfBound(std::string("T DynamicArray<T>::get(const unsigned int index) const"));
-    }
-    return data[index];
+	#ifdef _DEBUG
+    assert(index < elements);
+	#endif
+	// Even when not compiled for release buffer cannot read outside the buffer
+    return data[index % elements];
 }
 
 
@@ -164,6 +176,9 @@ T& DynamicArray<T>::getNext() {
     }
     T* out = data + position;
     position++;
+	if(position == elements) {
+		position--;
+	}
     return *out;
 }
 
@@ -174,17 +189,19 @@ T& DynamicArray<T>::getNextWrap() {
             position = 0;
     }
     T* out = data + position;
-    (++position) % elements;
+    ++position;
+	position %= elements;
     return *out;
 }
 
 
 template <class T>
 void DynamicArray<T>::remove(unsigned int index) {
-    if(index >= elements) {
-        throw IndexOutOfBound(std::string("void DynamicArray<T>::remove(unsigned int index)"));
-    }
-    // Move all subsequent elements to preserve order
+	#ifdef _DEBUG
+    assert(index < elements);
+	#endif	
+	// Even when not compiled for release you can't read / write outside the buffer
+	index %= elements;
     for(unsigned int i = index + 1; i < elements; i++) {
         data[i-1] = data[i];
     }
@@ -197,11 +214,11 @@ void DynamicArray<T>::remove(unsigned int index) {
 
 template <class T>
 void DynamicArray<T>::removeFast(unsigned int index) {
-    if(index >= elements) {
-        throw IndexOutOfBound(std::string("void DynamicArray<T>::removeFast(unsigned int index)"));
-    }
-    // Swap with the last elements; sacrifice order for speed
-    data[index] = data[elements - 1];
+	#ifdef _DEBUG
+    assert(index < elements);
+	#endif	
+	// Even when not compiled for release you can't read / write outside the buffer
+    data[index % elements] = data[elements - 1];
     elements--;
     if(elements < (length * D_ARRAY_SHRINK_THRESHOLD)) {
         shrink();
@@ -244,7 +261,7 @@ void DynamicArray<T>::removeAllFast(const T &in) {
 }
 
 
-/*
+/**
  * This is intended to get the array for use with
  * C libraries / APIs.
  */
@@ -256,8 +273,11 @@ const T* DynamicArray<T>::getArray() const {
 
 template <class T>
 T& DynamicArray<T>::operator[](const unsigned int index) const {
+	#ifdef _DEBUG
     assert(index < elements);
-    return data[index];
+	#endif	
+	// Even when not compiled for release you can't read / write outside the buffer
+    return data[index % elements];
 }
 
 

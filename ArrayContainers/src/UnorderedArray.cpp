@@ -2,6 +2,9 @@
 #include <assert.h>
 #include <cstring>
 
+// TODO: Re-introduce and revamp this so that dynamic array doesn't do 
+// double duty as both fast and ordered array based collections.
+
 using namespace MemoryPool;
 
 template <class T>
