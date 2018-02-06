@@ -51,6 +51,7 @@
 		<Unit filename="include/MemoryPool.h" />
 		<Unit filename="src/DynamicArray.cpp" />
 		<Unit filename="src/Freelist.cpp" />
+		<Unit filename="src/HashFunctions.cpp" />
 		<Unit filename="src/IndexOutOfBound.cpp" />
 		<Unit filename="src/ObjectPool.cpp" />
 		<Unit filename="src/Registry.cpp" />

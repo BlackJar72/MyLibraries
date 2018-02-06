@@ -43,7 +43,7 @@ DynamicArray<T>::DynamicArray(const DynamicArray<T>& a) : data(new T[a.length]) 
  * such objects are of a type that requires deletion
  * this must be done separately.
  */
- 
+
 template <class T>
 DynamicArray<T>::~DynamicArray() {
     delete[] data;
@@ -95,7 +95,7 @@ void DynamicArray<T>::add(const T& added) {
 
 
 template <class T>
-void DynamicArray<T>::add(const T& added, unsigned int index) {	
+void DynamicArray<T>::add(const T& added, unsigned int index) {
 	#ifdef _DEBUG
     assert(index < elements);
 	#endif
@@ -120,7 +120,7 @@ void DynamicArray<T>::set(const T& added, unsigned int index) {
     assert(index < elements);
 	#endif
 	// Even when not compiled for debug you can't read outside the buffer
-    data[index % elem] = added;
+    data[index % elements] = added;
 }
 
 
@@ -199,7 +199,7 @@ template <class T>
 void DynamicArray<T>::remove(unsigned int index) {
 	#ifdef _DEBUG
     assert(index < elements);
-	#endif	
+	#endif
 	// Even when not compiled for release you can't read / write outside the buffer
 	index %= elements;
     for(unsigned int i = index + 1; i < elements; i++) {
@@ -216,7 +216,7 @@ template <class T>
 void DynamicArray<T>::removeFast(unsigned int index) {
 	#ifdef _DEBUG
     assert(index < elements);
-	#endif	
+	#endif
 	// Even when not compiled for release you can't read / write outside the buffer
     data[index % elements] = data[elements - 1];
     elements--;
@@ -275,7 +275,7 @@ template <class T>
 T& DynamicArray<T>::operator[](const unsigned int index) const {
 	#ifdef _DEBUG
     assert(index < elements);
-	#endif	
+	#endif
 	// Even when not compiled for release you can't read / write outside the buffer
     return data[index % elements];
 }
