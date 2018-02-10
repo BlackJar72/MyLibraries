@@ -153,9 +153,33 @@ class Registry {
         virtual ~Registry();
         unsigned int add(const std::string& name, const T& t);
         unsigned int getID(const std::string& name) const;
-        T get(unsigned int id) const;
-        T& getRef(unsigned int id) const;
-        T* getPtr(unsigned int id) const;
+        // These are for raw speed, and are the main reason for thisS
+        inline T get(unsigned int id) const {
+            #ifdef _DEBUG
+            assert((id < 0) || (id >= elements));
+            #endif // _DEBUG
+            return data[id];
+        }
+        inline T& getRef(unsigned int id) const {
+            #ifdef _DEBUG
+            assert((id < 0) || (id >= elements));
+            #endif // _DEBUG
+            return data[id];
+
+        }
+        inline T* getPtr(unsigned int id) const {
+            #ifdef _DEBUG
+            assert((id < 0) || (id >= elements));
+            #endif // _DEBUG
+            return data + id;
+        }
+        // These are slower but allow greater safety;
+        // they will throw an index out of bounds exception.
+        T getSafer(unsigned int id) const;
+        T& getRefSafer(unsigned int id) const;
+        T* getPtrSafer(unsigned int id) const;
+        // These are for convenience but should not usually be
+        // used -- they defeat the purpose of this class.
         T get(const std::string& name) const;
         T& getRef(const std::string& name) const;
         T* getPtr(const std::string& name) const;

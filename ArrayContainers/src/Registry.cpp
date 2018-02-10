@@ -59,46 +59,72 @@ void Registry<T>::shrink() {
 
 template <class T>
 unsigned int Registry<T>::add(const std::string& name, const T& t) {
-    nameMap.add(name, elements);
-    data[++elements] = t;
-    if(elements >= length) {
-        grow();
+    if(nameMap.contains(name)) {
+        size_t i = nameMap.get(name);
+        data[i] = t;
+    } else {
+        nameMap.add(name, elements);
+        data[++elements] = t;
+        if(elements >= length) {
+            grow();
+        }
+        return elements - 1;
     }
-    return elements - 1;
 }
 
 
 template <class T>
 unsigned int Registry<T>::getID(const std::string& name) const {
     #ifdef _DEBUG
-    assert(nameMap.contains(name));
+    assert(nameMap.contains(name), "Out of bounds index sent to Registry::getID()");
     #endif // _DEBUG
     return nameMap.get(name);
 }
 
 
 template <class T>
-T Registry<T>::get(unsigned int id) const {
+T Registry<T>::getSafer(unsigned int id) const {
     #ifdef _DEBUG
     assert((id < 0) || (id >= elements));
+    #else
+    if((id < 0) || (id > elements)) {
+        std::string error = std::string("Out of bounds index of ");
+        error.append(std::to_string(id));
+        error.append(" in class method ArrayContainers::Registry::getSafer()");
+        throw IndexOutOfBound(error);
+    }
     #endif // _DEBUG
     return data[id % length];
 }
 
 
 template <class T>
-T& Registry<T>::getRef(unsigned int id) const {
+T& Registry<T>::getRefSafer(unsigned int id) const {
     #ifdef _DEBUG
     assert((id < 0) || (id >= elements));
+    #else
+    if((id < 0) || (id > elements)) {
+        std::string error = std::string("Out of bounds index of ");
+        error.append(std::to_string(id));
+        error.append(" in class method ArrayContainers::Registry::getRefSafer()");
+        throw new IndexOutOfBound(error);
+    }
     #endif // _DEBUG
     return data[id % length];
 }
 
 
 template <class T>
-T* Registry<T>::getPtr(unsigned int id) const {
+T* Registry<T>::getPtrSafer(unsigned int id) const {
     #ifdef _DEBUG
     assert((id < 0) || (id >= elements));
+    #else
+    if((id < 0) || (id > elements)) {
+        std::string error = std::string("Out of bounds index of ");
+        error.append(std::to_string(id));
+        error.append(" in class method ArrayContainers::Registry::getPtrSafer()");
+        throw new IndexOutOfBound(error);
+    }
     #endif // _DEBUG
     return data + (id % length);
 }
