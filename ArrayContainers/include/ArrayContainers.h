@@ -77,7 +77,7 @@ class DynamicArray {
  */
 template <class T>
 class StringHashNode {
-    // This class is *ONLY* to be used with StringHashNode
+    // This class is *ONLY* to be used with StringHashTable
     friend class StringHashTable;
     private:
         StringHashNode();
