@@ -4,7 +4,9 @@ using namespace std;
 
 namespace ArrayContainers {
 
+// Should always be one, but checking anyway
 const size_t ASCII_STRIDE = sizeof(unsigned int) / sizeof(char);
+// This is required (note that the size of wchar_t is system dependent.)
 const size_t WCHAR_STRIDE = sizeof(unsigned int) / sizeof(wchar_t);
 // Assuming standard 8-bit bytes, because its nearly universal and 
 // I don't know a way to get the size of a byte in bits otherwise.
