@@ -134,25 +134,27 @@ bool Mat2f::equals(const Mat2f &b) const {
 /*                                OPERATORS                                */
 /*-------------------------------------------------------------------------*/
 
-const Mat2f operator+(const Mat2f &a, const Mat2f &b) const {
+const Mat2f operator+(const Mat2f &a, const Mat2f &b) {
 	Mat2f out(a);
-	a.m[0] += b.m[0];
-	a.m[1] += b.m[1];
-	a.m[2] += b.m[2];
-	a.m[3] += b.m[3];
+	out.m[0] += b.m[0];
+	out.m[1] += b.m[1];
+	out.m[2] += b.m[2];
+	out.m[3] += b.m[3];
+	return out;
 }
 
 
-friend const Mat2f operator-(const Mat2f &a, const Mat2f &b) const {
+const Mat2f operator-(const Mat2f &a, const Mat2f &b) {
 	Mat2f out(a);
-	a.m[0] -= b.m[0];
-	a.m[1] -= b.m[1];
-	a.m[2] -= b.m[2];
-	a.m[3] -= b.m[3];
+	out.m[0] -= b.m[0];
+    out.m[1] -= b.m[1];
+	out.m[2] -= b.m[2];
+	out.m[3] -= b.m[3];
+	return out;
 }
 
 
-friend const Mat2f operator*(const Mat2f &a, const Mat2f &b) const {
+const Mat2f operator*(const Mat2f &a, const Mat2f &b) {
 	Mat2f out(a);
     out.m[0] = (a.m[0] * b.m[0]) + (a.m[1] * b.m[2]);
     out.m[1] = (a.m[0] * b.m[1]) + (a.m[1] * b.m[3]);
@@ -163,7 +165,7 @@ friend const Mat2f operator*(const Mat2f &a, const Mat2f &b) const {
 }
 
 
-friend const Mat2f operator/(const Mat2f &a, const Mat2f &b) const {
+const Mat2f operator/(const Mat2f &a, const Mat2f &b) {
 	Mat2f out(a);
 	Mat2f inv = b.inverse();
     out.m[0] = (a.m[0] * inv.m[0]) + (a.m[1] * inv.m[2]);
@@ -171,29 +173,30 @@ friend const Mat2f operator/(const Mat2f &a, const Mat2f &b) const {
     out.m[2] = (a.m[2] * inv.m[0]) + (a.m[3] * inv.m[2]);
     out.m[3] = (a.m[2] * inv.m[1]) + (a.m[3] * inv.m[3]);
     return out;
-
 }
 
 
-friend const Mat2f operator*(const Mat2f &a, const float &b) {
+const Mat2f operator*(const Mat2f &a, const float &b) {
 	Mat2f out(a);
 	out.m[0] *= b;
 	out.m[1] *= b;
 	out.m[2] *= b;
 	out.m[3] *= b;
+	return out;
 }
 
 
-friend const Mat2f operator/(const Mat2f &a, const float &b) {
+const Mat2f operator/(const Mat2f &a, const float &b) {
 	Mat2f out(a);
 	out.m[0] /= b;
 	out.m[1] /= b;
 	out.m[2] /= b;
 	out.m[3] /= b;
+	return out;
 }
 
 
-const Mat2f::Mat2f& operator+(const Mat2f& b) {
+const Mat2f& Mat2f::operator+=(const Mat2f& b) {
 	m[0] += b.m[0];
 	m[1] += b.m[1];
 	m[2] += b.m[2];
@@ -202,7 +205,7 @@ const Mat2f::Mat2f& operator+(const Mat2f& b) {
 }
 
 
-const Mat2f::Mat2f& operator-(const Mat2f& b) {
+const Mat2f& Mat2f::operator-=(const Mat2f& b) {
 	m[0] -= b.m[0];
 	m[1] -= b.m[1];
 	m[2] -= b.m[2];
@@ -211,71 +214,75 @@ const Mat2f::Mat2f& operator-(const Mat2f& b) {
 }
 
 
-const Mat2f::Mat2f& operator*(const Mat2f& b) {	
+const Mat2f& Mat2f::operator*=(const Mat2f& b) {
     m[0] = (m[0] * b.m[0]) + (m[1] * b.m[2]);
     m[1] = (m[0] * b.m[1]) + (m[1] * b.m[3]);
     m[2] = (m[2] * b.m[0]) + (m[3] * b.m[2]);
     m[3] = (m[2] * b.m[1]) + (m[3] * b.m[3]);
+    return *this;
 }
 
 
-const Mat2f::Mat2f& operator/(const Mat2f& b) {
-	Mat2f inv = b.inverse;
+const Mat2f& Mat2f::operator/=(const Mat2f& b) {
+	Mat2f inv = b.inverse();
     m[0] = (m[0] * inv.m[0]) + (m[1] * inv.m[2]);
     m[1] = (m[0] * inv.m[1]) + (m[1] * inv.m[3]);
     m[2] = (m[2] * inv.m[0]) + (m[3] * inv.m[2]);
     m[3] = (m[2] * inv.m[1]) + (m[3] * inv.m[3]);
+    return *this;
 }
 
 
-const Mat2f::Mat2f& operator*(const float& b) {
+const Mat2f& Mat2f::operator*=(const float& b) {
 	m[0] *= b;
 	m[1] *= b;
 	m[2] *= b;
 	m[3] *= b;
+	return *this;
 }
 
 
-const Mat2f::Mat2f& operator/(const float& b) {
+const Mat2f& Mat2f::operator/=(const float& b) {
 	m[0] /= b;
 	m[1] /= b;
 	m[2] /= b;
 	m[3] /= b;
-}
-
-		
-friend bool operator==(const Mat2f &a, const Mat2f &b) {
-	return ((a[0] == b[0])   && (a[1] == b[1])   && (a[2] == b[2])   &&(a[3] == b[3])   &&
-			(a[4] == b[4])   && (a[5] == b[5])   && (a[6] == b[6])   &&(a[7] == b[7])   &&
-			(a[8] == b[8])   && (a[9] == b[9])   && (a[10] == b[10]) &&(a[11] == b[11]) &&
-			(a[12] == b[12]) && (a[13] == b[13]) && (a[14] == b[14]) &&(a[15] == b[15]))
+	return *this;
 }
 
 
-friend bool operator!=(const Mat2f &a, const Mat2f &b) {
-	return ((a[0] != b[0])   || (a[1] != b[1])   || (a[2] != b[2])   ||(a[3] != b[3])   ||
-			(a[4] != b[4])   || (a[5] != b[5])   || (a[6] != b[6])   ||(a[7] != b[7])   ||
-			(a[8] != b[8])   || (a[9] != b[9])   || (a[10] != b[10]) ||(a[11] != b[11]) ||
-			(a[12] != b[12]) || (a[13] != b[13]) || (a[14] != b[14]) ||(a[15] != b[15]))
+bool operator==(const Mat2f &a, const Mat2f &b) {
+	return ((a.m[0] == b.m[0])   && (a.m[1] == b.m[1])   && (a.m[2] == b.m[2])   &&(a.m[3] == b.m[3])   &&
+			(a.m[4] == b.m[4])   && (a.m[5] == b.m[5])   && (a.m[6] == b.m[6])   &&(a.m[7] == b.m[7])   &&
+			(a.m[8] == b.m[8])   && (a.m[9] == b.m[9])   && (a.m[10] == b.m[10]) &&(a.m[11] == b.m[11]) &&
+			(a.m[12] == b.m[12]) && (a.m[13] == b.m[13]) && (a.m[14] == b.m[14]) &&(a.m[15] == b.m[15]));
 }
 
 
-friend bool operator>=(const Mat2f &a, const Mat2f &b) {
+bool operator!=(const Mat2f &a, const Mat2f &b) {
+	return ((a.m[0] != b.m[0])   || (a.m[1] != b.m[1])   || (a.m[2] != b.m[2])   ||(a.m[3] != b.m[3])   ||
+			(a.m[4] != b.m[4])   || (a.m[5] != b.m[5])   || (a.m[6] != b.m[6])   ||(a.m[7] != b.m[7])   ||
+			(a.m[8] != b.m[8])   || (a.m[9] != b.m[9])   || (a.m[10] != b.m[10]) ||(a.m[11] != b.m[11]) ||
+			(a.m[12] != b.m[12]) || (a.m[13] != b.m[13]) || (a.m[14] != b.m[14]) ||(a.m[15] != b.m[15]));
+}
+
+
+bool operator>=(const Mat2f &a, const Mat2f &b) {
 	return a.det() >= b.det();
 }
 
 
-friend bool operator<=(const Mat2f &a, const Mat2f &b) {
+bool operator<=(const Mat2f &a, const Mat2f &b) {
 	return a.det() <= b.det();
 }
 
 
-friend bool operator>(const  Mat2f &a, const Mat2f &b) {
+bool operator>(const  Mat2f &a, const Mat2f &b) {
 	return a.det() > b.det();
 }
 
 
-friend bool operator<(const  Mat2f &a, const Mat2f &b) {
+bool operator<(const  Mat2f &a, const Mat2f &b) {
 	return a.det() < b.det();
 }
 
