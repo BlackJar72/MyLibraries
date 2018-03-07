@@ -210,11 +210,25 @@ class Mat2f {
         Mat2f transpose() const;
         Mat2f inverse() const;
         bool  equals(const Mat2f &b) const;
-        // TODO: Operators		
-        friend const Mat2f operator+(const Mat2f &a, const Mat2f &b);
-        friend const Mat2f operator-(const Mat2f &a, const Mat2f &b);
+        // Operators		
+        friend const Mat2f operator+(const Mat2f &a, const Mat2f &b) const;
+        friend const Mat2f operator-(const Mat2f &a, const Mat2f &b) const;
+        friend const Mat2f operator*(const Mat2f &a, const Mat2f &b) const;
+        friend const Mat2f operator/(const Mat2f &a, const Mat2f &b) const;
+        friend const Mat2f operator*(const Mat2f &a, const float &b) const;
+        friend const Mat2f operator/(const Mat2f &a, const float &b) const;
         const Mat2f& operator+(const Mat2f& b);
         const Mat2f& operator-(const Mat2f& b);
+        const Mat2f& operator*(const Mat2f& b);
+        const Mat2f& operator/(const Mat2f& b);
+        const Mat2f& operator*(const float& b);
+        const Mat2f& operator/(const float& b);		
+        friend bool operator==(const Mat2f &a, const Mat2f &b);
+        friend bool operator!=(const Mat2f &a, const Mat2f &b);
+        friend bool operator>=(const Mat2f &a, const Mat2f &b);
+        friend bool operator<=(const Mat2f &a, const Mat2f &b);
+        friend bool operator>(const  Mat2f &a, const Mat2f &b);
+        friend bool operator<(const  Mat2f &a, const Mat2f &b);
     protected:
     private:
         float m[4];
