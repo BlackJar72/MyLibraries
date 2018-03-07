@@ -68,6 +68,7 @@ Mat4f Mat4f::sub(const Mat4f &b) const {
 }
 
 
+// Not technically a defined product (like dot or cross) but useful
 Mat4f Mat4f::mul(const Mat4f &b) const {
     Mat4f out = Mat4f();
     out.m[0] = (m[0] * b.m[0]) + (m[1] * b.m[4]) + (m[2] * b.m[8])  + (m[3] + b.m[12]);
@@ -93,6 +94,7 @@ Mat4f Mat4f::mul(const Mat4f &b) const {
 }
 
 
+// Not technically a defined product (like dot or cross) but useful
 Vec4f Mat4f::mul(const Vec4f &b) const {
         return Vec4f(b.data[0]*m[0]  + b.data[1]*m[1]  + b.data[2]*m[2]  + b.data[3]*m[3],
                      b.data[0]*m[4]  + b.data[1]*m[5]  + b.data[2]*m[6]  + b.data[3]*m[7],

@@ -8,6 +8,14 @@ Mat2f::Mat2f() {
 }
 
 
+Mat2f::Mat2f(const Mat2f& in) {
+	m[0] = in.m[0];
+	m[1] = in.m[1];
+	m[2] = in.m[2];
+	m[3] = in.m[3];
+}
+
+
 Mat2f::~Mat2f() {/*No dynamic allocation, so nothing to clean up*/}
 
 
@@ -126,5 +134,39 @@ bool Mat2f::equals(const Mat2f &b) const {
 /*                                OPERATORS                                */
 /*-------------------------------------------------------------------------*/
 
+const Mat2f operator+(const Mat2f &a, const Mat2f &b) {
+	Mat2f out(a);
+	a.m[0] += b.m[0];
+	a.m[1] += b.m[1];
+	a.m[2] += b.m[2];
+	a.m[3] += b.m[3];
+}
+
+
+friend const Mat2f operator-(const Mat2f &a, const Mat2f &b) {
+	Mat2f out(a);
+	a.m[0] -= b.m[0];
+	a.m[1] -= b.m[1];
+	a.m[2] -= b.m[2];
+	a.m[3] -= b.m[3];
+}
+
+
+const Mat2f::Mat2f& operator+(const Mat2f& b) {
+	m[0] += b.m[0];
+	m[1] += b.m[1];
+	m[2] += b.m[2];
+	m[3] += b.m[3];
+	return *this;
+}
+
+
+const Mat2f::Mat2f& operator-(const Mat2f& b) {
+	m[0] -= b.m[0];
+	m[1] -= b.m[1];
+	m[2] -= b.m[2];
+	m[3] -= b.m[3];
+	return *this;
+}
 
 }
