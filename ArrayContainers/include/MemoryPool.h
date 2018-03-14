@@ -36,24 +36,24 @@ template <class T>
 class Freelist
 {
     public:
-        Freelist(const unsigned int capacity);
+        Freelist(const std::size_t capacity);
         virtual ~Freelist();
         void add();
         void add(const T& added);
         bool addSafe();
         bool addSafe(const T& added);
         T*   nextSlot();
-        void remove(const unsigned int index);
-        bool removeSafe(const unsigned int index);
-        unsigned int capacity() const;
+        void remove(const std::size_t index);
+        bool removeSafe(const std::size_t index);
+        std::size_t capacity() const;
         bool isFull() const;
         void clear();
         void clearSafe();
-        FreelistElement<T>& get(const unsigned int index) const;
-        FreelistElement<T>& operator[](const unsigned int index) const;
+        FreelistElement<T>& get(const std::size_t index) const;
+        FreelistElement<T>& operator[](const std::size_t index) const;
     protected:
     private:
-        const unsigned int length;
+        const std::size_t length;
         const FreelistElement<T> data;
         FreelistElement<T>* head;
 };
@@ -70,24 +70,24 @@ template <class T>
 class ObjectPool
 {
     public:
-        ObjectPool(const unsigned int capacity);
+        ObjectPool(const std::size_t capacity);
         virtual ~ObjectPool();
         T* add();
         T* add(const T& added);
         T* nextSlot();
-        void remove(const unsigned int index);
-        bool removeSafe(const unsigned int index);
+        void remove(const std::size_t index);
+        bool removeSafe(const std::size_t index);
         void remove(T* ptr);
         bool removeSafe(T* ptr);
         void clear();
-        unsigned int capacity() const;
+        std::size_t capacity() const;
         bool isFull() const;
-        bool isValid(const unsigned int index) const;
-        T& get(const unsigned int index) const;
-        T& operator[](const unsigned int index) const;
+        bool isValid(const std::size_t  index) const;
+        T& get(const std::size_t index) const;
+        T& operator[](const std::size_t index) const;
     protected:
     private:
-        const unsigned int length;
+        const std::size_t length;
         const FreelistElement<T>* data;
         FreelistElement<T>* head;
 };
@@ -114,31 +114,33 @@ template <class T>
 class UnorderedArray
 {
     public:
-        UnorderedArray(const unsigned int capacity);
+        UnorderedArray(const std::size_t capacity);
         virtual ~UnorderedArray();
         void add();
         void add(const T& added);
         T*  nextSlot();
-        void remove(const unsigned int index);
+        void remove(const std::size_t index);
         void removePrevious();
-        unsigned int size() const;
-        unsigned int capacity() const;
-        unsigned int room() const;
+        std::size_t size() const;
+        std::size_t capacity() const;
+        std::size_t room() const;
         bool isFull() const;
         bool isEmpty() const;
-        T& get(const unsigned int index) const;
+        T& get(const std::size_t index) const;
         T& getNext() const;
         bool hasMore() const;
         void reset() const;
         void clear();
         const T* getArray() const;
+        T& operator[](const std::size_t index) const;
         T& operator[](const unsigned int index) const;
-    protected:
+        inline T* begin() {return data;}
+        inline T* end() {return (data + elements);}
     private:
-        const unsigned int length;
+        const std::size_t length;
         const T* data;
-        unsigned int elements;
-        unsigned mutable int position;
+        std::size_t  elements;
+        mutable std::size_t position;
 };
 
 }

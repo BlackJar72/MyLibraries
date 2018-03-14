@@ -4,7 +4,7 @@ using namespace MemoryPool;
 
 
 template <class T>
-ObjectPool<T>::ObjectPool(const unsigned int capacity) :
+ObjectPool<T>::ObjectPool(const std::size_t capacity) :
         length(capacity) {
     data = new FreelistElement<T>[capacity];
     head = data;
@@ -56,7 +56,7 @@ T* ObjectPool<T>::add() {
  * copying the data of the passed in object.
  *
  * This will return a pointer to the elements in the
- * pool.  As usually, care should be taken in managing
+ * pool.  As usual, care should be taken in managing
  * the pointer, as it can point to invalid data if
  * the element is removed.  Under no circumstance should
  * free or delete EVER be called on the pointer, as this would
@@ -108,7 +108,7 @@ T* ObjectPool<T>::nextSlot() {
  * checked or you somehow otherwise know it is.
  */
 template <class T>
-void ObjectPool<T>::remove(const unsigned int index) {
+void ObjectPool<T>::remove(const std::size_t index) {
     #ifdef _DEBUG
     assert((index < length) && !data[index].link.unused);
     #endif // _DEBUG
@@ -126,7 +126,7 @@ void ObjectPool<T>::remove(const unsigned int index) {
  * use.
  */
 template <class T>
-bool ObjectPool<T>::removeSafe(const unsigned int index) {
+bool ObjectPool<T>::removeSafe(const std::size_t index) {
     bool out = (index < length) && !data[index].link.unused;
     if(out) {
         remove(index);
@@ -201,7 +201,7 @@ void Freelist<T>::clearSafe() {
  * This will return the total capacity of the pool.
  */
 template <class T>
-unsigned int ObjectPool<T>::capacity() const {
+std::size_t ObjectPool<T>::capacity() const {
     return length;
 }
 
@@ -239,7 +239,7 @@ void Freelist<T>::clear() {
  * is not.
  */
 template <class T>
-bool ObjectPool<T>::isValid(const unsigned int index) const {
+bool ObjectPool<T>::isValid(const std::size_t index) const {
     return ((index < length) && data[index].used);
 }
 
@@ -251,7 +251,7 @@ bool ObjectPool<T>::isValid(const unsigned int index) const {
  * the object returned is valid.
  */
 template <class T>
-T& ObjectPool<T>::get(const unsigned int index) const {
+T& ObjectPool<T>::get(const std::size_t index) const {
     #ifdef _DEBUG
     assert((index < length) && data[index].used);
     #endif // _DEBUG
@@ -267,7 +267,7 @@ T& ObjectPool<T>::get(const unsigned int index) const {
  * There is no guarantee the object returned is valid.
  */
 template <class T>
-T& ObjectPool<T>::operator[](const unsigned int index) const {
+T& ObjectPool<T>::operator[](const std::size_t index) const {
     #ifdef _DEBUG
     assert((index < length) && data[index].used);
     #endif // _DEBUG

@@ -270,7 +270,9 @@ template <class T>
 void StringHashTable<T>::remove(const std::string& key) {
     unsigned int bucket = stringHash(key) % arrayLength;
     if(data[bucket].matches(key)) {
-        data[bucket] = StringHashNode<T>();
+        if(data[bucket].next.isEmpty())
+            data[bucket] = StringHashNode<T>();
+        else data[bucket] = data[bucket].next;
     } else {
         data->remove[stringHash(key) % capacity](key);
     }

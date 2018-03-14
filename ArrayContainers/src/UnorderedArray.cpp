@@ -2,13 +2,13 @@
 #include <assert.h>
 #include <cstring>
 
-// TODO: Re-introduce and revamp this so that dynamic array doesn't do 
+// TODO: Re-introduce and revamp this so that dynamic array doesn't do
 // double duty as both fast and ordered array based collections.
 
 using namespace MemoryPool;
 
 template <class T>
-UnorderedArray<T>::UnorderedArray(const unsigned int capacity) :
+UnorderedArray<T>::UnorderedArray(const std::size_t capacity) :
         length(capacity), elements(0), position(0) {
     data = new T[capacity];
 }
@@ -64,7 +64,7 @@ T* UnorderedArray<T>::nextSlot() {
  * Remove the element at the array index from the pool.
  */
 template <class T>
-void UnorderedArray<T>::remove(const unsigned int index) {
+void UnorderedArray<T>::remove(const std::size_t index) {
     #ifdef _DEBUG
     assert((index < length));
     #endif // _DEBUG
@@ -88,7 +88,7 @@ void UnorderedArray<T>::removePrevious() {
  * Returns the current number of elements in the pool.
  */
 template <class T>
-unsigned int UnorderedArray<T>::size() const {
+std::size_t UnorderedArray<T>::size() const {
     return elements;
 }
 
@@ -97,7 +97,7 @@ unsigned int UnorderedArray<T>::size() const {
  * Return the total number of elements the pool can hold.
  */
 template <class T>
-unsigned int UnorderedArray<T>::capacity() const {
+std::size_t UnorderedArray<T>::capacity() const {
     return length;
 }
 
@@ -108,7 +108,7 @@ unsigned int UnorderedArray<T>::capacity() const {
  * number already stored.
  */
 template <class T>
-unsigned int UnorderedArray<T>::room() const {
+std::size_t UnorderedArray<T>::room() const {
     return length - elements;
 }
 
@@ -137,7 +137,7 @@ bool UnorderedArray<T>::isEmpty() const {
  * have been warned.
  */
 template <class T>
-T& UnorderedArray<T>::get(const unsigned int index) const {
+T& UnorderedArray<T>::get(const std::size_t index) const {
     #ifdef _DEBUG
     assert(index < elements);
     #endif // _DEBUG
@@ -209,7 +209,7 @@ const T* UnorderedArray<T>::getArray() const {
  * around to 0 after the next element.  You have been warned.
  */
 template <class T>
-T& UnorderedArray<T>::operator[](const unsigned int index) const {
+T& UnorderedArray<T>::operator[](const std::size_t index) const {
     #ifdef _DEBUG
     assert(index < elements);
     #endif // _DEBUG

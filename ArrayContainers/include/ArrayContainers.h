@@ -59,6 +59,8 @@ class DynamicArray {
         const T* getArray() const;
         void reset() const;
         T& operator[](const unsigned int index) const;
+        inline T* begin() {return data;}
+        inline T* end() {return (data + elements);}
     protected:
     private:
         T* data;

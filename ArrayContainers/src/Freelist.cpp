@@ -3,7 +3,7 @@
 using namespace MemoryPool;
 
 template <class T>
-Freelist<T>::Freelist(const unsigned int capacity) :
+Freelist<T>::Freelist(const std::size_t capacity) :
         length(capacity) {
     data = new T[capacity];
     head = data;
@@ -112,7 +112,7 @@ T* Freelist<T>::nextSlot() {
  * checked or you somehow otherwise know it is.
  */
 template <class T>
-void Freelist<T>::remove(const unsigned int index) {
+void Freelist<T>::remove(const std::size_t index) {
     #ifdef _DEBUG
     assert((index < length) && !data[index].link.unused);
     #endif // _DEBUG
@@ -129,7 +129,7 @@ void Freelist<T>::remove(const unsigned int index) {
  * use.
  */
 template <class T>
-bool Freelist<T>::removeSafe(const unsigned int index) {
+bool Freelist<T>::removeSafe(const std::size_t index) {
     bool out = (index < length) && !data[index].link.unused;
     if(out) {
         remove(index);
@@ -142,7 +142,7 @@ bool Freelist<T>::removeSafe(const unsigned int index) {
  * This will return the total capacity of the pool.
  */
 template <class T>
-unsigned int Freelist<T>::capacity() const {
+std::size_t Freelist<T>::capacity() const {
     return length;
 }
 
@@ -188,7 +188,7 @@ void Freelist<T>::clear() {
  * never be changed.
  */
 template <class T>
-FreelistElement<T>& Freelist<T>::get(const unsigned int index) const {
+FreelistElement<T>& Freelist<T>::get(const std::size_t index) const {
     #ifdef _DEBUG
     assert(((index < length));
     #endif // _DEBUG
@@ -203,7 +203,7 @@ FreelistElement<T>& Freelist<T>::get(const unsigned int index) const {
  * will instead wrap around to the beginning.
  */
 template <class T>
-FreelistElement<T>& Freelist<T>::operator[](const unsigned int index) const {
+FreelistElement<T>& Freelist<T>::operator[](const std::size_t index) const {
     #ifdef _DEBUG
     assert((index < length));
     #endif // _DEBUG
