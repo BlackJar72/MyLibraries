@@ -12,7 +12,7 @@ const float D_ARRAY_SHRINK_THRESHOLD = 0.25;
 template <class T>
 Registry<T>::Registry() :
             data(new T[D_ARRAY_INIT_SIZE]),
-            nameMap(StringHashTable<int>(D_MAP_INIT_SIZE)),
+            nameMap(std::unordered_map<std::string, unsigned int>(D_MAP_INIT_SIZE)),
             elements(0),
             length(D_ARRAY_INIT_SIZE) {}
 
@@ -20,7 +20,7 @@ Registry<T>::Registry() :
 template <class T>
 Registry<T>::Registry(size_t startSize) :
             data(new T[startSize]),
-            nameMap(StringHashTable<int>(((startSize * 4) / 3) + 1)),
+            nameMap(std::unordered_map<std::string, unsigned int>(((startSize * 4) / 3) + 1)),
             elements(0),
             length(startSize)  {}
 
@@ -42,28 +42,12 @@ void Registry<T>::grow() {
 
 
 template <class T>
-void Registry<T>::shrink() {
-    if(length <= D_ARRAY_INIT_SIZE) {
-        return;
-    }
-    length *= D_ARRAY_SHRINK_FACTOR;
-    if(length < D_ARRAY_INIT_SIZE) {
-        length = D_ARRAY_INIT_SIZE;
-    }
-    T* smaller = new T(length);
-    memcpy(smaller, data, elements * sizeof(T));
-    delete data;
-    data = smaller;
-}
-
-
-template <class T>
 unsigned int Registry<T>::add(const std::string& name, const T& t) {
-    if(nameMap.contains(name)) {
-        size_t i = nameMap.get(name);
+    if(contains(name)) {
+        size_t i = nameMap[name];
         data[i] = t;
     } else {
-        nameMap.add(name, elements);
+        nameMap.emplace(name, elements);
         data[++elements] = t;
         if(elements >= length) {
             grow();
@@ -76,16 +60,15 @@ unsigned int Registry<T>::add(const std::string& name, const T& t) {
 template <class T>
 unsigned int Registry<T>::getID(const std::string& name) const {
     #ifdef _DEBUG
-    assert(nameMap.contains(name), "Out of bounds index sent to Registry::getID()");
+    assert(contains(name), "Out of bounds index sent to Registry::getID()");
     #endif // _DEBUG
-    return nameMap.get(name);
+    return nameMap.at(name);
 }
-
 
 template <class T>
 T Registry<T>::getSafer(unsigned int id) const {
     #ifdef _DEBUG
-    assert((id < 0) || (id >= elements));
+    assert(id <= elements);
     #else
     if((id < 0) || (id > elements)) {
         std::string error = std::string("Out of bounds index of ");
@@ -101,7 +84,7 @@ T Registry<T>::getSafer(unsigned int id) const {
 template <class T>
 T& Registry<T>::getRefSafer(unsigned int id) const {
     #ifdef _DEBUG
-    assert((id < 0) || (id >= elements));
+    assert(id <= elements);
     #else
     if((id < 0) || (id > elements)) {
         std::string error = std::string("Out of bounds index of ");
@@ -117,7 +100,7 @@ T& Registry<T>::getRefSafer(unsigned int id) const {
 template <class T>
 T* Registry<T>::getPtrSafer(unsigned int id) const {
     #ifdef _DEBUG
-    assert((id < 0) || (id >= elements));
+    assert(id <= elements);
     #else
     if((id < 0) || (id > elements)) {
         std::string error = std::string("Out of bounds index of ");
@@ -135,7 +118,7 @@ T Registry<T>::get(const std::string& name) const {
     #ifdef _DEBUG
     // Allowing it to assert here lets me know this was
     // called directly, not getID().
-    assert(nameMap.contains(name));
+    assert(mapContains(name));
     #endif // _DEBUG
     return get(getID(name));
 }
@@ -146,7 +129,7 @@ T& Registry<T>::getRef(const std::string& name) const {
     #ifdef _DEBUG
     // Allowing it to assert here lets me know this was
     // called directly, not getID().
-    assert(nameMap.contains(name));
+    assert(mapContains(name));
     #endif // _DEBUG
     return getRef(getID(name));
 }
@@ -157,15 +140,15 @@ T* Registry<T>::getPtr(const std::string& name) const {
     #ifdef _DEBUG
     // Allowing it to assert here lets me know this was
     // called directly, not getID().
-    assert(nameMap.contains(name));
+    assert(mapContains(name));
     #endif // _DEBUG
     return getPtr(getID(name));
 }
 
 
 template <class T>
-bool Registry<T>::contains(const std::string& name) {
-    return nameMap.contains(name);
+bool Registry<T>::contains(const std::string& name) const {
+    return nameMap.find(name) != nameMap.end();
 }
 
 
