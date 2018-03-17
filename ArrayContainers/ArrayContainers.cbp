@@ -56,7 +56,6 @@
 		<Unit filename="src/IndexOutOfBound.cpp" />
 		<Unit filename="src/ObjectPool.cpp" />
 		<Unit filename="src/Registry.cpp" />
-		<Unit filename="src/StringHashTable.cpp" />
 		<Unit filename="src/UnorderedArray.cpp" />
 		<Extensions>
 			<envvars />
