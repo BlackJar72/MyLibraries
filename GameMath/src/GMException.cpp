@@ -6,18 +6,18 @@ GMException::GMException() {}
 GMException::~GMException() {}
 
 
-GMException::GMException(string name, string description) {
+GMException::GMException(std::string name, std::string description) {
     this->name = name;
     this->description = description;
 }
 
 
-string GMException::getName() const {
+std::string GMException::getName() const {
     return name;
 }
 
 
-string GMException::getDescription() const {
+std::string GMException::getDescription() const {
     return description;
 }
 

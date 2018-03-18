@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1521409596 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Model.cpp
+	"Model.h"
+
+1521405095 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/Model.h
+
+1521414746 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Mesh.cpp
+	"Mesh.h"
+	"GameMath.h"
+
+1521414885 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/Mesh.h
+	"ModelFace.h"
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<GL/glu.h>
+	<vector>
+
+1521414039 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/ModelFace.cpp
+	"ModelFace.h"
+
+1521413999 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/ModelFace.h
+	"GameMath.h"
+
+1521409688 /home/jared/Libraries/cpp/src/MyLibraries/GameMath/include/GameMath.h
+	<cmath>
+	<string>
+

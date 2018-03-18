@@ -1,6 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+namespace kfrender {
 
 class Model
 {
@@ -11,4 +12,5 @@ class Model
     private:
 };
 
+}
 #endif // MODEL_H

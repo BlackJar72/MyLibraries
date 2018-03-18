@@ -7,22 +7,20 @@
 // class or global space
 #define GMPI 3.14159265
 
-using namespace std;
-
 namespace gamemath {
 
 class GMException
 {
     public:
-        GMException(string name, string description);
+        GMException(std::string name, std::string description);
         virtual ~GMException();
-        string getName() const;
-        string getDescription() const;
+        std::string getName() const;
+        std::string getDescription() const;
     protected:
     private:
         GMException();
-        string name;
-        string description;
+        std::string name;
+        std::string description;
 };
 
 
