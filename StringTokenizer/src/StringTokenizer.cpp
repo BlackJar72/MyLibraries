@@ -2,6 +2,8 @@
 #include <cstring>
 #include <iostream>
 
+using namespace std;
+
 namespace stringtoken {
 
 const CharSet StringTokenizer::QUOTES = CharSet('\"');

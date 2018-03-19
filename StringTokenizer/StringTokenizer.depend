@@ -29,7 +29,12 @@
 	<string>
 	<cstring>
 
-1492812999 /home/jared/Libraries/cpp/src/MyLibraries/StringTokenizer/include/StringTokenizer.h
+1521453658 /home/jared/Libraries/cpp/src/MyLibraries/StringTokenizer/include/StringTokenizer.h
 	<string>
 	<vector>
+
+1521453598 source:/home/jared/Libraries/cpp/src/MyLibraries/StringTokenizer/src/StringTokenizer.cpp
+	"StringTokenizer.h"
+	<cstring>
+	<iostream>
 
