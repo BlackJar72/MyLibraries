@@ -3,23 +3,20 @@
 using namespace MemoryPool;
 
 
-template <class T>
-ObjectPool<T>::ObjectPool(const std::size_t capacity) {
-    data = new FreelistElement<T>[capacity];
+template <class T, std::size_t SIZE>
+ObjectPool<T, SIZE>::ObjectPool() {
     head = data;
-    for(int i = 1; i < length; i++) {
+    for(int i = 1; i < SIZE; i++) {
         data[i - 1].used = false;
         data[i - 1].link.next = &data[i];
     }
-    data[length - 1].used = false;
-    data[length - 1].link.next = 0;
+    data[SIZE - 1].used = false;
+    data[SIZE - 1].link.next = 0;
 }
 
 
-template <class T>
-ObjectPool<T>::~ObjectPool() {
-    delete[] data;
-}
+template <class T, std::size_t SIZE>
+ObjectPool<T, SIZE>::~ObjectPool() {}
 
 
 /**
@@ -37,8 +34,8 @@ ObjectPool<T>::~ObjectPool() {
  * If the element could not be added a null pointer will be
  * returned.
  */
-template <class T>
-T* ObjectPool<T>::add() {
+template <class T, std::size_t SIZE>
+T* ObjectPool<T, SIZE>::add() {
     T* out = head;
     if(head) {
         head->link.element.T();
@@ -65,8 +62,8 @@ T* ObjectPool<T>::add() {
  * If the element could not be added a null pointer will be
  * returned.
  */
-template <class T>
-T* ObjectPool<T>::add(const T& added) {
+template <class T, std::size_t SIZE>
+T* ObjectPool<T, SIZE>::add(const T& added) {
     T* out = head;
     if(head) {
         head->link.element = added;
@@ -89,8 +86,8 @@ T* ObjectPool<T>::add(const T& added) {
  * before actually calling the constructor, or check
  * with isFull() before calling this.
  */
-template <class T>
-T* ObjectPool<T>::nextSlot() {
+template <class T, std::size_t SIZE>
+T* ObjectPool<T, SIZE>::nextSlot() {
     T* out = head;
     if(head) {
         head->used = true;
@@ -106,10 +103,10 @@ T* ObjectPool<T>::nextSlot() {
  * free; use this only if the element has already been
  * checked or you somehow otherwise know it is.
  */
-template <class T>
-void ObjectPool<T>::remove(const std::size_t index) {
+template <class T, std::size_t SIZE>
+void ObjectPool<T, SIZE>::remove(const std::size_t index) {
     #ifdef _DEBUG
-    assert((index < length) && !data[index].link.unused);
+    assert((index < SIZE) && !data[index].link.unused);
     #endif // _DEBUG
     data[index].link.element.~T();
     data[index].link.next = head;
@@ -124,9 +121,9 @@ void ObjectPool<T>::remove(const std::size_t index) {
  * removed, or false if it was not in the pool or in not
  * use.
  */
-template <class T>
-bool ObjectPool<T>::removeSafe(const std::size_t index) {
-    bool out = (index < length) && !data[index].link.unused;
+template <class T, std::size_t SIZE>
+bool ObjectPool<T, SIZE>::removeSafe(const std::size_t index) {
+    bool out = (index < SIZE) && !data[index].link.unused;
     if(out) {
         remove(index);
     }
@@ -142,11 +139,11 @@ bool ObjectPool<T>::removeSafe(const std::size_t index) {
  *
  * This essentially the pool's local equivalent to delete.
  */
-template <class T>
-void ObjectPool<T>::remove(T* ptr) {
+template <class T, std::size_t SIZE>
+void ObjectPool<T, SIZE>::remove(T* ptr) {
     int index = (ptr - data) / sizeof(T);
     #ifdef _DEBUG
-    assert((index < length) && !data[index].link.unused);
+    assert((index < SIZE) && !data[index].link.unused);
     #endif // _DEBUG
     data[index].link.element.~T();
     data[index].link.next = head;
@@ -164,10 +161,10 @@ void ObjectPool<T>::remove(T* ptr) {
  * removed, or false if it was not in the pool or in not
  * use.
  */
-template <class T>
-bool ObjectPool<T>::removeSafe(T* ptr) {
+template <class T, std::size_t SIZE>
+bool ObjectPool<T, SIZE>::removeSafe(T* ptr) {
     int index = (ptr - data) / sizeof(T);
-    bool out = (index < length) && !data[index].link.unused;
+    bool out = (index < SIZE) && !data[index].link.unused;
     if(out) {
         remove(index);
     }
@@ -179,29 +176,29 @@ bool ObjectPool<T>::removeSafe(T* ptr) {
  * This will clear all elements from the pool. This will
  * also call the destructors of each element stored.
  */
-template <class T>
-void ObjectPool<T>::clearSafe() {
-    for(int i = 1; i < length; i++) {
+template <class T, std::size_t SIZE>
+void ObjectPool<T, SIZE>::clearSafe() {
+    for(int i = 1; i < SIZE; i++) {
         if(data[i - 1].used) {
             data[i - 1].link.element.~T();
         }
         data[i - 1].used = false;
         data[i - 1].link.next = &data[i];
     }
-        if(data[length - 1].used) {
-            data[length - 1].link.element.~T();
+        if(data[SIZE - 1].used) {
+            data[SIZE - 1].link.element.~T();
         }
-    data[length - 1].used = false;
-    data[length - 1].link.next = 0;
+    data[SIZE - 1].used = false;
+    data[SIZE - 1].link.next = 0;
 }
 
 
 /**
  * This will return the total capacity of the pool.
  */
-template <class T>
-std::size_t ObjectPool<T>::capacity() const {
-    return length;
+template <class T, std::size_t SIZE>
+std::size_t ObjectPool<T, SIZE>::capacity() const {
+    return SIZE;
 }
 
 
@@ -211,8 +208,8 @@ std::size_t ObjectPool<T>::capacity() const {
  * Technically true of the head of the empty elements
  * list is a null pointer.
  */
-template <class T>
-bool ObjectPool<T>::isFull() const {
+template <class T, std::size_t SIZE>
+bool ObjectPool<T, SIZE>::isFull() const {
     return (head == 0); // To 1 or 0, not full address.
 }
 
@@ -221,14 +218,14 @@ bool ObjectPool<T>::isFull() const {
  * This will clear all elements from the pool.  No
  * destructors will be called.
  */
-template <class T>
-void ObjectPool<T>::clear() {
-    for(int i = 1; i < length; i++) {
+template <class T, std::size_t SIZE>
+void ObjectPool<T, SIZE>::clear() {
+    for(int i = 1; i < SIZE; i++) {
         data[i - 1].used = false;
         data[i - 1].link.next = &data[i];
     }
-    data[length - 1].used = false;
-    data[length - 1].link.next = 0;
+    data[SIZE - 1].used = false;
+    data[SIZE - 1].link.next = 0;
 }
 
 
@@ -237,9 +234,9 @@ void ObjectPool<T>::clear() {
  * valid / in use (which is the same thing) or false if it
  * is not.
  */
-template <class T>
-bool ObjectPool<T>::isValid(const std::size_t index) const {
-    return ((index < length) && data[index].used);
+template <class T, std::size_t SIZE>
+bool ObjectPool<T, SIZE>::isValid(const std::size_t index) const {
+    return ((index < SIZE) && data[index].used);
 }
 
 
@@ -249,10 +246,10 @@ bool ObjectPool<T>::isValid(const std::size_t index) const {
  * any kind, so be careful.  There is no guarantee
  * the object returned is valid.
  */
-template <class T>
-T& ObjectPool<T>::get(const std::size_t index) const {
+template <class T, std::size_t SIZE>
+T& ObjectPool<T, SIZE>::get(const std::size_t index) const {
     #ifdef _DEBUG
-    assert((index < length) && data[index].used);
+    assert((index < SIZE) && data[index].used);
     #endif // _DEBUG
     return data[index].link.element;
 }
@@ -265,11 +262,11 @@ T& ObjectPool<T>::get(const std::size_t index) const {
  * will instead wrap around to the beginning.
  * There is no guarantee the object returned is valid.
  */
-template <class T>
-T& ObjectPool<T>::operator[](const std::size_t index) const {
+template <class T, std::size_t SIZE>
+T& ObjectPool<T, SIZE>::operator[](const std::size_t index) const {
     #ifdef _DEBUG
-    assert((index < length) && data[index].used);
+    assert((index < SIZE) && data[index].used);
     #endif // _DEBUG
-    return data[index % length].link.element;
+    return data[index % SIZE].link.element;
 };
 

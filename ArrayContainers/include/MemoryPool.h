@@ -65,11 +65,11 @@ class Freelist
  * since pointers to added object are returned and may be
  * used to access object randomly.
  */
-template <class T>
+template <class T, std::size_t SIZE>
 class ObjectPool
 {
     public:
-        ObjectPool(const std::size_t capacity);
+        ObjectPool();
         virtual ~ObjectPool();
         T* add();
         T* add(const T& added);
@@ -87,8 +87,7 @@ class ObjectPool
         T& operator[](const std::size_t index) const;
     protected:
     private:
-        const std::size_t length;
-        const FreelistElement<T>* data;
+        const FreelistElement<T> data[SIZE];
         FreelistElement<T>* head;
 };
 
@@ -110,11 +109,11 @@ class ObjectPool
  * caution -- generally this should be limited to using
  * indices to iterate the array.
  */
-template <class T>
+template <class T, std::size_t SIZE>
 class UnorderedArray
 {
     public:
-        UnorderedArray(const std::size_t capacity);
+        UnorderedArray();
         virtual ~UnorderedArray();
         void add();
         void add(const T& added);
@@ -137,8 +136,7 @@ class UnorderedArray
         inline T* begin() {return data;}
         inline T* end() {return (data + elements);}
     private:
-        const std::size_t length;
-        const T* data;
+        const T data[SIZE];
         std::size_t  elements;
         mutable std::size_t position;
 };

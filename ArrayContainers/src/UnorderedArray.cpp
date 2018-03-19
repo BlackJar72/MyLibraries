@@ -7,24 +7,21 @@
 
 using namespace MemoryPool;
 
-template <class T>
-UnorderedArray<T>::UnorderedArray(const std::size_t capacity) :
-        length(capacity), elements(0), position(0) {
-    data = new T[capacity];
-}
+template <class T, std::size_t SIZE>
+UnorderedArray<T, SIZE>::UnorderedArray() : elements(0), position(0) {}
 
 
-template <class T>
-UnorderedArray<T>::~UnorderedArray() {}
+template <class T, std::size_t SIZE>
+UnorderedArray<T, SIZE>::~UnorderedArray() {}
 
 
 /**
  * Add an element to the pool.
  */
-template <class T>
-void UnorderedArray<T>::add() {
+template <class T, std::size_t SIZE>
+void UnorderedArray<T, SIZE>::add() {
     #ifdef _DEBUG
-    assert(elements < length);
+    assert(elements < SIZE);
     #endif // _DEBUG
     data[elements].T();
     elements++;
@@ -35,10 +32,10 @@ void UnorderedArray<T>::add() {
 /**
  * Add an element to the pool.
  */
-template <class T>
-void UnorderedArray<T>::add(const T& added) {
+template <class T, std::size_t SIZE>
+void UnorderedArray<T, SIZE>::add(const T& added) {
     #ifdef _DEBUG
-    assert(elements < length);
+    assert(elements < SIZE);
     #endif // _DEBUG
     data[elements] = added;
     elements++;
@@ -51,10 +48,10 @@ void UnorderedArray<T>::add(const T& added) {
  * non-default constructors or passing to specialized
  * factories.
  */
-template <class T>
-T* UnorderedArray<T>::nextSlot() {
+template <class T, std::size_t SIZE>
+T* UnorderedArray<T, SIZE>::nextSlot() {
     #ifdef _DEBUG
-    assert(elements < length);
+    assert(elements < SIZE);
     #endif // _DEBUG
     return *data[elements++];
 }
@@ -63,10 +60,10 @@ T* UnorderedArray<T>::nextSlot() {
 /**
  * Remove the element at the array index from the pool.
  */
-template <class T>
-void UnorderedArray<T>::remove(const std::size_t index) {
+template <class T, std::size_t SIZE>
+void UnorderedArray<T, SIZE>::remove(const std::size_t index) {
     #ifdef _DEBUG
-    assert((index < length));
+    assert((index < SIZE));
     #endif // _DEBUG
     data[index] = data[--elements];
 }
@@ -75,8 +72,8 @@ void UnorderedArray<T>::remove(const std::size_t index) {
 /**
  * Remove the last retrieved elements from the pool.
  */
-template <class T>
-void UnorderedArray<T>::removePrevious() {
+template <class T, std::size_t SIZE>
+void UnorderedArray<T, SIZE>::removePrevious() {
     #ifdef _DEBUG
     assert(position > 0);
     #endif // _DEBUG
@@ -87,8 +84,8 @@ void UnorderedArray<T>::removePrevious() {
 /**
  * Returns the current number of elements in the pool.
  */
-template <class T>
-std::size_t UnorderedArray<T>::size() const {
+template <class T, std::size_t SIZE>
+std::size_t UnorderedArray<T, SIZE>::size() const {
     return elements;
 }
 
@@ -96,9 +93,9 @@ std::size_t UnorderedArray<T>::size() const {
 /**
  * Return the total number of elements the pool can hold.
  */
-template <class T>
-std::size_t UnorderedArray<T>::capacity() const {
-    return length;
+template <class T, std::size_t SIZE>
+std::size_t UnorderedArray<T, SIZE>::capacity() const {
+    return SIZE;
 }
 
 
@@ -107,26 +104,26 @@ std::size_t UnorderedArray<T>::capacity() const {
  * added to the pool, that is the capacity minus the
  * number already stored.
  */
-template <class T>
-std::size_t UnorderedArray<T>::room() const {
-    return length - elements;
+template <class T, std::size_t SIZE>
+std::size_t UnorderedArray<T, SIZE>::room() const {
+    return SIZE - elements;
 }
 
 
 /**
  * True if there is room for more elements.
  */
-template <class T>
-bool UnorderedArray<T>::isFull() const {
-    return  elements == length;
+template <class T, std::size_t SIZE>
+bool UnorderedArray<T, SIZE>::isFull() const {
+    return  elements == SIZE;
 }
 
 
 /**
  * True if there is room for more elements.
  */
-template <class T>
-bool UnorderedArray<T>::isEmpty() const {
+template <class T, std::size_t SIZE>
+bool UnorderedArray<T, SIZE>::isEmpty() const {
     return  elements == 0;
 }
 
@@ -136,8 +133,8 @@ bool UnorderedArray<T>::isEmpty() const {
  * WARNING: This does no range checking of any kind.  You
  * have been warned.
  */
-template <class T>
-T& UnorderedArray<T>::get(const std::size_t index) const {
+template <class T, std::size_t SIZE>
+T& UnorderedArray<T, SIZE>::get(const std::size_t index) const {
     #ifdef _DEBUG
     assert(index < elements);
     #endif // _DEBUG
@@ -150,8 +147,8 @@ T& UnorderedArray<T>::get(const std::size_t index) const {
  * beginning at elements 0.  This allows a simple alternate
  * way to iterate through the pool.
  */
-template <class T>
-T& UnorderedArray<T>::getNext() const {
+template <class T, std::size_t SIZE>
+T& UnorderedArray<T, SIZE>::getNext() const {
     #ifdef _DEBUG
     asset(position < elements);
     #endif // _DEBUG
@@ -163,8 +160,8 @@ T& UnorderedArray<T>::getNext() const {
  * This will return if there are more elements in the
  * pool which could be retrieved with getNext().
  */
-template <class T>
-bool UnorderedArray<T>::hasMore() const {
+template <class T, std::size_t SIZE>
+bool UnorderedArray<T, SIZE>::hasMore() const {
     return position < elements;
 }
 
@@ -173,8 +170,8 @@ bool UnorderedArray<T>::hasMore() const {
  * Resets the elements which will be returned by
  * getNext() to the beginning (element 0).
  */
-template <class T>
-void UnorderedArray<T>::reset() const {
+template <class T, std::size_t SIZE>
+void UnorderedArray<T, SIZE>::reset() const {
     position = 0;
 }
 
@@ -186,8 +183,8 @@ void UnorderedArray<T>::reset() const {
  * the pool should be iterated and destructors called
  * before clearing the pool.
  */
-template <class T>
-void UnorderedArray<T>::clear(){
+template <class T, std::size_t SIZE>
+void UnorderedArray<T, SIZE>::clear(){
     position = elements = 0;
 }
 
@@ -196,8 +193,8 @@ void UnorderedArray<T>::clear(){
  * Returns the currently stored elements as an
  * array.
  */
-template <class T>
-const T* UnorderedArray<T>::getArray() const {
+template <class T, std::size_t SIZE>
+const T* UnorderedArray<T, SIZE>::getArray() const {
     T* out = new T[elements];
     memccpy(out, data, elements * sizeof(T));
 }
@@ -208,8 +205,8 @@ const T* UnorderedArray<T>::getArray() const {
  * that this does not do true range checking, but will wrap
  * around to 0 after the next element.  You have been warned.
  */
-template <class T>
-T& UnorderedArray<T>::operator[](const std::size_t index) const {
+template <class T, std::size_t SIZE>
+T& UnorderedArray<T, SIZE>::operator[](const std::size_t index) const {
     #ifdef _DEBUG
     assert(index < elements);
     #endif // _DEBUG
