@@ -2,22 +2,20 @@
 
 using namespace MemoryPool;
 
-template <class T>
-Freelist<T>::Freelist(const std::size_t capacity) :
-        length(capacity) {
-    data = new T[capacity];
+template <class T, std::size_t SIZE>
+Freelist<T, SIZE>::Freelist() {
     head = data;
-    for(int i = 1; i < length; i++) {
+    for(int i = 1; i < SIZE; i++) {
         data[i - 1].used = false;
         data[i - 1].link.next = &data[i];
     }
-    data[length - 1].used = false;
-    data[length - 1].link.next = 0;
+    data[SIZE - 1].used = false;
+    data[SIZE - 1].link.next = 0;
 }
 
 
-template <class T>
-Freelist<T>::~Freelist() {
+template <class T, std::size_t SIZE>
+Freelist<T, SIZE>::~Freelist() {
     delete[] data;
 }
 
@@ -26,8 +24,8 @@ Freelist<T>::~Freelist() {
  * Add a new element of type T to the pool,
  * using the default constructor.
  */
-template <class T>
-void Freelist<T>::add() {
+template <class T, std::size_t SIZE>
+void Freelist<T, SIZE>::add() {
     if(head) {
         head->link.element.T();
         head->used = true;
@@ -41,8 +39,8 @@ void Freelist<T>::add() {
  * is full, nothing will happen.  This is done by
  * copying the object.
  */
-template <class T>
-void Freelist<T>::add(const T& added) {
+template <class T, std::size_t SIZE>
+void Freelist<T, SIZE>::add(const T& added) {
     if(head) {
         head->link.element = added;
         head->used = true;
@@ -56,8 +54,8 @@ void Freelist<T>::add(const T& added) {
  * If there was room for the new element this will
  * return true, otherwise it will return false.
  */
-template <class T>
-bool Freelist<T>::addSafe() {
+template <class T, std::size_t SIZE>
+bool Freelist<T, SIZE>::addSafe() {
     if(head) {
         head->element.T();
         head->used = true;
@@ -73,8 +71,8 @@ bool Freelist<T>::addSafe() {
  * this will return false (failure), other wise it will
  * return true (successfully added).
  */
-template <class T>
-bool Freelist<T>::addSafe(const T& added) {
+template <class T, std::size_t SIZE>
+bool Freelist<T, SIZE>::addSafe(const T& added) {
     if(head) {
         head->element = added;
         head->used = true;
@@ -94,8 +92,8 @@ bool Freelist<T>::addSafe(const T& added) {
  * not initialized afterward it will point to invalid
  * data.
  */
-template <class T>
-T* Freelist<T>::nextSlot() {
+template <class T, std::size_t SIZE>
+T* Freelist<T, SIZE>::nextSlot() {
     T* out = head;
     if(head) {
         head->used = true;
@@ -111,10 +109,10 @@ T* Freelist<T>::nextSlot() {
  * free; use this only if the element has already been
  * checked or you somehow otherwise know it is.
  */
-template <class T>
-void Freelist<T>::remove(const std::size_t index) {
+template <class T, std::size_t SIZE>
+void Freelist<T, SIZE>::remove(const std::size_t index) {
     #ifdef _DEBUG
-    assert((index < length) && !data[index].link.unused);
+    assert((index < SIZE) && !data[index].link.unused);
     #endif // _DEBUG
     data[index].link.next = head;
     data[index].used = false;
@@ -128,9 +126,9 @@ void Freelist<T>::remove(const std::size_t index) {
  * removed, or false if it was not in the pool or in not
  * use.
  */
-template <class T>
-bool Freelist<T>::removeSafe(const std::size_t index) {
-    bool out = (index < length) && !data[index].link.unused;
+template <class T, std::size_t SIZE>
+bool Freelist<T, SIZE>::removeSafe(const std::size_t index) {
+    bool out = (index < SIZE) && !data[index].link.unused;
     if(out) {
         remove(index);
     }
@@ -141,9 +139,9 @@ bool Freelist<T>::removeSafe(const std::size_t index) {
 /**
  * This will return the total capacity of the pool.
  */
-template <class T>
-std::size_t Freelist<T>::capacity() const {
-    return length;
+template <class T, std::size_t SIZE>
+std::size_t Freelist<T, SIZE>::capacity() const {
+    return SIZE;
 }
 
 
@@ -153,8 +151,8 @@ std::size_t Freelist<T>::capacity() const {
  * Technically true of the head of the empty elements
  * list is a null pointer.
  */
-template <class T>
-bool Freelist<T>::isFull() const {
+template <class T, std::size_t SIZE>
+bool Freelist<T, SIZE>::isFull() const {
     return head == 0;
 }
 
@@ -166,14 +164,14 @@ bool Freelist<T>::isFull() const {
  * the pool should be iterated and destructors called
  * before clearing the pool.
  */
-template <class T>
-void Freelist<T>::clear() {
-    for(int i = 1; i < length; i++) {
+template <class T, std::size_t SIZE>
+void Freelist<T, SIZE>::clear() {
+    for(int i = 1; i < SIZE; i++) {
         data[i - 1].used = false;
         data[i - 1].link.next = &data[i];
     }
-    data[length - 1].used = false;
-    data[length - 1].link.next = 0;
+    data[SIZE - 1].used = false;
+    data[SIZE - 1].link.next = 0;
 }
 
 
@@ -187,10 +185,10 @@ void Freelist<T>::clear() {
  * checked.  The used tag may be compared but should
  * never be changed.
  */
-template <class T>
-FreelistElement<T>& Freelist<T>::get(const std::size_t index) const {
+template <class T, std::size_t SIZE>
+FreelistElement<T>& Freelist<T, SIZE>::get(const std::size_t index) const {
     #ifdef _DEBUG
-    assert(((index < length));
+    assert(((index < SIZE));
     #endif // _DEBUG
     return data[index];
 }
@@ -202,11 +200,11 @@ FreelistElement<T>& Freelist<T>::get(const std::size_t index) const {
  * for efficiency it is not really bounds checked, but
  * will instead wrap around to the beginning.
  */
-template <class T>
-FreelistElement<T>& Freelist<T>::operator[](const std::size_t index) const {
+template <class T, std::size_t SIZE>
+FreelistElement<T>& Freelist<T, SIZE>::operator[](const std::size_t index) const {
     #ifdef _DEBUG
-    assert((index < length));
+    assert((index < SIZE));
     #endif // _DEBUG
-    return data[index % length];
+    return data[index % SIZE];
 };
 

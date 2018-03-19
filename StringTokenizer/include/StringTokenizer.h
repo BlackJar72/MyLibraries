@@ -11,7 +11,7 @@ class CharSet {
 private:
     static const int BITS  = 8;
     static const int BYTES = 256 / BITS;
-    char *data;
+    char data[BYTES];
     int bit, loc;
 public:
     CharSet();
@@ -41,7 +41,7 @@ public:
 class StringTokenizer {
 private:
     static const CharSet QUOTES;
-    StringTokenizer() {};
+    StringTokenizer() = delete;
     CharSet delim;
     CharSet quotes;
     std::string** tokens;

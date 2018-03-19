@@ -32,11 +32,11 @@ struct FreelistElement
  * the order is preserved, but there is no control of the
  * order in which new items are placed.
  */
-template <class T>
+template <class T, std::size_t SIZE>
 class Freelist
 {
     public:
-        Freelist(const std::size_t capacity);
+        Freelist();
         virtual ~Freelist();
         void add();
         void add(const T& added);
@@ -53,8 +53,7 @@ class Freelist
         FreelistElement<T>& operator[](const std::size_t index) const;
     protected:
     private:
-        const std::size_t length;
-        const FreelistElement<T> data;
+        const FreelistElement<T> data[SIZE];
         FreelistElement<T>* head;
 };
 
@@ -80,6 +79,7 @@ class ObjectPool
         void remove(T* ptr);
         bool removeSafe(T* ptr);
         void clear();
+        void clearSafe();
         std::size_t capacity() const;
         bool isFull() const;
         bool isValid(const std::size_t  index) const;

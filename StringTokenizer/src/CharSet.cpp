@@ -12,7 +12,6 @@ namespace stringtoken
  */
 CharSet::CharSet()
 {
-    data = new char[BYTES];
     clear();
 }
 
@@ -22,7 +21,6 @@ CharSet::CharSet()
  */
 CharSet::CharSet(const unsigned char &in)
 {
-    data = new char[BYTES];
     clear();
     add(in);
 }
@@ -33,7 +31,6 @@ CharSet::CharSet(const unsigned char &in)
  */
 CharSet::CharSet(const unsigned char *in)
 {
-    data = new char[BYTES];
     clear();
     add(in);
 }
@@ -44,14 +41,12 @@ CharSet::CharSet(const unsigned char *in)
  */
 CharSet::CharSet(const string &in)
 {
-    data = new char[BYTES];
     clear();
     add(in);
 }
 
 
 CharSet::CharSet(const CharSet& other) {
-    data = new char[BYTES];
     memcpy(data, other.data, BYTES);
     loc = other.loc;
     bit = other.bit;
@@ -70,10 +65,7 @@ CharSet& CharSet::operator= (const CharSet& other) {
 
 
 
-CharSet::~CharSet()
-{
-    delete data;
-}
+CharSet::~CharSet() {}
 
 
 /**

@@ -4,8 +4,7 @@ using namespace MemoryPool;
 
 
 template <class T>
-ObjectPool<T>::ObjectPool(const std::size_t capacity) :
-        length(capacity) {
+ObjectPool<T>::ObjectPool(const std::size_t capacity) {
     data = new FreelistElement<T>[capacity];
     head = data;
     for(int i = 1; i < length; i++) {
@@ -181,7 +180,7 @@ bool ObjectPool<T>::removeSafe(T* ptr) {
  * also call the destructors of each element stored.
  */
 template <class T>
-void Freelist<T>::clearSafe() {
+void ObjectPool<T>::clearSafe() {
     for(int i = 1; i < length; i++) {
         if(data[i - 1].used) {
             data[i - 1].link.element.~T();
@@ -223,7 +222,7 @@ bool ObjectPool<T>::isFull() const {
  * destructors will be called.
  */
 template <class T>
-void Freelist<T>::clear() {
+void ObjectPool<T>::clear() {
     for(int i = 1; i < length; i++) {
         data[i - 1].used = false;
         data[i - 1].link.next = &data[i];
