@@ -1,4 +1,5 @@
 #include "MemoryPool.h"
+#include <utility>
 
 using namespace MemoryPool;
 
@@ -22,12 +23,13 @@ Freelist<T, SIZE>::~Freelist() {
 
 /**
  * Add a new element of type T to the pool,
- * using the default constructor.
+ * a constructor with the give parameters.
  */
 template <class T, std::size_t SIZE>
-void Freelist<T, SIZE>::add() {
+template <typename... Args>
+void Freelist<T, SIZE>::add(Args&&... args) {
     if(head) {
-        head->link.element.T();
+        head->link.element.T(std::forward<Args>(args)...);
         head->used = true;
         head = head->link.next;
     }
@@ -35,71 +37,20 @@ void Freelist<T, SIZE>::add() {
 
 
 /**
- * Add a value of type T to the pool.  If the pool
- * is full, nothing will happen.  This is done by
- * copying the object.
- */
-template <class T, std::size_t SIZE>
-void Freelist<T, SIZE>::add(const T& added) {
-    if(head) {
-        head->link.element = added;
-        head->used = true;
-        head = head->link.next;
-    }
-}
-
-
-/**
- * Create a new element using the default constructor.
+ * Create a new element using a constructor.
  * If there was room for the new element this will
  * return true, otherwise it will return false.
  */
 template <class T, std::size_t SIZE>
-bool Freelist<T, SIZE>::addSafe() {
+template <typename... Args>
+bool Freelist<T, SIZE>::addSafe(Args&&... args) {
     if(head) {
-        head->element.T();
+        head->element.T(std::forward<Args>(args)...);
         head->used = true;
         head = head->link.next;
         return true;
     }
     return false;
-}
-
-
-/**
- * Add a value of type T to the pool.  If the pool
- * this will return false (failure), other wise it will
- * return true (successfully added).
- */
-template <class T, std::size_t SIZE>
-bool Freelist<T, SIZE>::addSafe(const T& added) {
-    if(head) {
-        head->element = added;
-        head->used = true;
-        head = head->link.next;
-        return true;
-    }
-    return false;
-}
-
-
-/**
- * This will return a pointer to the elements of
- * next slot in the pool.  This is for calling
- * non-default constructors or passing to specialized
- * factories.  This does not in itself do anything to
- * initialize the contents of the slot, so if it is
- * not initialized afterward it will point to invalid
- * data.
- */
-template <class T, std::size_t SIZE>
-T* Freelist<T, SIZE>::nextSlot() {
-    T* out = head;
-    if(head) {
-        head->used = true;
-        head = head->link.next;
-    }
-    return out;
 }
 
 
@@ -114,9 +65,11 @@ void Freelist<T, SIZE>::remove(const std::size_t index) {
     #ifdef _DEBUG
     assert((index < SIZE) && !data[index].link.unused);
     #endif // _DEBUG
+    data[index].link.element.~T();
     data[index].link.next = head;
     data[index].used = false;
     head = data + index;
+
 }
 
 

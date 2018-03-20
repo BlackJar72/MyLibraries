@@ -1,4 +1,5 @@
 #include "MemoryPool.h"
+#include <utility>
 
 using namespace MemoryPool;
 
@@ -35,61 +36,11 @@ ObjectPool<T, SIZE>::~ObjectPool() {}
  * returned.
  */
 template <class T, std::size_t SIZE>
-T* ObjectPool<T, SIZE>::add() {
+template <typename... Args>
+T* ObjectPool<T, SIZE>::add(Args&&... args) {
     T* out = head;
     if(head) {
-        head->link.element.T();
-        head->used = true;
-        head = head->link.next;
-    }
-    return out;
-}
-
-
-/**
- * Add a value of type T to the pool.  If the pool
- * is full, nothing will happen.  This is done by
- * copying the data of the passed in object.
- *
- * This will return a pointer to the elements in the
- * pool.  As usual, care should be taken in managing
- * the pointer, as it can point to invalid data if
- * the element is removed.  Under no circumstance should
- * free or delete EVER be called on the pointer, as this would
- * be dangerous undefine behavior (freeing memory in the
- * in the middle of and array that still exists).
- *
- * If the element could not be added a null pointer will be
- * returned.
- */
-template <class T, std::size_t SIZE>
-T* ObjectPool<T, SIZE>::add(const T& added) {
-    T* out = head;
-    if(head) {
-        head->link.element = added;
-        head->used = true;
-        head = head->link.next;
-    }
-    return out;
-}
-
-
-/**
- * This will return a pointer to the element of
- * next slot in the pool.  This is for calling
- * non-default constructors or passing to specialized
- * factories.  The element will not be initialized
- * in any way when returned.
- *
- * If there is no room in the pool this will return a
- * null pointer; its is would be wise to check for this
- * before actually calling the constructor, or check
- * with isFull() before calling this.
- */
-template <class T, std::size_t SIZE>
-T* ObjectPool<T, SIZE>::nextSlot() {
-    T* out = head;
-    if(head) {
+        head->link.element.T(std::forward<Args>(args)...);
         head->used = true;
         head = head->link.next;
     }

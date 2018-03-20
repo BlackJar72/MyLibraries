@@ -1,6 +1,7 @@
 #include "MemoryPool.h"
 #include <assert.h>
 #include <cstring>
+#include <utility>
 
 // TODO: Re-introduce and revamp this so that dynamic array doesn't do
 // double duty as both fast and ordered array based collections.
@@ -19,41 +20,13 @@ UnorderedArray<T, SIZE>::~UnorderedArray() {}
  * Add an element to the pool.
  */
 template <class T, std::size_t SIZE>
-void UnorderedArray<T, SIZE>::add() {
+template <typename... Args>
+void UnorderedArray<T, SIZE>::add(Args&&... args) {
     #ifdef _DEBUG
     assert(elements < SIZE);
     #endif // _DEBUG
-    data[elements].T();
+    data[elements].T(std::forward<Args>(args)...);
     elements++;
-}
-
-
-
-/**
- * Add an element to the pool.
- */
-template <class T, std::size_t SIZE>
-void UnorderedArray<T, SIZE>::add(const T& added) {
-    #ifdef _DEBUG
-    assert(elements < SIZE);
-    #endif // _DEBUG
-    data[elements] = added;
-    elements++;
-}
-
-
-/**
- * This will return a pointer to the elements of
- * next slot in the pool.  This is for calling
- * non-default constructors or passing to specialized
- * factories.
- */
-template <class T, std::size_t SIZE>
-T* UnorderedArray<T, SIZE>::nextSlot() {
-    #ifdef _DEBUG
-    assert(elements < SIZE);
-    #endif // _DEBUG
-    return *data[elements++];
 }
 
 
@@ -65,6 +38,7 @@ void UnorderedArray<T, SIZE>::remove(const std::size_t index) {
     #ifdef _DEBUG
     assert((index < SIZE));
     #endif // _DEBUG
+    data[index].~T;
     data[index] = data[--elements];
 }
 
@@ -77,6 +51,7 @@ void UnorderedArray<T, SIZE>::removePrevious() {
     #ifdef _DEBUG
     assert(position > 0);
     #endif // _DEBUG
+    data[position - 1].~T;
     data[position - 1] = data[--elements];
 }
 

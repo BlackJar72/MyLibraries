@@ -3,6 +3,9 @@
 
 #include <memory>
 
+/*
+ * TODO: Custom iterators could be useful for all these.
+ */
 
 namespace MemoryPool {
 
@@ -38,11 +41,10 @@ class Freelist
     public:
         Freelist();
         virtual ~Freelist();
-        void add();
-        void add(const T& added);
-        bool addSafe();
-        bool addSafe(const T& added);
-        T*   nextSlot();
+        template <typename... Args>
+        void add(Args&&... args);
+        template <typename... Args>
+        bool addSafe(Args&&... args);
         void remove(const std::size_t index);
         bool removeSafe(const std::size_t index);
         std::size_t capacity() const;
@@ -71,9 +73,8 @@ class ObjectPool
     public:
         ObjectPool();
         virtual ~ObjectPool();
-        T* add();
-        T* add(const T& added);
-        T* nextSlot();
+        template <typename... Args>
+        T* add(Args&&... args); // TODO: Use nerfed pointer clasee / custom iterator here
         void remove(const std::size_t index);
         bool removeSafe(const std::size_t index);
         void remove(T* ptr);
@@ -115,9 +116,8 @@ class UnorderedArray
     public:
         UnorderedArray();
         virtual ~UnorderedArray();
-        void add();
-        void add(const T& added);
-        T*  nextSlot();
+        template <typename... Args>
+        void add(Args&&... args);
         void remove(const std::size_t index);
         void removePrevious();
         std::size_t size() const;
@@ -133,6 +133,7 @@ class UnorderedArray
         const T* getArray() const;
         T& operator[](const std::size_t index) const;
         T& operator[](const unsigned int index) const;
+        // TODO: Custom iterators instead of raw pointers
         inline T* begin() {return data;}
         inline T* end() {return (data + elements);}
     private:
