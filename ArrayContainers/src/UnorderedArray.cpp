@@ -39,7 +39,9 @@ void UnorderedArray<T, SIZE>::remove(const std::size_t index) {
     assert((index < SIZE));
     #endif // _DEBUG
     data[index].~T;
-    data[index] = data[--elements];
+    data[index] = data[elements];
+    data[elements].~T;
+    elements--;
 }
 
 
@@ -52,7 +54,9 @@ void UnorderedArray<T, SIZE>::removePrevious() {
     assert(position > 0);
     #endif // _DEBUG
     data[position - 1].~T;
-    data[position - 1] = data[--elements];
+    data[position - 1] = data[elements];
+    data[elements].~T;
+    elements--;
 }
 
 
@@ -179,6 +183,8 @@ const T* UnorderedArray<T, SIZE>::getArray() const {
  * Access elements of the pool as using array notation.  Not
  * that this does not do true range checking, but will wrap
  * around to 0 after the next element.  You have been warned.
+ * Also remember that the order is not constant.  This is mostly
+ * for use in loops.
  */
 template <class T, std::size_t SIZE>
 T& UnorderedArray<T, SIZE>::operator[](const std::size_t index) const {
