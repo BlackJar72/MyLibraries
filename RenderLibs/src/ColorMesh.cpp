@@ -1,14 +1,11 @@
-#include "Mesh.h"
-#include "GameMath.h"
+#include "ColorMesh.h"
 
-using namespace kfrender;
-
-Mesh::Mesh(const GLuint id, const std::vector<ModelFace>& faces) : vboid(id) {
-    GLsizeiptr length = faces.size() * 8 * 3;
+ColorMesh::ColorMesh(const GLuint id, const std::vector<ColorFace>& faces) : vboid(id) {
+    GLsizeiptr length = faces.size() * 9 * 3;
     GLfloat data[length];
 
     int index = 0;
-    for(ModelFace face : faces) {
+    for(ColorFace face : faces) {
         for(int i = 0; i < 3; i++) {
             data[index++] = face.getVerts()[i].get(0);
             data[index++] = face.getVerts()[i].get(1);
@@ -16,8 +13,9 @@ Mesh::Mesh(const GLuint id, const std::vector<ModelFace>& faces) : vboid(id) {
             data[index++] = face.getNorms()[i].get(0);
             data[index++] = face.getNorms()[i].get(1);
             data[index++] = face.getNorms()[i].get(2);
-            data[index++] = face.getUV()[i].get(0);
-            data[index++] = face.getUV()[i].get(1);
+            data[index++] = face.getColor()[i].get(0);
+            data[index++] = face.getColor()[i].get(1);
+            data[index++] = face.getColor()[i].get(2);
         }
     }
 
@@ -26,4 +24,7 @@ Mesh::Mesh(const GLuint id, const std::vector<ModelFace>& faces) : vboid(id) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-Mesh::~Mesh(){}
+ColorMesh::~ColorMesh()
+{
+    //dtor
+}

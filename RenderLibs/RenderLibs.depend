@@ -4,7 +4,7 @@
 
 1521405095 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/Model.h
 
-1521414746 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Mesh.cpp
+1521627530 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Mesh.cpp
 	"Mesh.h"
 	"GameMath.h"
 
@@ -24,4 +24,21 @@
 1521409688 /home/jared/Libraries/cpp/src/MyLibraries/GameMath/include/GameMath.h
 	<cmath>
 	<string>
+
+1521627102 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/ColorFace.cpp
+	"ColorFace.h"
+
+1521627319 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/ColorFace.h
+	"GameMath.h"
+
+1521627526 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/ColorMesh.cpp
+	"ColorMesh.h"
+
+1521629034 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/ColorMesh.h
+	"ColorFace.h"
+	"GameMath.h"
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<GL/glu.h>
+	<vector>
 
