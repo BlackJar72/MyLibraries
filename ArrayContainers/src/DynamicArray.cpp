@@ -120,7 +120,56 @@ void DynamicArray<T>::set(const T& added, unsigned int index) {
     assert(index < elements);
 	#endif
 	// Even when not compiled for debug you can't read outside the buffer
+    data[index % elements].~T();
     data[index % elements] = added;
+}
+
+
+template <class T>
+template <typename... Args>
+void DynamicArray<T>::emplace(Args&&... args) {
+    data[elements](std::forward<Args>(args)...);
+    elements++;
+    if(elements >= length) {
+        grow();
+    }
+}
+
+
+template <class T>
+template <typename... Args>
+void DynamicArray<T>::emplaceAt(unsigned int index, Args&&... args) {
+	#ifdef _DEBUG
+    assert(index < elements);
+	#endif
+    if(index == elements) {
+        data[elements](std::forward<Args>(args)...);
+        elements++;
+        if(elements >= length) {
+            grow();
+        }
+    } else {
+        elements++;
+        if(elements >= length) {
+            grow();
+        }
+        for(unsigned int i = index; i < (elements - 1); i++) {
+            data[i+1] = data[i];
+        }
+        data[index](std::forward<Args>(args)...);
+    }
+}
+
+
+template <class T>
+template <typename... Args>
+void DynamicArray<T>::setNew(unsigned int index, Args&&... args) {
+	#ifdef _DEBUG
+    assert(index < elements);
+	#endif
+	// Even when not compiled for debug you can't read outside the buffer
+    data[index % elements].~T();
+    data[index % elements](std::forward<Args>(args)...);
 }
 
 

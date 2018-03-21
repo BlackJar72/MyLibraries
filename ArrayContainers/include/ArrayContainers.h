@@ -49,6 +49,12 @@ class DynamicArray {
         void add(const T& added);
         void add(const T& added, unsigned int index);
         void set(const T& added, unsigned int index);
+        template <typename... Args>
+        void emplace(Args&&... args);
+        template <typename... Args>
+        void emplaceAt(unsigned int index, Args&&... args);
+        template <typename... Args>
+        void setNew(unsigned int index, Args&&... args);
         T& get(const unsigned int index) const;
         T& peek();
         T& getNext();
@@ -94,8 +100,9 @@ class Registry {
         Registry(size_t startSize);
         virtual ~Registry();
         unsigned int add(const std::string& name, const T& t);
+        template <typename... Args>
+        unsigned int emplace(const std::string& name, Args&&... args);
         unsigned int getID(const std::string& name) const;
-        // These are for raw speed, and are the main reason for thisS
         inline T get(unsigned int id) const {
             #ifdef _DEBUG
             assert(id <= elements);
@@ -115,17 +122,16 @@ class Registry {
             #endif // _DEBUG
             return data + id;
         }
-        // These are slower but allow greater safety;
-        // they will throw an index out of bounds exception.
         T getSafer(unsigned int id) const;
         T& getRefSafer(unsigned int id) const;
         T* getPtrSafer(unsigned int id) const;
-        // These are for convenience but should not usually be
-        // used -- they defeat the purpose of this class.
         T get(const std::string& name) const;
         T& getRef(const std::string& name) const;
         T* getPtr(const std::string& name) const;
         bool contains(const std::string& name) const;
+        void clear();
+        inline T* begin() {return data;}
+        inline T* end() {return (data + elements);}
     protected:
     private:
         T* data;

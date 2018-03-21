@@ -48,7 +48,7 @@ unsigned int Registry<T>::add(const std::string& name, const T& t) {
         data[i] = t;
     } else {
         nameMap.emplace(name, elements);
-        data[++elements] = t;
+        data[elements++] = t;
         if(elements >= length) {
             grow();
         }
@@ -56,6 +56,22 @@ unsigned int Registry<T>::add(const std::string& name, const T& t) {
     }
 }
 
+
+template <class T>
+template <typename... Args>
+unsigned int Registry<T>::emplace(const std::string& name, Args&&... args) {
+    if(contains(name)) {
+        size_t i = nameMap[name];
+        data[i](std::forward<Args>(args)...);
+    } else {
+        nameMap.emplace(name, elements);
+        data[elements++](std::forward<Args>(args)...);
+        if(elements >= length) {
+            grow();
+        }
+        return elements - 1;
+    }
+}
 
 template <class T>
 unsigned int Registry<T>::getID(const std::string& name) const {
@@ -149,6 +165,16 @@ T* Registry<T>::getPtr(const std::string& name) const {
 template <class T>
 bool Registry<T>::contains(const std::string& name) const {
     return nameMap.find(name) != nameMap.end();
+}
+
+
+template <class T>
+void Registry<T>::clear() {
+    nameMap.clear();
+    for(T element : data) {
+        element.~T();
+    }
+    elements = 0;
 }
 
 
