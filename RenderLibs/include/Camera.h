@@ -11,7 +11,6 @@ class Camera
         Camera(float aspectIn, float fovIn, float farIn, float nearIn);
         virtual ~Camera();
         void setFrustum(float aspect, float fov, float far, float near);
-        void resetFrustum();
         bool cull(gamemath::Vec4f q, float r);
         void update();
         gamemath::Mat4f getTransform();
