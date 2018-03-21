@@ -33,7 +33,6 @@ DynamicArray<T>::DynamicArray(int initialSize) {
 
 template <class T>
 DynamicArray<T>::DynamicArray(const DynamicArray<T>& a) : data(new T[a.length]) {
-    // Considered making a move contructor, ran into trouble :(
     memccpy(data, a.data, a.elements * sizeof(T));
 }
 
@@ -252,9 +251,11 @@ void DynamicArray<T>::remove(unsigned int index) {
 	// Even when not compiled for release you can't read / write outside the buffer
 	index %= elements;
     for(unsigned int i = index + 1; i < elements; i++) {
+        data[i-1].~T();
         data[i-1] = data[i];
     }
     elements--;
+    data[elements].~T();
     if(elements < ((length * D_ARRAY_SHRINK_THRESHOLD) + D_ARRAY_INIT_SIZE)) {
         shrink();
     }
@@ -267,8 +268,11 @@ void DynamicArray<T>::removeFast(unsigned int index) {
     assert(index < elements);
 	#endif
 	// Even when not compiled for release you can't read / write outside the buffer
-    data[index % elements] = data[elements - 1];
+	index %= elements;
+	data[index].~T();
+    data[index] = data[elements - 1];
     elements--;
+    data[elements].~T();
     if(elements < (length * D_ARRAY_SHRINK_THRESHOLD)) {
         shrink();
     }
@@ -281,13 +285,17 @@ void DynamicArray<T>::removeAll(const T &in) {
     for(unsigned int i = 0; i < elements; i++) {
         bool match = (data[i] == in);
         if(removed & !match) {
+            data[i - removed].~T();
             data[i - removed] = data[i];
         }
         if(match) {
             removed++;
         }
-        elements -= removed;
     }
+    for(int i = elements - removed; i < elements; i++) {
+        data[i].~T();
+    }
+    elements -= removed;
     if(elements < (length * D_ARRAY_SHRINK_THRESHOLD)) {
         shrink();
     }
@@ -298,9 +306,11 @@ template <class T>
 void DynamicArray<T>::removeAllFast(const T &in) {
     unsigned int removed = 0;
     for(unsigned int i = 0; i < elements; i++) {
-        if(data[i] == in) {
+        while(data[i] == in) {
             removed++;
+            data[i].~T();
             data[i] = data[elements - removed];
+            data[elements - removed].~T();
         }
         elements -= removed;
     }
