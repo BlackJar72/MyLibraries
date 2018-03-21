@@ -1,8 +1,11 @@
 # depslib dependency file v1.0
-1521409596 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Model.cpp
+1521637021 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Model.cpp
 	"Model.h"
 
-1521405095 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/Model.h
+1521636990 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/Model.h
+	"GameMath.h"
+	"Mesh.h"
+	"Texture.h"
 
 1521627530 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Mesh.cpp
 	"Mesh.h"
@@ -41,4 +44,18 @@
 	<GLFW/glfw3.h>
 	<GL/glu.h>
 	<vector>
+
+1521637111 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/Texture.h
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<GL/glu.h>
+
+1521637826 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Camera.cpp
+	"Camera.h"
+
+1521637815 /home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/include/Camera.h
+	"GameMath.h"
+
+1521637142 source:/home/jared/Libraries/cpp/src/MyLibraries/RenderLibs/src/Texture.cpp
+	"Texture.h"
 

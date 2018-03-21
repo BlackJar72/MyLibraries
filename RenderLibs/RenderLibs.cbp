@@ -16,7 +16,6 @@
 				<Compiler>
 					<Add option="-Weffc++" />
 					<Add option="-std=c++11" />
-					<Add option="-ansi" />
 					<Add option="-g" />
 					<Add directory="include" />
 					<Add directory="../GameMath/include" />
@@ -53,9 +52,14 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="include/ColorFace.h" />
+		<Unit filename="include/ColorMesh.h" />
+		<Unit filename="include/IDrawable.h" />
 		<Unit filename="include/Mesh.h" />
 		<Unit filename="include/Model.h" />
 		<Unit filename="include/ModelFace.h" />
+		<Unit filename="src/ColorFace.cpp" />
+		<Unit filename="src/ColorMesh.cpp" />
 		<Unit filename="src/Mesh.cpp" />
 		<Unit filename="src/Model.cpp" />
 		<Unit filename="src/ModelFace.cpp" />
