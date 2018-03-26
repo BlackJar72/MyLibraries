@@ -20,7 +20,7 @@ void sequencialHash(char* byte, unsigned long long& hash);
 int main(int argc, char** argv) {
 	if(argc < 2) {
 		std::cerr << std::endl << "Not file provided to hash!" << std::endl;
-		std::cerr << "Usage: hash32 [filename]" << std::endl << std::endl;
+		std::cerr << "Usage: hash64 [filename]" << std::endl << std::endl;
 		exit(1);
 	}
 	unsigned long long hash = 0;
