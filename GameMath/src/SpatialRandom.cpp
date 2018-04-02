@@ -185,6 +185,26 @@ Xorshift64 SpatialNoise::xorshift64For(const int &t) const {
 }
 
 
+LcRng SpatialNoise::lcgFor(const int &x, const int &y, const int &z, const int &t) const {
+    return LcRng(longFor(x, y, z, t));
+}
+
+
+LcRng SpatialNoise::lcgFor(const int &x, const int &y, const int &z) const {
+    return LcRng(longFor(x, y, z));
+}
+
+
+LcRng SpatialNoise::lcgFor(const int &x, const int &y) const {
+    return LcRng(longFor(x, y));
+}
+
+
+LcRng SpatialNoise::lcgFor(const int &t) const {
+    return LcRng(longFor(t));
+}
+
+
 std::array<unsigned long long, 2> SpatialNoise::getSeeds() const {
     return std::array<unsigned long long, 2>{ {seed1, seed2} };
 }

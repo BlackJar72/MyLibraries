@@ -402,6 +402,31 @@ class Xorshift64
 };
 
 
+class LcRng {
+    public:
+        LcRng();
+        LcRng(unsigned long long seed);
+        virtual ~LcRng();
+        unsigned int   nextInt();
+        unsigned int   nextInt(const int &mod);
+        unsigned int   nextInt(const int &min, const int &max);
+        unsigned long  nextLong();
+        unsigned short nextShort();
+        unsigned char  nextChar();
+        float nextFloat();
+        double nextDouble();
+        bool nextBool();
+        unsigned int getSeed() const;
+        void setSeed(unsigned int seed);
+    protected:
+    private:
+        const static unsigned int MAXINT = 0xffffffff;
+        const static unsigned long long MAXLONG = 0xffffffffffffffff;
+        unsigned long long seed;
+        unsigned long long val;
+};
+
+
 class SpatialNoise {
     public:
         SpatialNoise(unsigned long long seed1, unsigned long long seed2);
@@ -430,6 +455,10 @@ class SpatialNoise {
         Xorshift64 xorshift64For(const int &x, const int &y, const int &z) const;
         Xorshift64 xorshift64For(const int &x, const int &y) const;
         Xorshift64 xorshift64For(const int &t) const;
+        LcRng lcgFor(const int &x, const int &y, const int &z, const int &t)const;
+        LcRng lcgFor(const int &x, const int &y, const int &z) const;
+        LcRng lcgFor(const int &x, const int &y) const;
+        LcRng lcgFor(const int &t) const;
         std::array<unsigned long long, 2> getSeeds() const;
     protected:
     private:

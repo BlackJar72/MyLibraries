@@ -14,6 +14,7 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-fwrapv" />
 					<Add directory="include" />
@@ -28,6 +29,7 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c++11" />
 					<Add option="-fwrapv" />
 					<Add directory="include" />
 				</Compiler>
@@ -42,6 +44,7 @@
 		</Compiler>
 		<Unit filename="include/GameMath.h" />
 		<Unit filename="src/GMException.cpp" />
+		<Unit filename="src/LcRng.cpp" />
 		<Unit filename="src/Mat2f.cpp" />
 		<Unit filename="src/Mat3f.cpp" />
 		<Unit filename="src/Mat4f.cpp" />

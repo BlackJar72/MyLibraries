@@ -19,11 +19,6 @@ Xorshift::~Xorshift() {}
 
 
 unsigned int Xorshift::nextInt() {
-    // This will overflow -- GOOD!
-    /*// For improved xorshift these would be added.
-    val *= 5443;
-    val += 15485863;
-    // ...for basic, blazing fast xorshift this is all you need.*/
     val ^= val << 13;
     val ^= val >> 17;
     val ^= val << 5;
@@ -83,10 +78,6 @@ void Xorshift::setSeed(unsigned int seed) {
 
 
 unsigned int Xorshift::getFromSeed(unsigned int seed) const {
-        /*// For improved xorshift these would be added.
-        seed *= 5443;
-        seed += 15485863;
-        // ...for basic, blazing fast xorshift this is all you need.*/
         seed ^= seed << 13;
         seed ^= seed >> 17;
         seed ^= seed << 5;

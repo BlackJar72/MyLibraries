@@ -41,8 +41,8 @@ unsigned long Xorshift64::nextLong() {
     val += 1548586312338621L;
     val ^= val >> 19;
     val ^= val << 31;
-    val ^= val << 23;
-    val ^= val >> 7;
+    val ^= val >> 23;
+    val ^= val << 7;
     return val;
 }
 
@@ -88,8 +88,8 @@ unsigned int Xorshift64::getFromSeed(unsigned long long seed) const {
     seed += 1548586312338621L;
     seed ^= seed >> 19;
     seed ^= seed << 31;
-    seed ^= seed << 23;
-    seed ^= seed >> 7;
+    seed ^= seed >> 23;
+    seed ^= seed << 7;
     return seed;
 }
 
