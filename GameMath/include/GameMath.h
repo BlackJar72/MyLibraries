@@ -408,31 +408,31 @@ class SpatialNoise {
         unsigned long long longFor(const int &x, const int &y, const int &z, const int &t) const;
         unsigned long long longFor(const int &x, const int &y, const int &z) const;
         unsigned long long longFor(const int &x, const int &y) const;
+		unsigned long long longFor(const int &t) const;
         float floatFor(const int &x, const int &y, const int &z, const int &t) const;
         float floatFor(const int &x, const int &y, const int &z) const;
         float floatFor(const int &x, const int &y) const;
+        float floatFor(const int &t) const;
         double doubleFor(const int &x, const int &y, const int &z, const int &t) const;
         double doubleFor(const int &x, const int &y, const int &z) const;
         double doubleFor(const int &x, const int &y) const;
+        double doubleFor(const int &t) const;
         unsigned int intFor(const int &x, const int &y, const int &z, const int &t) const;
         unsigned int intFor(const int &x, const int &y, const int &z) const;
         unsigned int intFor(const int &x, const int &y) const;
+        unsigned int intFor(const int &t) const;
         Xorshift xorshiftFor(const int &x, const int &y, const int &z, const int &t) const;
         Xorshift xorshiftFor(const int &x, const int &y, const int &z) const;
-        Xorshift xorshiftFor(const int &x, const int &y) const;
+        Xorshift xorshiftFor(const int &x, const int &y) const;;
+        Xorshift xorshiftFor(const int &t) const;
         Xorshift64 xorshift64For(const int &x, const int &y, const int &z, const int &t)const;
         Xorshift64 xorshift64For(const int &x, const int &y, const int &z) const;
         Xorshift64 xorshift64For(const int &x, const int &y) const;
-        unsigned long long* getSeeds() const;
+        Xorshift64 xorshift64For(const int &t) const;
+        unsigned long long* getSeeds() const; // FIXME: Use std::array<long long, 2>
     protected:
     private:
         SpatialNoise();
-        inline long rrotate(const long &in, const int &by) const {
-            return ((in >> by) | (in << (64 - by)));
-        }
-        inline long lrotate(const long &in, const int &by) const {
-            return ((in << by) | (in >> (64 - by)));
-        }
         const static unsigned long long MAXLONG = 0xffffffffffffffff;
         const unsigned long long seed1;
         const unsigned long long seed2;
