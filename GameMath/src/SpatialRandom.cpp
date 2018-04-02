@@ -40,7 +40,7 @@ unsigned long long SpatialNoise::longFor(const int &x, const int &y, const int &
                           + (14416417L  * (long long)z);
     long long alt = seed2 + (154858637L * (long long)y)
                           + (179426003L * (long long)x)
-                          + (179425819L * (long long)z); 
+                          + (179425819L * (long long)z);
     alt ^= alt << ((x % 29) + 13);
     alt ^= alt >> ((y % 31) + 7);
     alt ^= alt << ((z % 23) + 19);
@@ -62,9 +62,9 @@ unsigned long long SpatialNoise::longFor(const int &x, const int &y) const {
     alt ^= alt >> ((y % 31) + 7);
     alt ^= alt << 19;
     alt ^= alt >> 11;
-    out ^= old << ((out, ((x & 0x7fffffff) % 13) + 5);
-    out ^= old >> ((out, ((y & 0x7fffffff) % 11) + 28);
-    out ^= old << 13;
+    out ^= out << (((x & 0x7fffffff) % 13) + 5);
+    out ^= out >> (((y & 0x7fffffff) % 11) + 28);
+    out ^= out << 13;
     out ^= out >> 45;
     return (out ^ alt);
 }
@@ -77,9 +77,9 @@ unsigned long long SpatialNoise::longFor(const int &t) const {
     alt ^= alt >> 31;
     alt ^= alt << 19;
     alt ^= alt >> ((t % 43) + 11);
-    out ^= old << 13;
-    out ^= old >> 11;
-    out ^= old << 13;
+    out ^= out << 13;
+    out ^= out >> 11;
+    out ^= out << 13;
     out ^= out >> (((t & 0x7ffffff)% 17) + 45);
     return (out ^ alt);
 }
@@ -186,7 +186,7 @@ Xorshift64 SpatialNoise::xorshift64For(const int &t) const {
 
 
 std::array<unsigned long long, 2> SpatialNoise::getSeeds() const {
-    return std::array<unsigned long long, 2> out{ {seed1, seed2} };
+    return std::array<unsigned long long, 2>{ {seed1, seed2} };
 }
 
 
