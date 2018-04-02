@@ -2,6 +2,7 @@
 #define GAMEMATH_H
 #include <cmath>
 #include <string>
+#include <array>
 
 // Using define here rather than const's in every
 // class or global space
@@ -429,7 +430,7 @@ class SpatialNoise {
         Xorshift64 xorshift64For(const int &x, const int &y, const int &z) const;
         Xorshift64 xorshift64For(const int &x, const int &y) const;
         Xorshift64 xorshift64For(const int &t) const;
-        unsigned long long* getSeeds() const; // FIXME: Use std::array<long long, 2>
+        std::array<unsigned long long, 2> getSeeds() const;
     protected:
     private:
         SpatialNoise();

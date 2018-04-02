@@ -185,11 +185,8 @@ Xorshift64 SpatialNoise::xorshift64For(const int &t) const {
 }
 
 
-unsigned long long* SpatialNoise::getSeeds() const {
-    unsigned long long* out = new unsigned long long[2];
-    out[0] = seed1;
-    out[1] = seed2;
-    return out;
+std::array<unsigned long long, 2> SpatialNoise::getSeeds() const {
+    return std::array<unsigned long long, 2> out{ {seed1, seed2} };
 }
 
 
