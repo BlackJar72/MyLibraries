@@ -356,23 +356,24 @@ class Xorshift {
         Xorshift();
         Xorshift(unsigned int seed);
         virtual ~Xorshift();
-        unsigned int   nextInt();
-        unsigned int   nextInt(const int &mod);
-        unsigned int   nextInt(const int &min, const int &max);
-        unsigned long  nextLong();
-        unsigned short nextShort();
-        unsigned char  nextChar();
-        float nextFloat();
-        double nextDouble();
-        bool nextBool();
+        unsigned int   nextInt() const;
+        unsigned int   nextInt(const int &mod) const;
+        unsigned int   nextInt(const int &min, const int &max) const;
+        unsigned long  nextLong() const;
+        unsigned short nextShort() const;
+        unsigned char  nextChar() const;
+        float nextFloat() const;
+        double nextDouble() const;
+        bool nextBool() const;
         unsigned int getSeed() const;
         void setSeed(unsigned int seed);
         unsigned int getFromSeed(unsigned int seed) const;
+        void reset();
     protected:
     private:
         const static unsigned int MAXINT = 0xffffffff;
         unsigned int seed;
-        unsigned int val;
+        unsigned mutable int val;
 };
 
 
@@ -382,23 +383,25 @@ class Xorshift64
         Xorshift64();
         Xorshift64(unsigned long long seed);
         virtual ~Xorshift64();
-        unsigned int   nextInt();
-        unsigned int   nextInt(const int &mod);
-        unsigned int   nextInt(const int &min, const int &max);
-        unsigned long  nextLong();
-        unsigned short nextShort();
-        unsigned char  nextChar();
-        float nextFloat();
-        double nextDouble();
-        bool nextBool();
+        unsigned int   nextInt() const;
+        unsigned int   nextInt(const int &mod) const;
+        unsigned int   nextInt(const int &min, const int &max) const;
+        unsigned long  nextLong() const;
+        unsigned short nextShort() const;
+        unsigned char  nextChar() const;
+        unsigned char  nextByte() const;
+        float nextFloat() const;
+        double nextDouble() const;
+        bool nextBool() const;
         unsigned long long getSeed() const;
         void setSeed(unsigned long long seed);
+        void reset();
         unsigned int getFromSeed(unsigned long long seed) const;
     protected:
     private:
         const static unsigned long long MAXLONG = 0xffffffffffffffff;
         unsigned long long seed;
-        unsigned long long val;
+        unsigned mutable long long val;
 };
 
 
@@ -407,23 +410,24 @@ class LcRng {
         LcRng();
         LcRng(unsigned long long seed);
         virtual ~LcRng();
-        unsigned int   nextInt();
-        unsigned int   nextInt(const int &mod);
-        unsigned int   nextInt(const int &min, const int &max);
-        unsigned long  nextLong();
-        unsigned short nextShort();
-        unsigned char  nextChar();
-        float nextFloat();
-        double nextDouble();
-        bool nextBool();
+        unsigned int   nextInt() const;
+        unsigned int   nextInt(const int &mod) const;
+        unsigned int   nextInt(const int &min, const int &max) const;
+        unsigned long  nextLong() const;
+        unsigned short nextShort() const;
+        unsigned char  nextChar() const;
+        float nextFloat() const;
+        double nextDouble() const;
+        bool nextBool() const;
         unsigned int getSeed() const;
         void setSeed(unsigned int seed);
+        void reset();
     protected:
     private:
         const static unsigned int MAXINT = 0xffffffff;
         const static unsigned long long MAXLONG = 0xffffffffffffffff;
         unsigned long long seed;
-        unsigned long long val;
+        unsigned mutable long long val;
 };
 
 

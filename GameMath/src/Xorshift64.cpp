@@ -19,23 +19,23 @@ Xorshift64::Xorshift64(unsigned long long seed) {
 Xorshift64::~Xorshift64() {}
 
 
-unsigned int Xorshift64::nextInt() {
+unsigned int Xorshift64::nextInt() const {
     return (unsigned int)nextLong();
 }
 
 
-unsigned int Xorshift64::nextInt(const int &mod) {
+unsigned int Xorshift64::nextInt(const int &mod) const {
     return (nextLong() % mod);
 }
 
 
 
-unsigned int Xorshift64::nextInt(const int &min, const int &max) {
+unsigned int Xorshift64::nextInt(const int &min, const int &max) const {
     return (nextLong() % (max - min + 1)) + min;
 }
 
 
-unsigned long Xorshift64::nextLong() {
+unsigned long Xorshift64::nextLong() const {
     // This will overflow -- GOOD!
     val *= 5443;
     val += 1548586312338621L;
@@ -47,27 +47,33 @@ unsigned long Xorshift64::nextLong() {
 }
 
 
-unsigned short Xorshift64::nextShort() {
+unsigned short Xorshift64::nextShort() const {
     return (unsigned short int)nextLong();
 }
 
 
-unsigned char Xorshift64::nextChar() {
+unsigned char Xorshift64::nextChar() const {
     return (unsigned char)nextLong();
 }
 
 
-float  Xorshift64::nextFloat() {
+unsigned char Xorshift64::nextByte() const {
+    unsigned long long out = nextLong();
+    return (unsigned char)((out >> (((out >> 8) & 0x1f) + 16)) & 0xffff);
+}
+
+
+float  Xorshift64::nextFloat() const {
     return (((float)nextLong()) / ((float)MAXLONG));
 }
 
 
-double Xorshift64::nextDouble() {
+double Xorshift64::nextDouble() const {
     return (((double)nextLong()) / ((double)MAXLONG));
 }
 
 
-bool Xorshift64::nextBool() {
+bool Xorshift64::nextBool() const {
     return (bool)(nextLong() & 1);
 }
 
@@ -79,6 +85,11 @@ unsigned long long Xorshift64::getSeed() const {
 
 void Xorshift64::setSeed(unsigned long long seed) {
     val = this->seed = seed;
+}
+
+
+void Xorshift64::reset() {
+    val = seed;
 }
 
 
