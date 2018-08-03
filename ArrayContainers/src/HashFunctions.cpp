@@ -8,7 +8,7 @@ namespace ArrayContainers {
 const size_t ASCII_STRIDE = sizeof(unsigned int) / sizeof(char);
 // This is required (note that the size of wchar_t is system dependent.)
 const size_t WCHAR_STRIDE = sizeof(unsigned int) / sizeof(wchar_t);
-// Assuming standard 8-bit bytes, because its nearly universal and 
+// Assuming standard 8-bit bytes, because its nearly universal and
 // I don't know a way to get the size of a byte in bits otherwise.
 const size_t WCHAR_SHIFT  = sizeof(wchar_t) * 8;
 
@@ -20,9 +20,11 @@ const size_t WCHAR_SHIFT  = sizeof(wchar_t) * 8;
 unsigned int stringHash(const string &s) {
     unsigned int out = 0;
     unsigned int i = 0;
+    unsigned int longbyte;
     const char* data = s.c_str();
     while(data[i] != 0) {
-        out ^= (data[i] << (8 * (i % ASCII_STRIDE)));
+        longbyte = data[i];
+        out ^= (longbyte << (8 * (i % ASCII_STRIDE)));
         out ^=  (out << 13);
         out ^=  (out >> 5);
         out ^=  (out << 17);
@@ -40,9 +42,11 @@ unsigned int stringHash(const string &s) {
 unsigned int wstringHash(const wstring &s) {
     unsigned int out = 0;
     unsigned int i = 0;
+    unsigned int longbyte;
     const wchar_t* data = s.data();
     while(data[i] != 0) {
-        out ^= (data[i] << (WCHAR_SHIFT * (i % WCHAR_STRIDE)));
+        longbyte = data[i];
+        out ^=  (longbyte << (WCHAR_SHIFT * (i % WCHAR_STRIDE)));
         out ^=  (out << 13);
         out ^=  (out >> 5);
         out ^=  (out << 17);
@@ -60,8 +64,10 @@ unsigned int wstringHash(const wstring &s) {
 unsigned int stringHash(char* data) {
     unsigned int out = 0;
     unsigned int i = 0;
+    unsigned int longbyte;
     while(data[i] != 0) {
-        out ^= (data[i] << (8 * (i % ASCII_STRIDE)));
+        longbyte = data[i];
+        out ^= (longbyte << (4 * (i % ASCII_STRIDE)));
         out ^=  (out << 13);
         out ^=  (out >> 5);
         out ^=  (out << 17);
@@ -90,8 +96,10 @@ template <class T>
 unsigned int genericHash(const T& data) {
     char* bytes = reinterpret_cast<char*>(&data);
     unsigned int out = 0;
+    unsigned int longbyte;
     for(int i = 0; i < sizeof(T); i++) {
-        out ^= ((*(bytes + i)) << (8 * (i % ASCII_STRIDE)));
+        longbyte = (*(bytes + i));
+        out ^= (longbyte << (8 * (i % ASCII_STRIDE)));
         out ^=  (out << 13);
         out ^=  (out >> 5);
         out ^=  (out << 17);
