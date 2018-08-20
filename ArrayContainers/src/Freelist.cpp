@@ -140,9 +140,7 @@ void Freelist<T, SIZE>::clear() {
  */
 template <class T, std::size_t SIZE>
 FreelistElement<T>& Freelist<T, SIZE>::get(const std::size_t index) const {
-    #ifdef _DEBUG
-    assert(((index < SIZE));
-    #endif // _DEBUG
+    // FIXME: I should have error checking in debug mode!
     return data[index];
 }
 
@@ -155,9 +153,7 @@ FreelistElement<T>& Freelist<T, SIZE>::get(const std::size_t index) const {
  */
 template <class T, std::size_t SIZE>
 FreelistElement<T>& Freelist<T, SIZE>::operator[](const std::size_t index) const {
-    #ifdef _DEBUG
-    assert((index < SIZE));
-    #endif // _DEBUG
+    // FIXME: I should have error checking in debug mode!
     return data[index % SIZE];
 };
 

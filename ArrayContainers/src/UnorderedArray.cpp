@@ -128,9 +128,7 @@ T& UnorderedArray<T, SIZE>::get(const std::size_t index) const {
  */
 template <class T, std::size_t SIZE>
 T& UnorderedArray<T, SIZE>::getNext() const {
-    #ifdef _DEBUG
-    asset(position < elements);
-    #endif // _DEBUG
+    // FIXME: I should have error checking in debug mode!
     return data[position++];
 }
 

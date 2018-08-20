@@ -83,81 +83,57 @@ unsigned int Registry<T>::getID(const std::string& name) const {
 
 template <class T>
 T Registry<T>::getSafer(unsigned int id) const {
-    #ifdef _DEBUG
-    assert(id <= elements);
-    #else
     if((id < 0) || (id > elements)) {
         std::string error = std::string("Out of bounds index of ");
         error.append(std::to_string(id));
         error.append(" in class method ArrayContainers::Registry::getSafer()");
         throw IndexOutOfBound(error);
     }
-    #endif // _DEBUG
     return data[id % length];
 }
 
 
 template <class T>
 T& Registry<T>::getRefSafer(unsigned int id) const {
-    #ifdef _DEBUG
-    assert(id <= elements);
-    #else
     if((id < 0) || (id > elements)) {
         std::string error = std::string("Out of bounds index of ");
         error.append(std::to_string(id));
         error.append(" in class method ArrayContainers::Registry::getRefSafer()");
         throw new IndexOutOfBound(error);
     }
-    #endif // _DEBUG
     return data[id % length];
 }
 
 
 template <class T>
 T* Registry<T>::getPtrSafer(unsigned int id) const {
-    #ifdef _DEBUG
-    assert(id <= elements);
-    #else
     if((id < 0) || (id > elements)) {
         std::string error = std::string("Out of bounds index of ");
         error.append(std::to_string(id));
         error.append(" in class method ArrayContainers::Registry::getPtrSafer()");
         throw new IndexOutOfBound(error);
     }
-    #endif // _DEBUG
     return data + (id % length);
 }
 
 
 template <class T>
 T Registry<T>::get(const std::string& name) const {
-    #ifdef _DEBUG
-    // Allowing it to assert here lets me know this was
-    // called directly, not getID().
-    assert(mapContains(name));
-    #endif // _DEBUG
+    // FIXME: I should have error checking in debug mode!
     return get(getID(name));
 }
 
 
 template <class T>
 T& Registry<T>::getRef(const std::string& name) const {
-    #ifdef _DEBUG
-    // Allowing it to assert here lets me know this was
-    // called directly, not getID().
-    assert(mapContains(name));
-    #endif // _DEBUG
+    // FIXME: I should have error checking in debug mode!
     return getRef(getID(name));
 }
 
 
 template <class T>
 T* Registry<T>::getPtr(const std::string& name) const {
-    #ifdef _DEBUG
-    // Allowing it to assert here lets me know this was
-    // called directly, not getID().
-    assert(mapContains(name));
-    #endif // _DEBUG
+    // FIXME: I should have error checking in debug mode!
     return getPtr(getID(name));
 }
 

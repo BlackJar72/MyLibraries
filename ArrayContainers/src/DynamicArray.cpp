@@ -2,7 +2,10 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+
+#ifdef _DEBUG
 #include <assert.h>
+#endif
 
 // FIXME?: I probably should have the fast non-ordered and
 // the ordered versions as separate classes...?
@@ -198,10 +201,6 @@ void DynamicArray<T>::reset() const {
 
 template <class T>
 T& DynamicArray<T>::peek() {
-	#ifdef _DEBUG
-    assert(index < elements);
-	#endif
-	// Even when not compiled for release you still cannot read outside the buffer
     T* out = data + (position % elements);
     return *out;
 }

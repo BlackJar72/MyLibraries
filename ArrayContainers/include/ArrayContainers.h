@@ -95,6 +95,13 @@ class DynamicArray {
  // class to have in some situations.
 template <class T>
 class Registry {
+    private:
+        T* data;
+        std::unordered_map<std::string, unsigned int>  nameMap;
+        size_t elements;
+        size_t length;
+        void grow();
+    protected:
     public:
         Registry();
         Registry(size_t startSize);
@@ -103,25 +110,10 @@ class Registry {
         template <typename... Args>
         unsigned int emplace(const std::string& name, Args&&... args);
         unsigned int getID(const std::string& name) const;
-        inline T get(unsigned int id) const {
-            #ifdef _DEBUG
-            assert(id <= elements);
-            #endif // _DEBUG
-            return data[id];
-        }
-        inline T& getRef(unsigned int id) const {
-            #ifdef _DEBUG
-            assert(id <= elements);
-            #endif // _DEBUG
-            return data[id];
-
-        }
-        inline T* getPtr(unsigned int id) const {
-            #ifdef _DEBUG
-            assert(id <= elements);
-            #endif // _DEBUG
-            return data + id;
-        }
+        // FIXME: These next three still need some error checking in debug builds
+        inline T get(unsigned int id) const { return data[id]; };
+        inline T& getRef(unsigned int id) const { return data[id]; };
+        inline T* getPtr(unsigned int id) const { return data + id; };
         T getSafer(unsigned int id) const;
         T& getRefSafer(unsigned int id) const;
         T* getPtrSafer(unsigned int id) const;
@@ -132,13 +124,6 @@ class Registry {
         void clear();
         inline T* begin() {return data;}
         inline T* end() {return (data + elements);}
-    protected:
-    private:
-        T* data;
-        std::unordered_map<std::string, unsigned int>  nameMap;
-        size_t elements;
-        size_t length;
-        void grow();
 };
 
 }
