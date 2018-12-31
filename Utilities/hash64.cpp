@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
  */
 void sequencialHash(char* byte, unsigned long long& hash) {
 	static size_t count = 0;
-	static long long longbyte = *byte;
+	unsigned long long longbyte = *byte;
 	hash ^= longbyte << (8 * count);
 	hash ^= hash << 13;
 	hash ^= hash >> 5;
