@@ -4,15 +4,11 @@ its inability to account for quotations).  More to the point, it was part of
 Doomlike Dungeons, but I'm porting it to C++, with some minor improvements, 
 for more general use in other projects.
 
-This is probably not the best way to do this, and probably actually be done better 
-with a less object object-oriented approach.  This could have definitely be more 
-memory efficient.  However, its not that big and does work for it's intended 
-purpose.
+This is probably not the best way to do this, actually I'm convinced not that its 
+just plain bad -- this is not how to do this in C++. It would make far more since 
+to strip the class down to a small struct with just core data (i.e., the tokens 
+and next counter) or even a instance of std::vector. Instead of all these class 
+variables (mostly) kept "private" there should just be some functions, hidden 
+in the implementation file -- or even re-write this as a C library.
 
-# This may or may not be complete
 
-I might added a more advance StringLexer, capable of reading into a tree structure 
-and using context sensitive tokenization.  Or I might make that its own library. 
-Or I might not, if other things seem more interesting and or useful at the time. 
-For reading basic config files this (which is what this was designed for) it 
-can actually go a long way.  However, the current version seem to work fine.
